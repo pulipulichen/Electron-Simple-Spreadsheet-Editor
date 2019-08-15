@@ -4,7 +4,7 @@
   "description": "A spreadsheet editor built in Electron framework for CSV, ODS, XLS.",
   "main": "index.js",
   "scripts": {
-    "0.run-development": "electron electron/main.js --mode development",
+    "0.run-development": "electron electron/main.js --mode development --file \"D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.xls\"",
     "1.run-production": "electron electron/main.js --mode production"
   },
   "repository": {

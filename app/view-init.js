@@ -1,4 +1,4 @@
-/* global fileType, readChunk, ipc */
+/* global fileType, readChunk, ipc, settings */
 
 let ViewInitConfig = {
   el: '#toolbarContainer',
@@ -88,10 +88,14 @@ let ViewInitConfig = {
       }
       //document.getElementById("handsometableContainer").contentWindow.ElectronHelper = ElectronHelper
       
-      //setTimeout(() => {
-        //this.open()
-      //  this._openCallback(null, "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.utf8.csv")
-      //}, 1000)
+      if (typeof(settings.get('filepath')) === 'string') {
+        this._openCallback(null, settings.get('filepath'))
+        //setTimeout(() => {
+          //this.open()
+          //this._openCallback(null, "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.utf8.csv")
+        //}, 1000)
+      }
+        
     },
     initDropdown: function () {
       $('.ui.dropdown')

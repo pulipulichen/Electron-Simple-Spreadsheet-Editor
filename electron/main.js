@@ -3,6 +3,9 @@ const path = require('path')
 const url = require('url')
 const fs = require('fs')
 
+const readChunk = require('read-chunk')
+const fileType = require('file-type')
+
 // ------------
 
 const {
@@ -20,6 +23,22 @@ let mode = 'production'
 if (process.argv.indexOf('--mode') - process.argv.indexOf('development') === -1) {
   mode = "development"
 }
+if (process.argv.indexOf('--file') > 1) {
+  filepath = process.argv[(process.argv.indexOf('--file') + 1)]
+  if (fs.existsSync(filepath)) {
+    let buffer = readChunk.sync(filepath, 0, fileType.minimumBytes);
+    let fileTypeResult = fileType(buffer)
+    let ext = filepath.slice(filepath.lastIndexOf('.') + 1)
+    if ( (fileTypeResult === undefined && ext === 'csv')
+            || (fileTypeResult.mime === 'application/x-msi' && ext === 'xls')
+            || (fileTypeResult.mime === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && ext === 'xlsx')
+            || (fileTypeResult.mime === 'application/vnd.oasis.opendocument.spreadsheet' && ext === 'ods') ) {
+      settings.set('filepath', filepath)
+    }
+  }
+  //console.log(filepath)
+}
+
 //console.log(mode)
 //mode = "development"
 //mode = 'production'
@@ -70,6 +89,7 @@ function createWindow() {
   }))
   
   settings.set('mode', mode);
+  
   if (mode === 'development') {
     win.webContents.openDevTools()
   }

@@ -19,8 +19,10 @@ body {
 }
 
 #toolbarContainer .toolbar-container {
+  /*
   margin-left: auto;
   margin-right: auto;
+  */
   white-space: nowrap;
 }
 
