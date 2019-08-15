@@ -105,8 +105,7 @@
             <i class="external alternate icon"></i>
           </div>
         </div>
-      </div>
-      
+      </div> <!-- buttons -->
       <!--
       <label>Fix Columns: </label>
       <select class="ui small compact search dropdown" v-model="fixColumns">
@@ -117,13 +116,23 @@
       </select>
       -->
       
-      <label>Sheet name: </label>
-      <div class="ui small input">
-        <input type="text" placeholder="Sheet name" v-model="sheetName">
-      </div>
+      <span title="Sheet name">
+        <label>Sheet name: </label>
+        <div class="ui small input">
+          <input type="text" placeholder="Sheet name" v-model="sheetName">
+        </div>
+      </span>
+      
+      <span title="Search">
+        <label>Search: </label>
+        <div class="ui small input">
+          <input type="text" 
+                 placeholder="Seach..."
+                 v-on:keyup="search"/>
+        </div>
+      </span>
     </div>
   </div>
-</div>
 </div>
 
 <div class="ui container" id="welcomePlaceholder">

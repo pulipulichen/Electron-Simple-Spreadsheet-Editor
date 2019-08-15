@@ -250,6 +250,13 @@ let ViewInitConfig = {
       filters.clearConditions()
       filters.filter()
       hot.render()
+    },
+    search : function (event) {
+      //console.log(r)
+      let hot = this.getHot()
+      let search = hot.getPlugin('search');
+      let queryResult = search.query(event.srcElement.value);
+      hot.render()
     }
   }
 }

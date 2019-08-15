@@ -43,7 +43,8 @@ window.initHandsometable = function (data, colHeaders, callback) {
     manualColumnMove: true,
     manualRowResize: true,
     manualColumnResize: true,
-    manualColumnFreeze: true
+    manualColumnFreeze: true,
+    search: true
     
     //autoColumnSize : true,
   }
