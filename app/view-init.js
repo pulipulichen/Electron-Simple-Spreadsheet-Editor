@@ -44,7 +44,7 @@ let ViewInitConfig = {
         })
     },
     initHotkeys: function () {
-      hotkeys('ctrl+o,ctrl+s,ctrl+shift+s', (event,handler) => {
+      hotkeys('ctrl+o,ctrl+s,ctrl+shift+s', (event, handler) => {
         switch(handler.key) {
           case "ctrl+o": this.open();break;
           case "ctrl+s": this.save();break;
