@@ -40,7 +40,8 @@
         <div class="description">ctrl + o</div>
       </div>
       <div class="divider"></div>
-      <div class="item" v-on:click="changeSheetName" title="Change sheet name">
+      <div class="item" v-on:click="changeSheetName" title="Change sheet name"
+           v-bind:class="{disabled: (filepath == null)}">
         Change sheet name 
         <div class="description">{{ sheetName }}</div>
       </div>

@@ -1,4 +1,6 @@
 /nbproject/
 /Electron-Simple-Spreadsheet-Editor/nbproject/private/
-/node_modules/
+
+/node_modules2/
 /[[]test/
+/dist/win-unpacked/

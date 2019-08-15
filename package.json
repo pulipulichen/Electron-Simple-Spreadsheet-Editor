@@ -2,11 +2,12 @@
   "name": "electron-simple-spreadsheet-editor",
   "version": "1.0.0",
   "description": "A spreadsheet editor built in Electron framework for CSV, ODS, XLS.",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "0.run-development": "electron electron/main.js --mode development",
-    "1.run-production": "electron electron/main.js --mode production",
-    "2.run-development": "electron electron/main.js --mode development --file \"demo-data\\file_example_ODS_10.gb.csv\""
+    "0.run-development": "electron main.js --mode development",
+    "1.run-production": "electron main.js --mode production",
+    "2.run-development": "electron main.js --mode development --file \"demo-data\\file_example_ODS_10.gb.csv\"",
+    "pack": "electron-builder main.js --dir"
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,8 @@
   },
   "homepage": "https://github.com/pulipulichen/Electron-Simple-Spreadsheet-Editor#readme",
   "devDependencies": {
-    "electron": "^6.0.1"
+    "electron": "^6.0.1",
+    "electron-builder": "^21.2.0"
   },
   "dependencies": {
     "autodetect-decoder-stream": "^1.0.3",
