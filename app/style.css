@@ -1,0 +1,9 @@
+#hot-display-license-info {
+  position: fixed;
+  top: -1000px;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
