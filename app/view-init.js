@@ -1,15 +1,16 @@
 let ViewInitConfig = {
   el: '#toolbarContainer',
   data: {
-    fixColumns: 3,
-    sheetName: "AAA",
+    //fixColumns: 3,
+    sheetName: "AAA BBB",
     
     _enablePersist: true,
-    persistAttrs: ['fixColumns']
+    //persistAttrs: ['fixColumns']
   },
   mounted: function () {
     this._afterMounted()
   },
+  /*
   watch: {
     fixColumns: function (fixColumns) {
       //console.log(fixColumns)
@@ -17,6 +18,7 @@ let ViewInitConfig = {
       
     }
   },
+   */
   methods: {
     open: function () {
       console.log('TODO OPEN')
