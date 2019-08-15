@@ -4,9 +4,8 @@ let ViewInitConfig = {
   el: '#toolbarContainer',
   data: {
     //fixColumns: 3,
-    sheetName: "AAA BBB",
+    sheetName: "",
     filepath: null,
-    ext: null,
     handsometableContainer: null,
     _enablePersist: true,
     opened: false,
@@ -33,7 +32,7 @@ let ViewInitConfig = {
       //this.showLoading()
       ipc.send('open-file-dialog')
     },
-    _openCallback: function (event, filepath) {
+    openCallback: function (filepath) {
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.ods"
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.csv"
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.xls"
@@ -55,7 +54,9 @@ let ViewInitConfig = {
         this.showLoading()
         this.handsometableContainer.contentWindow.location.reload(true)
         this.opened = true
-        ipc.send('change-icon', ext)
+        this.changeTitle(filepath)
+        //document.title = workbook.filename
+        //ipc.send('change-icon', ext)
       }
     },
     _openIframeReloadCallback: function () {
@@ -65,7 +66,6 @@ let ViewInitConfig = {
       
       let workbook = ElectronHelper.loadFile(this.filepath)
       if (typeof(workbook) === 'object') {
-        document.title = workbook.filename
         this.sheetName = workbook.sheetName
         this.handsometableContainer.contentWindow.initHandsometable(workbook.data, workbook.colHeaders, () => {
           this.hideLoading()
@@ -76,6 +76,11 @@ let ViewInitConfig = {
       }
       
     },
+    changeTitle: function (filepath) {
+      document.title = path.basename(filepath)
+      let ext = filepath.slice(filepath.lastIndexOf('.') + 1)
+      ipc.send('change-icon', ext)
+    },
     save: function () {
       if (this.changed === false) {
         return this
@@ -85,18 +90,19 @@ let ViewInitConfig = {
       
       //console.log('TODO save')
       
-      let bookType = this.ext
+      //let bookType = this.ext
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\save.csv"
       let filepath = this.filepath
-      this.saveAsCallback(filepath, bookType)
+      this.saveAsCallback(filepath)
     },
     saveAs: function () {
       //console.log('TODO save as')
       let filepath = this.filepath
-      let defaultFilter = this.ext
-      ipc.send('open-file-dialog-save', filepath, defaultFilter)
+      ipc.send('open-file-dialog-save', filepath)
     },
-    saveAsCallback: function (filepath, bookType) {
+    saveAsCallback: function (filepath) {
+      //console.log(filepath)
+      let bookType = filepath.slice(filepath.lastIndexOf('.') + 1)
       
       let data = this.handsometableContainer.contentWindow.getData()
       //console.log(data)
@@ -115,10 +121,12 @@ let ViewInitConfig = {
           "Sheets": [{ Hidden: 0, name: this.sheetName } ]
         }
       }
-      console.log(workbook)
+      //console.log(workbook)
       let wbout = XLSX.write(workbook, wopts)
       //let base64 = new Blob([wbout],{type:"application/octet-stream"})
       ElectronHelper.saveFile(filepath, wbout)
+      
+      this.changeTitle(filepath)
       
       this.changed = false
     },
@@ -138,7 +146,7 @@ let ViewInitConfig = {
       })
       
       if (typeof(settings.get('filepath')) === 'string') {
-        this.openCallback(null, settings.get('filepath'))
+        this.openCallback(settings.get('filepath'))
         //setTimeout(() => {
           //this.open()
           //this._openCallback(null, "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.utf8.csv")
@@ -165,12 +173,12 @@ let ViewInitConfig = {
     initIpc: function () {
       ipc.on('selected-file', (event, path) => {
         //console.log(['[', path, ']'])
-        this.openCallback(event, path)
+        this.openCallback(path)
       });
       
       ipc.on('selected-file-save', (event, path) => {
         //console.log(['[', path, ']'])
-        this.saveAsCallback(event, path)
+        this.saveAsCallback(path)
       });
     },
     getHot: function () {

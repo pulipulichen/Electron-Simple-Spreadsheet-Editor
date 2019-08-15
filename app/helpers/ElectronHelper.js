@@ -162,7 +162,7 @@ ElectronHelper = {
     let filename = path.basename(filepath)
     //console.log(filename)
     let workbook = XLSX.readFile(filepath);
-    console.log(workbook)
+    //console.log(workbook)
     
     let sheetName
     for (let key in workbook.Sheets) {

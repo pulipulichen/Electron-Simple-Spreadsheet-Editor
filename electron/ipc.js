@@ -64,7 +64,9 @@ let predefinedFilters = [,
   { name: 'MicrosoftExcel 97–2003', extensions: ['xls'] }
 ]
 
-ipc.on('open-file-dialog-save', function (event, filePath, defaultFilter) {
+ipc.on('open-file-dialog-save', function (event, filePath) {
+  let defaultFilter = filePath.slice(filePath.lastIndexOf('.') + 1)
+  
   let filtersSelect = []
   let filtersOthers = []
   predefinedFilters.forEach(config => {
@@ -75,6 +77,9 @@ ipc.on('open-file-dialog-save', function (event, filePath, defaultFilter) {
       filtersOthers.push(config)
     }
   })
+  
+  console.log(defaultFilter)
+  console.log(filtersSelect)
   
   let options = {
     title: 'Save spread sheet to...',
@@ -91,6 +96,7 @@ ipc.on('open-file-dialog-save', function (event, filePath, defaultFilter) {
   
   dialog.showSaveDialog(win, options, function (file) {
     if (file) {
+      console.log(file)
       event.sender.send('selected-file-save', file)
     }
   })
