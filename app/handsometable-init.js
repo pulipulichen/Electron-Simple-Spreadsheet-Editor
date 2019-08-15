@@ -1,14 +1,14 @@
-
 /* global HandsontablePluginRenameColHeader */
 
-data = window.top.ElectronHelper.loadFile()
+let workbook = window.top.ElectronHelper.loadFile()
 
 const container = document.getElementById('handsontableContainer');
 const hot = new Handsontable(container, {
-  data: data,
+  data: workbook.data,
   rowHeaders: true,
   //colHeaders: true,
-  colHeaders: ['', 'Tesla', 'Volvo', 'Toyota', 'Ford', 'Tesla', 'Volvo', 'Toyota', 'Ford', 'Tesla', 'Volvo', 'Toyota', 'Ford', 'Tesla', 'Volvo', 'Toyota', 'Ford', 'Tesla', 'Volvo', 'Toyota', 'Ford'],
+  //colHeaders: ['', 'Tesla', 'Volvo', 'Toyota', 'Ford', 'Tesla', 'Volvo', 'Toyota', 'Ford', 'Tesla', 'Volvo', 'Toyota', 'Ford', 'Tesla', 'Volvo', 'Toyota', 'Ford', 'Tesla', 'Volvo', 'Toyota', 'Ford'],
+  colHeaders: workbook.colHeaders,
   multiColumnSorting: {
     indicator: true
   },
@@ -19,7 +19,9 @@ const hot = new Handsontable(container, {
   columnSorting: {
     indicator: true
   },
-  dropdownMenu: ["row_above", "row_below", "col_left", "col_right", "clear_column", "remove_row", "remove_col", "undo", "redo", HandsontablePluginRenameColHeader],
+  //dropdownMenu: true,
+  //dropdownMenu: ['filter_by_condition', 'filter_operators', 'filter_by_condition2', 'filter_by_value', 'filter_action_bar'],
+  dropdownMenu: ["col_left", "col_right", "clear_column", "remove_col", HandsontablePluginRenameColHeader, 'filter_by_condition', 'filter_operators', 'filter_by_condition2', 'filter_by_value', 'filter_action_bar'],
   filters: true,
   manualRowMove: true,
   manualColumnMove: true,
@@ -29,8 +31,6 @@ const hot = new Handsontable(container, {
   //autoColumnSize : true,
 });
 
-// --------------------------
+window.top.ViewInit.sheetName = workbook.sheetName
 
-function getData() {
-  return "hello"
-}
+console.log(hot.getSettings())

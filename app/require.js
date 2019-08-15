@@ -21,7 +21,7 @@ const { clipboard } = require('electron')
 
 window.$ = window.jQuery = require('jquery')
 
-
+const XLSX = require('xlsx')
 //console.log(mode)
 
 /*

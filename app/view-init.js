@@ -74,7 +74,7 @@ let ViewInitConfig = {
   }
 }
 
-new Vue(ViewInitConfig)
+window.ViewInit = new Vue(ViewInitConfig)
 
 $(() => {
   //ViewInit.initDropdown()

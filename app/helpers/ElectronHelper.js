@@ -148,8 +148,45 @@ ElectronHelper = {
     .catch(console.error);
   },
   loadFile: function () {
-    let data = fs.readFileSync("./app/data.json")
-    return JSON.parse(data)
+    // https://codertw.com/%E5%89%8D%E7%AB%AF%E9%96%8B%E7%99%BC/234185/
+    
+    //let path = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\student-por.csv"
+    //let path = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\student-por.ods"
+    //let path = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\student-por.xls"
+    let path = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.ods"
+    
+    let workbook = XLSX.readFile(path);
+    
+    let sheetName
+    for (let key in workbook.Sheets) {
+      sheetName = key
+      break
+    }
+    
+    console.log(workbook)
+    let json = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+    
+    let data = []
+    let colHeaders = []
+    for (let i = 0; i < json.length; i++) {
+      let row = []
+      for (let key in json[i]) {
+        row.push(json[i][key])
+        
+        if (i === 0) {
+          colHeaders.push(key)
+        }
+      }
+      data.push(row)
+    }
+    return {
+      sheetName: sheetName,
+      colHeaders: colHeaders,
+      data: data
+    }
+    
+    //let data = fs.readFileSync("./app/data.json")
+    //return JSON.parse(data)
   }
 }
 
