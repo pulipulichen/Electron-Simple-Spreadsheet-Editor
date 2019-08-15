@@ -30,20 +30,72 @@
 <script src="helpers/ElectronHelper.js" ></script>
   </head>
   <body class="dimmable">
-<div class="ui unstackable form" id="toolbarContainer">
-  <div class="inline fields">
-    <div class="toolbar-container field">
-      <div class="ui unstackable buttons">
-        
-        <div v-on:click="open" title="Open file">
-          <div class="ui labeled icon button">
-            <i class="folder open outline icon"></i>
-            OPEN
-          </div>
-          <div class="ui icon button">
-            <i class="folder open outline icon"></i>
-          </div>
-        </div>
+
+<div class="ui menu" id="toolbarContainer">
+  <div class="ui dropdown icon item">
+    <i class="file icon"></i>
+    <div class="menu file-dropdown">
+      <div class="item" v-on:click="open" title="Open file">
+        Open... 
+        <div class="description">Ctrl + O</div>
+      </div>
+      <div class="divider"></div>
+      <div class="item" v-on:click="changeSheetName" title="Change sheet name">
+        Change sheet name 
+        <div class="description">{{ sheetName }}</div>
+      </div>
+      <div class="divider"></div>
+      <div class="item" v-on:click="reopen" title="Reopen file"
+           v-bind:class="{disabled: (changed == false)}">
+        Reopen...
+        <div class="description">(Ctrl + Shift + O)</div>
+      </div>
+      <div class="item" v-on:click="save" title="Save file"
+           v-bind:class="{disabled: (changed == false)}">
+        Save...
+        <div class="description">(Ctrl + S)</div>
+      </div>
+      <div class="item" v-on:click="saveAs" title="Save file as another file"
+           v-bind:class="{disabled: (changed == false)}">
+        Save as... 
+        <div class="description">(Ctrl + Shift + S)</div>
+      </div>
+    </div>
+  </div>
+  <div class="ui pointer item"
+       v-show="hasFilter"
+       v-on:click="clearFilter">
+    <i class="x icon"></i>
+    Filter
+  </div>
+  <div class="ui pointer item"
+       v-show="hasSort"
+       v-on:click="clearSort">
+    <i class="x icon"></i>
+    Sort
+  </div>
+  <div class="right menu">
+    <div class="ui right aligned category search item">
+      <div class="ui transparent icon input">
+        <input type="text" 
+                 placeholder="Seach..."
+                 v-on:keyup="search" />
+        <i class="search link icon"></i>
+      </div>
+      <div class="results"></div>
+    </div>
+  </div>
+</div>
+
+<!--    
+<div class="ui item menu">
+  <a class="item" v-on:click="open" title="Open file">
+    <i class="folder open outline icon"></i>
+    OPEN
+  </a>
+  <a class="item">Reviews</a>
+  <a class="item">Upcoming Events</a>
+</div>
         
         <div v-on:click="clearSort" title="Clear sort">
           <div class="ui labeled icon button" 
@@ -114,25 +166,7 @@
             <i class="table icon"></i>
           </div>
         </div>
-      </div> <!-- buttons -->
-      <!--
-      <label>Fix Columns: </label>
-      <select class="ui small compact search dropdown" v-model="fixColumns">
-        <option value="0">0 (Disabled)</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-      </select>
-      -->
-      
-      <!--
-      <span title="Sheet name">
-        <label>Sheet name: </label>
-        <div class="ui small input">
-          <input type="text" placeholder="Sheet name" v-model="sheetName" />
-        </div>
-      </span>
-      -->
+      </div>
       
       <span title="Search">
         <label>Search: </label>
@@ -145,6 +179,7 @@
     </div>
   </div>
 </div>
+-->
 
 <div class="ui container" id="welcomePlaceholder">
   <div class="ui card">

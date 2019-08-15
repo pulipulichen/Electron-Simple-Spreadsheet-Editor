@@ -4,13 +4,22 @@ body {
 }
 
 #toolbarContainer {
-  background-color: #CCC;
+  /*background-color: #CCC;*/
+  margin-bottom: 0;
   height: 37px;
+}
+
+#toolbarContainer .ui.pointer.item {
+  cursor: pointer;
+}
+
+#toolbarContainer .file-dropdown {
+  width: 250px;
 }
 
 #handsometableContainer {
   width: 100vw;
-  height: calc(100vh - 41px);
+  height: calc(100vh - 44px);
   border-width: 0;
 }
 

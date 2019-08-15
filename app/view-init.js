@@ -26,6 +26,16 @@ let ViewInitConfig = {
         $('#welcomePlaceholder').addClass('hide')
         $('#handsometableContainer').removeClass('hide')
       }
+    },
+    hasFilter: function (hasFilter) {
+      if (hasFilter === false) {
+        this.clearFilter()
+      }
+    },
+    hasSort: function (hasSort) {
+      if (hasSort === false) {
+        this.clearSort()
+      }
     }
   },
   methods: {
@@ -167,9 +177,10 @@ let ViewInitConfig = {
         })
     },
     initHotkeys: function () {
-      hotkeys('ctrl+o,ctrl+s,ctrl+shift+s', (event, handler) => {
+      hotkeys('ctrl+o,ctrl+shift+o,ctrl+s,ctrl+shift+s', (event, handler) => {
         switch(handler.key) {
           case "ctrl+o": this.open();break;
+          case "ctrl+shift+o": this.reopen();break;
           case "ctrl+s": this.save();break;
           case "ctrl+shift+s": this.saveAs();break;
         }
@@ -242,14 +253,23 @@ let ViewInitConfig = {
       this.openCallback(this.filepath)
     },
     clearSort: function () {
+      if (this.hasSort === false) {
+        return this
+      }
       this.getHot().getPlugin('columnSorting').clearSort()
+      this.hasSort = false
     },
     clearFilter: function () {
+      if (this.hasFilter === false) {
+        return this
+      }
+      
       let hot = this.getHot()
       let filters = hot.getPlugin('Filters')
       filters.clearConditions()
       filters.filter()
       hot.render()
+      this.hasFilter = false
     },
     search : function (event) {
       //console.log(r)
