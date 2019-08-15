@@ -34,12 +34,51 @@
   <div class="inline fields">
     <div class="toolbar-container field">
       <div class="ui unstackable buttons">
-        <div class="ui labeled icon button" v-on:click="open">
-          <i class="folder open outline icon"></i>
-          OPEN
+        
+        <div v-on:click="open" title="Open file">
+          <div class="ui labeled icon button">
+            <i class="folder open outline icon"></i>
+            OPEN
+          </div>
+          <div class="ui icon button">
+            <i class="folder open outline icon"></i>
+          </div>
         </div>
-        <div class="ui icon button" v-on:click="open">
-          <i class="folder open outline icon"></i>
+        
+        <div v-on:click="reopen" title="Reopen file">
+          <div class="ui labeled icon button"
+               v-bind:class="{disabled: (changed == false)}">
+            <i class="undo icon"></i>
+            RESET
+          </div>
+          <div class="ui icon button"
+               v-bind:class="{disabled: (changed == false)}">
+            <i class="undo icon"></i>
+          </div>
+        </div>
+        
+        <div v-on:click="clearSort" title="Clear sort">
+          <div class="ui labeled icon button" 
+               v-bind:class="{disabled: (hasSort === false)}">
+            <i class="sort icon"></i>
+            CLEAR SORT
+          </div>
+          <div class="ui icon button" 
+               v-bind:class="{disabled: (hasSort === false)}">
+            <i class="sort icon"></i>
+          </div>
+        </div>
+        
+        <div class="ui labeled icon button" 
+             v-on:click="clearFilter"
+             v-bind:class="{disabled: (hasFilter === false)}">
+          <i class="filter icon"></i>
+          CLEAR FILTER
+        </div>
+        <div class="ui icon button" 
+             v-on:click="clearFilter"
+             v-bind:class="{disabled: (hasFilter === false)}">
+          <i class="filter icon"></i>
         </div>
 
         <div class="ui labeled icon button" v-on:click="save">
@@ -51,11 +90,11 @@
         </div>
 
         <div class="ui labeled icon button" v-on:click="saveAs">
-          <i class="save outline icon"></i>
+          <i class="external alternate icon"></i>
           SAVE AS
         </div>
         <div class="ui icon button" v-on:click="saveAs">
-          <i class="save outline icon"></i>
+          <i class="external alternate icon"></i>
         </div>
       </div>
       

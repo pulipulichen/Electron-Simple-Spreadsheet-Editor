@@ -30,7 +30,7 @@ body {
   margin-top: -1px;
 }
 
-@media all and (max-width: 650px) { 
+@media all and (max-width: 1060px) { 
   #toolbarContainer .ui.icon.button:not(.labeled) {
     display: inline-block;
   }

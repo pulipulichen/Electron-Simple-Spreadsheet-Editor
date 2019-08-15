@@ -9,7 +9,9 @@ let ViewInitConfig = {
     handsometableContainer: null,
     _enablePersist: true,
     opened: false,
-    changed: true,
+    changed: false,
+    hasFilter: false,
+    hasSort: false
     //persistAttrs: ['fixColumns']
   },
   mounted: function () {
@@ -70,7 +72,7 @@ let ViewInitConfig = {
         this.handsometableContainer.contentWindow.initHandsometable(workbook.data, workbook.colHeaders, () => {
           this.hideLoading()
           setTimeout(() => {
-            this.initChangeEvent()
+            this.initHotEvent()
           }, 0)
         })
       }
@@ -209,17 +211,45 @@ let ViewInitConfig = {
       }
       this.changed = true
     },
-    initChangeEvent: function () {
+    initHotEvent: function () {
       hot = this.handsometableContainer.contentWindow.hot
-      console.log(hot)
+      //console.log(hot)
       if (hot === undefined) {
         return this
       }
-      new Array('afterSetDataAtCell', 'afterUpdateSettings', 'afterColumnMove', 'afterRowMove', 'afterColumnSort', 'afterFilter').forEach(event => {
+      
+      new Array('afterSetDataAtCell', 'afterUpdateSettings', 'afterColumnMove', 'afterRowMove').forEach(event => {
         hot.addHook(event, () => {
           this.setDocumentChanged()
         })
       })
+      
+      new Array('afterColumnSort').forEach(event => {
+        hot.addHook(event, () => {
+          this.setDocumentChanged()
+          this.hasSort = true
+        })
+      })
+      
+      new Array('afterFilter').forEach(event => {
+        hot.addHook(event, () => {
+          this.setDocumentChanged()
+          this.hasFilter = true
+        })
+      })
+    },
+    reopen: function () {
+      this.openCallback(this.filepath)
+    },
+    clearSort: function () {
+      this.getHot().getPlugin('columnSorting').clearSort()
+    },
+    clearFilter: function () {
+      let hot = this.getHot()
+      let filters = hot.getPlugin('Filters')
+      filters.clearConditions()
+      filters.filter()
+      hot.render()
     }
   }
 }
