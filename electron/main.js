@@ -11,8 +11,9 @@ const fileType = require('file-type')
 const {
   app,
   BrowserWindow,
+  clipboard,
 } = require('electron')
-
+  
 const settings = require('electron-settings');
 
 // ------------
@@ -23,21 +24,27 @@ let mode = 'production'
 if (process.argv.indexOf('--mode') - process.argv.indexOf('development') === -1) {
   mode = "development"
 }
+
+let filepath
 if (process.argv.indexOf('--file') > 1) {
   filepath = process.argv[(process.argv.indexOf('--file') + 1)]
-  if (fs.existsSync(filepath)) {
-    let buffer = readChunk.sync(filepath, 0, fileType.minimumBytes);
-    let fileTypeResult = fileType(buffer)
-    let ext = filepath.slice(filepath.lastIndexOf('.') + 1)
-    if ( (fileTypeResult === undefined && ext === 'csv')
-            || (fileTypeResult.mime === 'application/x-msi' && ext === 'xls')
-            || (fileTypeResult.mime === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && ext === 'xlsx')
-            || (fileTypeResult.mime === 'application/vnd.oasis.opendocument.spreadsheet' && ext === 'ods') ) {
-      settings.set('filepath', filepath)
-    }
-  }
-  //console.log(filepath)
 }
+else {
+  filepath = clipboard.readText('clipboard')
+}
+
+if (typeof(filepath) === 'string' && fs.existsSync(filepath)) {
+  let buffer = readChunk.sync(filepath, 0, fileType.minimumBytes);
+  let fileTypeResult = fileType(buffer)
+  let ext = filepath.slice(filepath.lastIndexOf('.') + 1)
+  if ( (fileTypeResult === undefined && ext === 'csv')
+          || (fileTypeResult.mime === 'application/x-msi' && ext === 'xls')
+          || (fileTypeResult.mime === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && ext === 'xlsx')
+          || (fileTypeResult.mime === 'application/vnd.oasis.opendocument.spreadsheet' && ext === 'ods') ) {
+    settings.set('filepath', filepath)
+  }
+}
+//console.log(filepath)
 
 //console.log(mode)
 //mode = "development"
