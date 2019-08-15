@@ -162,6 +162,7 @@ ElectronHelper = {
     let filename = path.basename(filepath)
     //console.log(filename)
     let workbook = XLSX.readFile(filepath);
+    console.log(workbook)
     
     let sheetName
     for (let key in workbook.Sheets) {
@@ -194,6 +195,14 @@ ElectronHelper = {
     
     //let data = fs.readFileSync("./app/data.json")
     //return JSON.parse(data)
+  },
+  saveFile: function (filepath, base64) {
+    //fs.writeFileSync(filepath, blob)
+    fs.writeFile(filepath, base64, 'base64', function(err) {
+      if (err) {
+        console.log(err);
+      }
+    })
   }
 }
 

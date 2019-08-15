@@ -47,3 +47,23 @@ window.initHandsometable = function (data, colHeaders, callback) {
     //autoColumnSize : true,
   });
 }
+
+window.getData = function () {
+  let result = {}
+  result.header = window.hot.getColHeader()
+  result.rows = []
+  window.hot.getData().forEach(row => {
+    let rowObject = {}
+    row.forEach((field, i) => {
+      let header = result.header[i]
+      rowObject[header] = field
+    })
+    result.rows.push(rowObject)
+  })
+  
+  //let data = [colHeaders]
+  //for (let i = 0; i < rows.length; i++) {
+  //  data.push(rows[i])
+  //}
+  return result
+}

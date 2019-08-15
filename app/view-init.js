@@ -10,6 +10,7 @@ let ViewInitConfig = {
     handsometableContainer: null,
     _enablePersist: true,
     opened: false,
+    changed: true,
     //persistAttrs: ['fixColumns']
   },
   mounted: function () {
@@ -54,6 +55,7 @@ let ViewInitConfig = {
         this.showLoading()
         this.handsometableContainer.contentWindow.location.reload(true)
         this.opened = true
+        ipc.send('change-icon', ext)
       }
     },
     _openIframeReloadCallback: function () {
@@ -75,12 +77,51 @@ let ViewInitConfig = {
       
     },
     save: function () {
-      console.log('TODO save')
+      if (this.changed === false) {
+        return this
+      }
+      
+      //console.log(data)
+      
+      //console.log('TODO save')
+      
+      let bookType = this.ext
+      //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\save.csv"
+      let filepath = this.filepath
+      this.saveAsCallback(filepath, bookType)
     },
     saveAs: function () {
-      console.log('TODO save as')
+      //console.log('TODO save as')
+      let filepath = this.filepath
+      let defaultFilter = this.ext
+      ipc.send('open-file-dialog-save', filepath, defaultFilter)
     },
-    
+    saveAsCallback: function (filepath, bookType) {
+      
+      let data = this.handsometableContainer.contentWindow.getData()
+      //console.log(data)
+      //return
+      
+      let wopts = { bookType: bookType, bookSST:false, type:'base64' };
+      let sheets = {}
+      sheets[this.sheetName] = XLSX.utils.json_to_sheet(data.rows, {
+        header: data.header
+      })
+      
+      let workbook = {
+        "SheetNames": ["xls sheet"],
+        "Sheets": sheets,
+        "Workbook": {
+          "Sheets": [{ Hidden: 0, name: this.sheetName } ]
+        }
+      }
+      console.log(workbook)
+      let wbout = XLSX.write(workbook, wopts)
+      //let base64 = new Blob([wbout],{type:"application/octet-stream"})
+      ElectronHelper.saveFile(filepath, wbout)
+      
+      this.changed = false
+    },
     _afterMounted: function () {
       this.initDropdown()
       this.initHotkeys()
@@ -97,7 +138,7 @@ let ViewInitConfig = {
       })
       
       if (typeof(settings.get('filepath')) === 'string') {
-        this._openCallback(null, settings.get('filepath'))
+        this.openCallback(null, settings.get('filepath'))
         //setTimeout(() => {
           //this.open()
           //this._openCallback(null, "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.utf8.csv")
@@ -124,7 +165,12 @@ let ViewInitConfig = {
     initIpc: function () {
       ipc.on('selected-file', (event, path) => {
         //console.log(['[', path, ']'])
-        this._openCallback(event, path)
+        this.openCallback(event, path)
+      });
+      
+      ipc.on('selected-file-save', (event, path) => {
+        //console.log(['[', path, ']'])
+        this.saveAsCallback(event, path)
       });
     },
     getHot: function () {
