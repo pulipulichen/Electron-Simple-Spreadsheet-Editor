@@ -4,8 +4,8 @@
   "description": "A spreadsheet editor built in Electron framework for CSV, ODS, XLS.",
   "main": "index.js",
   "scripts": {
-    "0.run-development": "node run.js --mode development",
-    "1.run-production": "node run.js --mode production"
+    "0.run-development": "electron electron/main.js --mode development",
+    "1.run-production": "electron electron/main.js --mode production"
   },
   "repository": {
     "type": "git",
@@ -25,5 +25,10 @@
   "homepage": "https://github.com/pulipulichen/Electron-Simple-Spreadsheet-Editor#readme",
   "devDependencies": {
     "electron": "^6.0.1"
+  },
+  "dependencies": {
+    "electron-settings": "^3.2.0",
+    "jquery": "^3.4.1",
+    "platform-folders": "^0.4.1"
   }
 }
