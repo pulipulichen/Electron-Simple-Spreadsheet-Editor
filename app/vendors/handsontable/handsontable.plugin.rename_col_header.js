@@ -24,13 +24,17 @@ let HandsontablePluginRenameColHeader = {
 
     //console.log(instance.getColHeader())
     instance.updateSettings({
-      modifyColWidth: () => {
-      },
+      modifyColWidth: () => {},
       colHeaders: headers
     })
 
-    var autoColumnSize = this.getPlugin('autoColumnSize');
-    autoColumnSize.calculateColumnsWidth(index, 0, true);
+    autoColumnSize = this.getPlugin('autoColumnSize');
+    autoColumnSize.calculateAllColumnsWidth()
+    //autoColumnSize.calculateColumnsWidth(index, 0, true);
+    
+    //instance.getSettings().colWidths[index] = 300
+    //instance.render();
+    //ManualColumnResize = this.getPlugin('ManualColumnResize');
   },
   disabled: function disabled() {
     /*
