@@ -9,6 +9,7 @@ let ViewInitConfig = {
     ext: null,
     handsometableContainer: null,
     _enablePersist: true,
+    opened: false,
     //persistAttrs: ['fixColumns']
   },
   mounted: function () {
