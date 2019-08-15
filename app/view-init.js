@@ -10,7 +10,7 @@ let ViewInitConfig = {
   mounted: function () {
     this._afterMounted()
   },
-  wathc: {
+  watch: {
     fixColumns: function (fixColumns) {
       console.log(fixColumns)
     }
@@ -36,6 +36,9 @@ let ViewInitConfig = {
           clearable: true,
           placeholder: 'any'
         })
+    },
+    getHot: function () {
+      return document.getElementById("handsometableContainer").contentWindow.hot
     },
     getData: function () {
       let data = document.getElementById("handsometableContainer").contentWindow.getData()
