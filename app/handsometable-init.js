@@ -7,6 +7,10 @@
 
 window.hot
 
+let triggerChange = () => {
+  console.log('changed')
+}
+
 window.initHandsometable = function (data, colHeaders, callback) {
   
   const container = document.getElementById('handsontableContainer');
@@ -16,9 +20,8 @@ window.initHandsometable = function (data, colHeaders, callback) {
     container.innerHTML = ''
   }
   */
-  
-  //let workbook = window.top.ElectronHelper.loadFile()
-  window.hot = new Handsontable(container, {
+ 
+  let config = {
     init: callback,
     data: data,
     rowHeaders: true,
@@ -43,9 +46,19 @@ window.initHandsometable = function (data, colHeaders, callback) {
     manualColumnMove: true,
     manualRowResize: true,
     manualColumnResize: true,
-    manualColumnFreeze: true,
+    manualColumnFreeze: true
+    
     //autoColumnSize : true,
-  });
+  }
+  
+  new Array('afterSetDataAtCell', 'afterUpdateSettings', 'afterColumnMove', 'afterRowMove', 'afterColumnSort', 'afterFilter').forEach(event => {
+    config[event] = function () {
+      triggerChange()
+    }
+  })
+  
+  //let workbook = window.top.ElectronHelper.loadFile()
+  window.hot = new Handsontable(container, config);
 }
 
 window.getData = function () {
