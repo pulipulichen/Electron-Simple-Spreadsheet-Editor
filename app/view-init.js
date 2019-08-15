@@ -42,7 +42,12 @@ let ViewInitConfig = {
     open: function () {
       //console.log('TODO OPEN')
       //this.showLoading()
-      ipc.send('open-file-dialog')
+      let dir
+      if (typeof(this.filepath) === 'string') {
+        dir = path.dirname(this.filepath)
+      }
+      
+      ipc.send('open-file-dialog', dir)
     },
     openCallback: function (filepath) {
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.ods"

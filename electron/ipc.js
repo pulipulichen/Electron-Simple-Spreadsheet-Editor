@@ -12,10 +12,7 @@ ipc.on('open-file-dialog', function (event, dir) {
     properties: ['openFile']
   }
   
-  if (typeof(dir) === 'string' && dir !== '') {
-    if (process.platform === 'win32') {
-      dir = dir.split('/').join('\\')
-    }
+  if (typeof(dir) === 'string' && dir !== '' && fs.existsSync(dir)) {
     options.defaultPath = dir
   }
   
