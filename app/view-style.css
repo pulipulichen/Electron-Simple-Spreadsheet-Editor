@@ -4,11 +4,36 @@ body {
 }
 
 #toolbarContainer {
-  background-color: gray;
-  height: 50px;
+  background-color: #CCC;
+  height: 37px;
 }
 
 #handsometableContainer {
   width: 100vw;
   height: calc(100vh - 50px);
+  border-width: 0;
+}
+
+#toolbarContainer .ui.icon.button:not(.labeled) {
+  display: none;
+}
+
+#toolbarContainer .toolbar-container {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#toolbarContainer .toolbar-container .ui.small.input input[type="text"] {
+  margin-top: -1px;
+}
+
+@media all and (max-width: 800px) { 
+  #toolbarContainer .ui.icon.button:not(.labeled) {
+    display: inline-block;
+  }
+  
+  #toolbarContainer .ui.icon.button.labeled,
+  #toolbarContainer label {
+    display: none;
+  }
 }

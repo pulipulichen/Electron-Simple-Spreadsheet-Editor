@@ -25,3 +25,9 @@ const hot = new Handsontable(container, {
   manualColumnResize: true,
   //autoColumnSize : true,
 });
+
+// --------------------------
+
+function getData() {
+  return "hello"
+}

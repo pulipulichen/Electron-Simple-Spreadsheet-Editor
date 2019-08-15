@@ -6,36 +6,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="imgs/table.png" />
 
+<script src="vendors/jquery/jquery-3.4.1.min.js"></script>
 <script src="vendors/semantic-ui/semantic.min.js"></script>
 <link href="vendors/semantic-ui/semantic.min.css" rel="stylesheet" />
 
 <link href="view-style.css" rel="stylesheet" />
 
+
   </head>
   <body>
-<div class="ui form">
+<div class="ui unstackable form" id="toolbarContainer">
   <div class="inline fields">
-    <div class="field">
+    <div class="toolbar-container field">
       <div class="ui labeled icon button">
         <i class="folder open outline icon"></i>
         OPEN
       </div>
+      <div class="ui icon button">
+        <i class="folder open outline icon"></i>
+      </div>
+      
       <div class="ui labeled icon button">
         <i class="save icon"></i>
         SAVE
       </div>
-      <div class="ui labeled icon button">
+      <div class="ui icon button">
         <i class="save icon"></i>
+      </div>
+      
+      <div class="ui labeled icon button">
+        <i class="save outline icon"></i>
         SAVE AS
       </div>
-      <div class="ui button">
-        <i class="folder open outline icon"></i>
-        Freeze Columns: 0
+      <div class="ui icon button">
+        <i class="save outline icon"></i>
+      </div>
+      
+      <label>Fix Columns: </label>
+      <select class="ui small compact search dropdown">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>
+      
+      <label>Sheet name: </label>
+      <div class="ui small input">
+        <input type="text" placeholder="Sheet name">
       </div>
     </div>
   </div>
 </div>
     </div>
     <iframe id="handsometableContainer" src="handsometable-index.html"></iframe>
+    
+    <script src="view-init.js"></script>
   </body>
 </html>
