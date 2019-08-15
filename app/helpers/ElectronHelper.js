@@ -159,7 +159,16 @@ ElectronHelper = {
       return false
     }
     
+    if (filepath.endsWith('.csv')) {
+      return this.loadCSVFile(filepath)
+    }
+    else {
+      return this.loadXLSXFile(filepath)
+    }
+  },
+  loadXLSXFile: function (filepath) {
     let filename = path.basename(filepath)
+    
     //console.log(filename)
     let workbook = XLSX.readFile(filepath);
     //console.log(workbook)
