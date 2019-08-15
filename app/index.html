@@ -37,7 +37,7 @@
     <div class="menu file-dropdown">
       <div class="item" v-on:click="open" title="Open file">
         Open... 
-        <div class="description">Ctrl + O</div>
+        <div class="description">ctrl + o</div>
       </div>
       <div class="divider"></div>
       <div class="item" v-on:click="changeSheetName" title="Change sheet name">
@@ -45,20 +45,34 @@
         <div class="description">{{ sheetName }}</div>
       </div>
       <div class="divider"></div>
+      <div class="item" v-on:click="openFileLocation" title="Open file location"
+           v-bind:class="{disabled: (filepath == null)}">
+        Open file location
+      </div>
+      <div class="item" v-on:click="copyFilePath" title="Copy file path"
+           v-bind:class="{disabled: (filepath == null)}">
+        Copy file path
+      </div>
+      <div class="divider"></div>
       <div class="item" v-on:click="reopen" title="Reopen file"
            v-bind:class="{disabled: (changed == false)}">
         Reopen...
-        <div class="description">(Ctrl + Shift + O)</div>
+        <div class="description">(ctrl + shift + o)</div>
       </div>
       <div class="item" v-on:click="save" title="Save file"
            v-bind:class="{disabled: (changed == false)}">
         Save...
-        <div class="description">(Ctrl + S)</div>
+        <div class="description">(ctrl + s)</div>
       </div>
       <div class="item" v-on:click="saveAs" title="Save file as another file"
            v-bind:class="{disabled: (changed == false)}">
         Save as... 
-        <div class="description">(Ctrl + Shift + S)</div>
+        <div class="description">(ctrl + shift + s)</div>
+      </div>
+      <div class="divider"></div>
+      <div class="item" v-on:click="exit" title="Exit">
+        Exit
+        <div class="description">(ctrl + w)</div>
       </div>
     </div>
   </div>

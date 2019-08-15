@@ -98,6 +98,9 @@ let ViewInitConfig = {
               if (height > screen.availHeight) {
                 height = screen.availHeight
               }
+              else if (height < 450) {
+                height = 450
+              }
               
               width = width + 20
               if (width > screen.availWidth) {
@@ -199,12 +202,13 @@ let ViewInitConfig = {
         })
     },
     initHotkeys: function () {
-      hotkeys('ctrl+o,ctrl+shift+o,ctrl+s,ctrl+shift+s', (event, handler) => {
+      hotkeys('ctrl+o,ctrl+shift+o,ctrl+s,ctrl+shift+s,ctrl+w', (event, handler) => {
         switch(handler.key) {
           case "ctrl+o": this.open();break;
           case "ctrl+shift+o": this.reopen();break;
           case "ctrl+s": this.save();break;
           case "ctrl+shift+s": this.saveAs();break;
+          case "ctrl+w": this.exit();break;
         }
       });
     },
@@ -306,6 +310,16 @@ let ViewInitConfig = {
           this.sheetName = newSheetName
         }
       })
+    },
+    openFileLocation: function () {
+      let dirname = path.dirname(this.filepath)
+      exec(`start "" "${dirname}"`)
+    },
+    copyFilePath: function () {
+      clipboard.writeText(this.filepath)
+    },
+    exit: function () {
+      remote.getCurrentWindow().close()
     }
   }
 }
