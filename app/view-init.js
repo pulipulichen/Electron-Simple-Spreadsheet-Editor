@@ -106,6 +106,9 @@ let ViewInitConfig = {
               if (width > screen.availWidth) {
                 width = screen.availWidth
               }
+              else if (width < 400) {
+                width = 400
+              }
               console.log(height, width)
               ipc.send('set-window-size', width, height)
             }, 100)
