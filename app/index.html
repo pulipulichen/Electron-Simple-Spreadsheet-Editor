@@ -28,32 +28,32 @@
 
 <script src="helpers/ElectronHelper.js" ></script>
   </head>
-  <body>
+  <body class="dimmable">
 <div class="ui unstackable form" id="toolbarContainer">
   <div class="inline fields">
     <div class="toolbar-container field">
-      <div class="ui unstackable buttons">
+      <div class="ui unstackable buttons" v-on:click="open">
         <div class="ui labeled icon button">
           <i class="folder open outline icon"></i>
           OPEN
         </div>
-        <div class="ui icon button">
+        <div class="ui icon button" v-on:click="open">
           <i class="folder open outline icon"></i>
         </div>
 
-        <div class="ui labeled icon button">
+        <div class="ui labeled icon button" v-on:click="save">
           <i class="save icon"></i>
           SAVE
         </div>
-        <div class="ui icon button">
+        <div class="ui icon button" v-on:click="save">
           <i class="save icon"></i>
         </div>
 
-        <div class="ui labeled icon button">
+        <div class="ui labeled icon button" v-on:click="saveAs">
           <i class="save outline icon"></i>
           SAVE AS
         </div>
-        <div class="ui icon button">
+        <div class="ui icon button" v-on:click="saveAs">
           <i class="save outline icon"></i>
         </div>
       </div>
@@ -68,13 +68,24 @@
       
       <label>Sheet name: </label>
       <div class="ui small input">
-        <input type="text" placeholder="Sheet name">
+        <input type="text" placeholder="Sheet name" v-model="sheetName">
       </div>
     </div>
   </div>
 </div>
-    </div>
+</div>
     <iframe id="handsometableContainer" src="handsometable-index.html"></iframe>
+    
+<div class="ui dimmer">
+  <div class="content">
+    <div class="ui segment">
+      <div class="ui active dimmer">
+        <div class="ui massive text loader">Loading</div>
+      </div>
+      <p></p>
+    </div>
+  </div>
+</div>
     
     <script src="view-init.js"></script>
   </body>

@@ -2,13 +2,31 @@ let ViewInitConfig = {
   el: '#toolbarContainer',
   data: {
     fixColumns: 3,
+    sheetName: "AAA",
+    
     _enablePersist: true,
     persistAttrs: ['fixColumns']
   },
   mounted: function () {
     this._afterMounted()
   },
+  wathc: {
+    fixColumns: function (fixColumns) {
+      console.log(fixColumns)
+    }
+  },
   methods: {
+    open: function () {
+      console.log('TODO OPEN')
+      this.showLoading()
+    },
+    save: function () {
+      console.log('TODO save')
+    },
+    saveAs: function () {
+      console.log('TODO save as')
+    },
+    
     _afterMounted: function () {
       this.initDropdown()
     },
@@ -29,6 +47,12 @@ let ViewInitConfig = {
         ElectronHelper.persist(this, this.persistAttrs)
       }
     },
+    showLoading: function () {
+      $('body').dimmer('show')
+    },
+    hideLoading: function () {
+      $('body').dimmer('hide')
+    }
   }
 }
 
