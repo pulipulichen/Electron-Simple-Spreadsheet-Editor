@@ -63,6 +63,12 @@
     </div>
   </div>
   <div class="ui pointer item"
+       v-show="changed"
+       v-on:click="save">
+    <i class="save icon"></i>
+    Save
+  </div>
+  <div class="ui pointer item"
        v-show="hasFilter"
        v-on:click="clearFilter">
     <i class="x icon"></i>
