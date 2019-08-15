@@ -257,6 +257,13 @@ let ViewInitConfig = {
       let search = hot.getPlugin('search');
       let queryResult = search.query(event.srcElement.value);
       hot.render()
+    },
+    changeSheetName: function () {
+      ElectronHelper.prompt('Change sheet name', this.sheetName, (newSheetName) => {
+        if (typeof(newSheetName) === 'string' && newSheetName.trim() !== '') {
+          this.sheetName = newSheetName
+        }
+      })
     }
   }
 }

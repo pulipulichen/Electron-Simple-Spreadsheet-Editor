@@ -105,6 +105,15 @@
             <i class="external alternate icon"></i>
           </div>
         </div>
+        
+        <div v-on:click="changeSheetName" title="Change sheet name">
+          <div class="ui button">
+            {{ sheetName }}
+          </div>
+          <div class="ui icon button">
+            <i class="table icon"></i>
+          </div>
+        </div>
       </div> <!-- buttons -->
       <!--
       <label>Fix Columns: </label>
@@ -116,19 +125,21 @@
       </select>
       -->
       
+      <!--
       <span title="Sheet name">
         <label>Sheet name: </label>
         <div class="ui small input">
-          <input type="text" placeholder="Sheet name" v-model="sheetName">
+          <input type="text" placeholder="Sheet name" v-model="sheetName" />
         </div>
       </span>
+      -->
       
       <span title="Search">
         <label>Search: </label>
         <div class="ui small input">
           <input type="text" 
                  placeholder="Seach..."
-                 v-on:keyup="search"/>
+                 v-on:keyup="search" />
         </div>
       </span>
     </div>
