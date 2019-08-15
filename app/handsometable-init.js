@@ -23,6 +23,7 @@ const hot = new Handsontable(container, {
   manualColumnMove: true,
   manualRowResize: true,
   manualColumnResize: true,
+  manualColumnFreeze: true,
   //autoColumnSize : true,
 });
 

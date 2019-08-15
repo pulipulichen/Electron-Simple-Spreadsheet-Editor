@@ -12,7 +12,9 @@ let ViewInitConfig = {
   },
   watch: {
     fixColumns: function (fixColumns) {
-      console.log(fixColumns)
+      //console.log(fixColumns)
+      hot = this.getHot()
+      
     }
   },
   methods: {
