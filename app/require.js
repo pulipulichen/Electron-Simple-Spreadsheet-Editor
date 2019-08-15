@@ -22,6 +22,10 @@ const { clipboard } = require('electron')
 window.$ = window.jQuery = require('jquery')
 
 const XLSX = require('xlsx')
+
+const readChunk = require('read-chunk');
+const fileType = require('file-type');
+
 //console.log(mode)
 
 /*

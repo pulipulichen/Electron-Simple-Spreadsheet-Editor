@@ -7,13 +7,19 @@
 
 window.hot
 
-window.initHandsometable = function (data, colHeaders) {
+window.initHandsometable = function (data, colHeaders, callback) {
   
+  const container = document.getElementById('handsontableContainer');
+  /*
+  if (window.hot !== undefined) {
+    window.hot.destroyEditor()
+    container.innerHTML = ''
+  }
+  */
   
   //let workbook = window.top.ElectronHelper.loadFile()
-
-  const container = document.getElementById('handsontableContainer');
   window.hot = new Handsontable(container, {
+    init: callback,
     data: data,
     rowHeaders: true,
     //colHeaders: true,

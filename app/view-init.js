@@ -1,9 +1,13 @@
+/* global fileType, readChunk, ipc */
+
 let ViewInitConfig = {
   el: '#toolbarContainer',
   data: {
     //fixColumns: 3,
     sheetName: "AAA BBB",
-    
+    filepath: null,
+    ext: null,
+    handsometableContainer: null,
     _enablePersist: true,
     //persistAttrs: ['fixColumns']
   },
@@ -30,12 +34,41 @@ let ViewInitConfig = {
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.csv"
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.xls"
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.xlsx"
-      let workbook = ElectronHelper.loadFile(filepath)
+      this.filepath = filepath
+      
+      const buffer = readChunk.sync(filepath, 0, fileType.minimumBytes);
+      let fileTypeResult = fileType(buffer)
+      
+      let ext = filepath.slice(filepath.lastIndexOf('.') + 1)
+      
+      //console.log(fileTypeResult)
+      //if (["application/vnd.oasis.opendocument.spreadsheet"].indexOf(fileTypeResult.mime) > -1) {
+      if ( (fileTypeResult === undefined && ext === 'csv')
+              || (fileTypeResult.mime === 'application/x-msi' && ext === 'xls')
+              || (fileTypeResult.mime === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && ext === 'xlsx')
+              || (fileTypeResult.mime === 'application/vnd.oasis.opendocument.spreadsheet' && ext === 'ods') ) {
+        //this.handsometableContainer.src = this.handsometableContainer.src
+        this.showLoading()
+        this.handsometableContainer.contentWindow.location.reload(true)
+      }
+    },
+    _openIframeReloadCallback: function () {
+      if (typeof(this.filepath) !== 'string') {
+        return this
+      }
+      
+      let workbook = ElectronHelper.loadFile(this.filepath)
       if (typeof(workbook) === 'object') {
         document.title = workbook.filename
         this.sheetName = workbook.sheetName
-        document.getElementById("handsometableContainer").contentWindow.initHandsometable(workbook.data, workbook.colHeaders)
+        this.handsometableContainer.contentWindow.initHandsometable(workbook.data, workbook.colHeaders, () => {
+          this.hideLoading()
+        })
       }
+      else {
+        this.hideLoading()
+      }
+      
     },
     save: function () {
       console.log('TODO save')
@@ -48,11 +81,17 @@ let ViewInitConfig = {
       this.initDropdown()
       this.initHotkeys()
       this.initIpc()
+      this.handsometableContainer = document.getElementById("handsometableContainer")
+      this.handsometableContainer.onload = () => {
+        //console.log('onload')
+        this._openIframeReloadCallback()
+      }
       //document.getElementById("handsometableContainer").contentWindow.ElectronHelper = ElectronHelper
       
-      setTimeout(() => {
-        this.open()
-      }, 1000)
+      //setTimeout(() => {
+        //this.open()
+      //  this._openCallback(null, "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.utf8.csv")
+      //}, 1000)
     },
     initDropdown: function () {
       $('.ui.dropdown')
