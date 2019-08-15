@@ -23,8 +23,10 @@ let ViewInitConfig = {
     open: function () {
       //console.log('TODO OPEN')
       //this.showLoading()
-      
-      let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.ods"
+      ipc.send('open-file-dialog')
+    },
+    _openCallback: function (event, filepath) {
+      //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.ods"
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.csv"
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.xls"
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.xlsx"
@@ -45,7 +47,12 @@ let ViewInitConfig = {
     _afterMounted: function () {
       this.initDropdown()
       this.initHotkeys()
+      this.initIpc()
       //document.getElementById("handsometableContainer").contentWindow.ElectronHelper = ElectronHelper
+      
+      setTimeout(() => {
+        this.open()
+      }, 1000)
     },
     initDropdown: function () {
       $('.ui.dropdown')
@@ -61,6 +68,12 @@ let ViewInitConfig = {
           case "ctrl+s": this.save();break;
           case "ctrl+shift+s": this.saveAs();break;
         }
+      });
+    },
+    initIpc: function () {
+      ipc.on('selected-file', (event, path) => {
+        //console.log(['[', path, ']'])
+        this._openCallback(event, path)
       });
     },
     getHot: function () {

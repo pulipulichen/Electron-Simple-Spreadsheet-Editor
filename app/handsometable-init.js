@@ -5,12 +5,15 @@
 
 //console.log(hot.getSettings())
 
+window.hot
+
 window.initHandsometable = function (data, colHeaders) {
+  
   
   //let workbook = window.top.ElectronHelper.loadFile()
 
   const container = document.getElementById('handsontableContainer');
-  const hot = new Handsontable(container, {
+  window.hot = new Handsontable(container, {
     data: data,
     rowHeaders: true,
     //colHeaders: true,

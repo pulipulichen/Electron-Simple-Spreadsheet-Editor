@@ -8,4 +8,8 @@ A spreadsheet editor built in Electron framework for CSV, ODS, XLS.
 
 # Resources
 - ICON: https://findicons.com/icon/238126/table
+- https://findicons.com/icon/84775/excel
+- https://findicons.com/icon/84601/csv_text
+- http://www.iconarchive.com/show/flatwoken-icons-by-alecive/Apps-Libreoffice-Calc-B-icon.html
+
 - Semantic UI ICON: https://semantic-ui.com/elements/icon.html

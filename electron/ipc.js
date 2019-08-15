@@ -4,15 +4,15 @@ const dialog = require('electron').dialog
 const fs = require('fs')
 const path = require('path')
 
-ipc.on('open-file-dialog-chrome', function (event, dir) {
+ipc.on('open-file-dialog', function (event, dir) {
   //console.log(process.platform)
   
   let options = {
-    title: 'Please select Google Chrome',
+    title: 'Please select a spread sheet file',
     properties: ['openFile']
   }
   
-  if (dir !== '') {
+  if (typeof(dir) === 'string' && dir !== '') {
     if (process.platform === 'win32') {
       dir = dir.split('/').join('\\')
     }
@@ -21,18 +21,37 @@ ipc.on('open-file-dialog-chrome', function (event, dir) {
   
   if (process.platform === 'win32') {
     options.filters = [
-      { name: 'Executable File', extensions: ['exe'] }
+      { name: 'Spread sheets', extensions: ['ods', 'csv', 'xlsx', 'xls'] },
+      { name: 'OpenDocument Format', extensions: ['ods'] },
+      { name: 'Comma-Separated Values', extensions: ['csv'] },
+      { name: 'Microsoft Excel 2007–2019', extensions: ['xlsx'] },
+      { name: 'MicrosoftExcel 97–2003', extensions: ['xls'] }
     ]
   }
   
   //console.log(options)
   
   dialog.showOpenDialog(win, options, function (files) {
-    if (files && files[0] !== null) {
-      event.sender.send('selected-file-chrome', files[0])
+    if (files && typeof(files[0]) === 'string') {
+      
+      let filepath = files[0]
+      if (filepath.endsWith('.ods')) {
+        win.setOverlayIcon('./app/imgs/ods.ico', '')
+      }
+      else if (filepath.endsWith('.csv')) {
+        win.setOverlayIcon('./app/imgs/csv.ico', '')
+      }
+      else {
+        win.setOverlayIcon('./app/imgs/excel.ico', '')
+      }
+
+      
+      event.sender.send('selected-file', filepath)
     }
   })
 })
+
+// -------------------------------------------------
 
 ipc.on('open-file-dialog-icon', function (event, dir) {
   let options = {
