@@ -69,6 +69,9 @@ let ViewInitConfig = {
         this.sheetName = workbook.sheetName
         this.handsometableContainer.contentWindow.initHandsometable(workbook.data, workbook.colHeaders, () => {
           this.hideLoading()
+          setTimeout(() => {
+            this.initChangeEvent()
+          }, 0)
         })
       }
       else {
@@ -199,6 +202,24 @@ let ViewInitConfig = {
     },
     hideLoading: function () {
       $('body').dimmer('hide')
+    },
+    setDocumentChanged: function () {
+      if (document.title.startsWith('*') === false) {
+        document.title = '*' + document.title
+      }
+      this.changed = true
+    },
+    initChangeEvent: function () {
+      hot = this.handsometableContainer.contentWindow.hot
+      console.log(hot)
+      if (hot === undefined) {
+        return this
+      }
+      new Array('afterSetDataAtCell', 'afterUpdateSettings', 'afterColumnMove', 'afterRowMove', 'afterColumnSort', 'afterFilter').forEach(event => {
+        hot.addHook(event, () => {
+          this.setDocumentChanged()
+        })
+      })
     }
   }
 }

@@ -7,9 +7,6 @@
 
 window.hot
 
-let triggerChange = () => {
-  console.log('changed')
-}
 
 window.initHandsometable = function (data, colHeaders, callback) {
   
@@ -40,7 +37,7 @@ window.initHandsometable = function (data, colHeaders, callback) {
     },
     //dropdownMenu: true,
     //dropdownMenu: ['filter_by_condition', 'filter_operators', 'filter_by_condition2', 'filter_by_value', 'filter_action_bar'],
-    dropdownMenu: ["col_left", "col_right", "clear_column", "remove_col", HandsontablePluginRenameColHeader, 'filter_by_condition', 'filter_operators', 'filter_by_condition2', 'filter_by_value', 'filter_action_bar'],
+    dropdownMenu: ["column_sorting", "col_left", "col_right", "clear_column", "remove_col", HandsontablePluginRenameColHeader, 'filter_by_condition', 'filter_operators', 'filter_by_condition2', 'filter_by_value', 'filter_action_bar'],
     filters: true,
     manualRowMove: true,
     manualColumnMove: true,
@@ -50,12 +47,6 @@ window.initHandsometable = function (data, colHeaders, callback) {
     
     //autoColumnSize : true,
   }
-  
-  new Array('afterSetDataAtCell', 'afterUpdateSettings', 'afterColumnMove', 'afterRowMove', 'afterColumnSort', 'afterFilter').forEach(event => {
-    config[event] = function () {
-      triggerChange()
-    }
-  })
   
   //let workbook = window.top.ElectronHelper.loadFile()
   window.hot = new Handsontable(container, config);
