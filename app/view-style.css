@@ -7,6 +7,7 @@ body {
   /*background-color: #CCC;*/
   margin-bottom: 0;
   height: 37px;
+  border-radius: 0;
 }
 
 #toolbarContainer .ui.pointer.item {
