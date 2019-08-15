@@ -76,6 +76,7 @@ function createWindow() {
   let optionBrowserWindow = {
     //fullscreen: true,
     icon: './app/imgs/table.ico',
+    //useContentSize: true,
     webPreferences: {
       nodeIntegration: true
     }
@@ -88,7 +89,7 @@ function createWindow() {
   
   
   win = new BrowserWindow(optionBrowserWindow)
-  win.maximize();
+  //win.maximize();
   
   if (mode === 'production') {
     win.setMenu(null)

@@ -84,11 +84,27 @@ let ViewInitConfig = {
       ElectronHelper.loadFile(this.filepath, (workbook) => {
         if (typeof(workbook) === 'object') {
           this.sheetName = workbook.sheetName
-          this.handsontableContainer.contentWindow.initHandsometable(workbook.data, workbook.colHeaders, () => {
+          this.handsontableContainer.contentWindow.initHandsometable(workbook.data, workbook.colHeaders, (width, height) => {
             this.hideLoading()
             setTimeout(() => {
               this.initHotEvent()
               this.changed = false
+              
+              //console.log(height, width)
+              height = height + 40 + 42
+              if (mode === 'development') {
+                height = height + 20
+              }
+              if (height > screen.availHeight) {
+                height = screen.availHeight
+              }
+              
+              width = width + 20
+              if (width > screen.availWidth) {
+                width = screen.availWidth
+              }
+              console.log(height, width)
+              ipc.send('set-window-size', width, height)
             }, 100)
           })
         }

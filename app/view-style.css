@@ -54,7 +54,7 @@ body {
 /* ------------------------------------------- */
 
 #welcomePlaceholder {
-  height: calc(100vh - 51px);
+  height: calc(100vh - 54px);
   cursor: pointer;
 }
 

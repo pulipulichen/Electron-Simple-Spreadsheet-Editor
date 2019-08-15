@@ -19,7 +19,19 @@ window.initHandsometable = function (data, colHeaders, callback) {
   */
  
   let config = {
-    init: callback,
+    init: () => {
+      setTimeout(() => {
+        //console.log(document.body.clientHeight)
+        //console.log($('#handsontableContainer .ht_clone_top.handsontable').width())
+        
+        //callback($('#handsontableContainer .ht_clone_top.handsontable').width(), document.body.clientHeight)
+        let width = $('#handsontableContainer .ht_clone_top.handsontable').width()
+        let height = $('#handsontableContainer .ht_clone_left.handsontable').height()
+        callback(width, height)
+      }, 100)
+      
+      
+    },
     data: data,
     rowHeaders: true,
     //colHeaders: true,

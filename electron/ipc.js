@@ -75,8 +75,8 @@ ipc.on('open-file-dialog-save', function (event, filePath) {
     }
   })
   
-  console.log(defaultFilter)
-  console.log(filtersSelect)
+  //console.log(defaultFilter)
+  //console.log(filtersSelect)
   
   let options = {
     title: 'Save spread sheet to...',
@@ -93,8 +93,15 @@ ipc.on('open-file-dialog-save', function (event, filePath) {
   
   dialog.showSaveDialog(win, options, function (file) {
     if (file) {
-      console.log(file)
+      //console.log(file)
       event.sender.send('selected-file-save', file)
     }
   })
+})
+
+// -----------------------------------
+
+ipc.on('set-window-size', function (event, width, height) {
+  win.setSize(width, height)
+  win.center()
 })
