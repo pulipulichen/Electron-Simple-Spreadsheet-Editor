@@ -36398,6 +36398,67 @@ function Core(rootElement, userSettings) {
 
 
           break;
+    case 'rename_col_header':
+          var renameColHeader = function renameColHeader(indexes) {
+            alert(111)
+            return
+            
+            var offset = 0; // Normalize the {index, amount} groups into bigger groups.
+
+            (0, _array.arrayEach)(indexes, function (_ref9) {
+              var _ref10 = (0, _slicedToArray2.default)(_ref9, 2),
+                  groupIndex = _ref10[0],
+                  groupAmount = _ref10[1];
+
+              var calcIndex = (0, _mixed.isEmpty)(groupIndex) ? instance.countCols() - 1 : Math.max(groupIndex - offset, 0);
+              var visualColumnIndex = recordTranslator.toPhysicalColumn(calcIndex); // If the 'index' is an integer decrease it by 'offset' otherwise pass it through to make the value
+              // compatible with datamap.removeCol method.
+
+              if (Number.isInteger(groupIndex)) {
+                // eslint-disable-next-line no-param-reassign
+                groupIndex = Math.max(groupIndex - offset, 0);
+              } // TODO: for datamap.removeCol index should be passed as it is (with undefined and null values). If not, the logic
+              // inside the datamap.removeCol breaks the removing functionality.
+
+
+              datamap.removeCol(groupIndex, groupAmount, source);
+
+              for (var _row = 0, _len = instance.countSourceRows(); _row < _len; _row++) {
+                if (priv.cellSettings[_row]) {
+                  // if row hasn't been rendered it wouldn't have cellSettings
+                  priv.cellSettings[_row].splice(visualColumnIndex, groupAmount);
+                }
+              }
+
+              var fixedColumnsLeft = instance.getSettings().fixedColumnsLeft;
+
+              if (fixedColumnsLeft >= calcIndex + 1) {
+                instance.getSettings().fixedColumnsLeft -= Math.min(groupAmount, fixedColumnsLeft - calcIndex);
+              }
+
+              if (Array.isArray(instance.getSettings().colHeaders)) {
+                if (typeof visualColumnIndex === 'undefined') {
+                  visualColumnIndex = -1;
+                }
+
+                instance.getSettings().colHeaders.splice(visualColumnIndex, groupAmount);
+              }
+
+              offset += groupAmount;
+            });
+          };
+
+          if (Array.isArray(index)) {
+            removeCol(normalizeIndexesGroup(index));
+          } else {
+            removeCol([[index, amount]]);
+          }
+
+          grid.adjustRowsAndCols();
+
+          instance._refreshBorders(); // it will call render and prepare methods
+ 
+          break;
 
         default:
           throw new Error("There is no such action \"".concat(action, "\""));
@@ -67689,6 +67750,67 @@ function () {
      * @param {String} [source] Source of method call.
      * @fires Hooks#beforeRemoveCol
      * @fires Hooks#afterRemoveCol
+     */
+
+  }, {
+    key: "removeCol",
+    value: function removeCol(index) {
+      var amount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      var source = arguments.length > 2 ? arguments[2] : undefined;
+
+      if (this.instance.dataType === 'object' || this.instance.getSettings().columns) {
+        throw new Error('cannot remove column with object data source or columns option specified');
+      }
+
+      var columnIndex = typeof index !== 'number' ? -amount : index;
+      columnIndex = (this.instance.countCols() + columnIndex) % this.instance.countCols();
+      var logicColumns = this.visualColumnsToPhysical(columnIndex, amount);
+      var descendingLogicColumns = logicColumns.slice(0).sort(function (a, b) {
+        return b - a;
+      });
+      var actionWasNotCancelled = this.instance.runHooks('beforeRemoveCol', columnIndex, amount, logicColumns, source);
+
+      if (actionWasNotCancelled === false) {
+        return;
+      }
+
+      var isTableUniform = true;
+      var removedColumnsCount = descendingLogicColumns.length;
+      var data = this.dataSource;
+
+      for (var c = 0; c < removedColumnsCount; c++) {
+        if (isTableUniform && logicColumns[0] !== logicColumns[c] - c) {
+          isTableUniform = false;
+        }
+      }
+
+      if (isTableUniform) {
+        for (var r = 0, rlen = this.instance.countSourceRows(); r < rlen; r++) {
+          data[r].splice(logicColumns[0], amount);
+        }
+      } else {
+        for (var _r = 0, _rlen = this.instance.countSourceRows(); _r < _rlen; _r++) {
+          for (var _c = 0; _c < removedColumnsCount; _c++) {
+            data[_r].splice(descendingLogicColumns[_c], 1);
+          }
+        }
+
+        for (var _c2 = 0; _c2 < removedColumnsCount; _c2++) {
+          this.priv.columnSettings.splice(logicColumns[_c2], 1);
+        }
+      }
+
+      this.instance.runHooks('afterRemoveCol', columnIndex, amount, logicColumns, source);
+      this.instance.forceFullRender = true; // used when data was changed
+    }
+    /**
+     * Add/Removes data from the column.
+     *
+     * @param {Number} col Physical index of column in which do you want to do splice
+     * @param {Number} index Index at which to start changing the array. If negative, will begin that many elements from the end
+     * @param {Number} amount An integer indicating the number of old array elements to remove. If amount is 0, no elements are removed
+     * @param {Array} [elements]
+     * @returns {Array} Returns removed portion of columns
      */
 
   }, {

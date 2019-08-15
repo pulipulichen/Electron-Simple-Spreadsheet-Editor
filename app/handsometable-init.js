@@ -15,7 +15,7 @@ const hot = new Handsontable(container, {
   columnSorting: {
     indicator: true
   },
-  dropdownMenu: ["row_above", "row_below", "col_left", "col_right", "clearn_column", "remove_row", "remove_col", "undo", "redo"] ,
+  dropdownMenu: ["row_above", "row_below", "col_left", "col_right", "clear_column", "remove_row", "remove_col", "undo", "redo", "rename_col_header"] ,
   filters: true,
   manualRowMove: true,
   manualColumnMove: true,
