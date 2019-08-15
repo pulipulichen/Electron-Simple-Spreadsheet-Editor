@@ -21,6 +21,7 @@ body {
 #toolbarContainer .toolbar-container {
   margin-left: auto;
   margin-right: auto;
+  white-space: nowrap;
 }
 
 #toolbarContainer .toolbar-container .ui.small.input input[type="text"] {

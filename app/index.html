@@ -12,39 +12,53 @@
 
 <link href="view-style.css" rel="stylesheet" />
 
+<script>
+  less = {
+    logLevel: 0,
+  }
+</script>
+<script src="vendors/less/less.min.js" ></script>
 
+
+<script src="helpers/VueHelper.js"></script>
+<script src="vendors/vue/vue.min.js"></script>
+
+
+<script src="helpers/ElectronHelper.js" ></script>
   </head>
   <body>
 <div class="ui unstackable form" id="toolbarContainer">
   <div class="inline fields">
     <div class="toolbar-container field">
-      <div class="ui labeled icon button">
-        <i class="folder open outline icon"></i>
-        OPEN
-      </div>
-      <div class="ui icon button">
-        <i class="folder open outline icon"></i>
-      </div>
-      
-      <div class="ui labeled icon button">
-        <i class="save icon"></i>
-        SAVE
-      </div>
-      <div class="ui icon button">
-        <i class="save icon"></i>
-      </div>
-      
-      <div class="ui labeled icon button">
-        <i class="save outline icon"></i>
-        SAVE AS
-      </div>
-      <div class="ui icon button">
-        <i class="save outline icon"></i>
+      <div class="ui unstackable buttons">
+        <div class="ui labeled icon button">
+          <i class="folder open outline icon"></i>
+          OPEN
+        </div>
+        <div class="ui icon button">
+          <i class="folder open outline icon"></i>
+        </div>
+
+        <div class="ui labeled icon button">
+          <i class="save icon"></i>
+          SAVE
+        </div>
+        <div class="ui icon button">
+          <i class="save icon"></i>
+        </div>
+
+        <div class="ui labeled icon button">
+          <i class="save outline icon"></i>
+          SAVE AS
+        </div>
+        <div class="ui icon button">
+          <i class="save outline icon"></i>
+        </div>
       </div>
       
       <label>Fix Columns: </label>
-      <select class="ui small compact search dropdown">
-        <option value="0">0</option>
+      <select class="ui small compact search dropdown" v-model="fixColumns">
+        <option value="0">0 (Disabled)</option>
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
