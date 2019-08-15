@@ -18,7 +18,7 @@ body {
   width: 250px;
 }
 
-#handsometableContainer {
+#handsontableContainer {
   width: 100vw;
   height: calc(100vh - 44px);
   border-width: 0;
@@ -67,6 +67,6 @@ body {
 /* ------------------------------------------- */
 
 #welcomePlaceholder.hide,
-#handsometableContainer.hide {
+#handsontableContainer.hide {
   display: none;
 }

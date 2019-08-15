@@ -6,7 +6,7 @@ let ViewInitConfig = {
     //fixColumns: 3,
     sheetName: "",
     filepath: null,
-    handsometableContainer: null,
+    handsontableContainer: null,
     _enablePersist: true,
     opened: false,
     changed: false,
@@ -24,7 +24,7 @@ let ViewInitConfig = {
       
       if (opened === true) {
         $('#welcomePlaceholder').addClass('hide')
-        $('#handsometableContainer').removeClass('hide')
+        $('#handsontableContainer').removeClass('hide')
       }
     },
     hasFilter: function (hasFilter) {
@@ -62,9 +62,9 @@ let ViewInitConfig = {
               || (fileTypeResult.mime === 'application/x-msi' && ext === 'xls')
               || (fileTypeResult.mime === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && ext === 'xlsx')
               || (fileTypeResult.mime === 'application/vnd.oasis.opendocument.spreadsheet' && ext === 'ods') ) {
-        //this.handsometableContainer.src = this.handsometableContainer.src
+        //this.handsontableContainer.src = this.handsontableContainer.src
         this.showLoading()
-        this.handsometableContainer.contentWindow.location.reload(true)
+        this.handsontableContainer.contentWindow.location.reload(true)
         this.opened = true
         this.changeTitle(filepath)
         //document.title = workbook.filename
@@ -79,7 +79,7 @@ let ViewInitConfig = {
       let workbook = ElectronHelper.loadFile(this.filepath)
       if (typeof(workbook) === 'object') {
         this.sheetName = workbook.sheetName
-        this.handsometableContainer.contentWindow.initHandsometable(workbook.data, workbook.colHeaders, () => {
+        this.handsontableContainer.contentWindow.initHandsometable(workbook.data, workbook.colHeaders, () => {
           this.hideLoading()
           setTimeout(() => {
             this.initHotEvent()
@@ -119,7 +119,7 @@ let ViewInitConfig = {
       //console.log(filepath)
       let bookType = filepath.slice(filepath.lastIndexOf('.') + 1)
       
-      let data = this.handsometableContainer.contentWindow.getData()
+      let data = this.handsontableContainer.contentWindow.getData()
       //console.log(data)
       //return
       
@@ -149,12 +149,12 @@ let ViewInitConfig = {
       this.initDropdown()
       this.initHotkeys()
       this.initIpc()
-      this.handsometableContainer = document.getElementById("handsometableContainer")
-      this.handsometableContainer.onload = () => {
+      this.handsontableContainer = document.getElementById("handsontableContainer")
+      this.handsontableContainer.onload = () => {
         //console.log('onload')
         this._openIframeReloadCallback()
       }
-      //document.getElementById("handsometableContainer").contentWindow.ElectronHelper = ElectronHelper
+      //document.getElementById("handsontableContainer").contentWindow.ElectronHelper = ElectronHelper
       
       $('#welcomePlaceholder').click(() => {
         this.open()
@@ -198,10 +198,10 @@ let ViewInitConfig = {
       });
     },
     getHot: function () {
-      return document.getElementById("handsometableContainer").contentWindow.hot
+      return document.getElementById("handsontableContainer").contentWindow.hot
     },
     getData: function () {
-      let data = document.getElementById("handsometableContainer").contentWindow.getData()
+      let data = document.getElementById("handsontableContainer").contentWindow.getData()
       console.log(data)
     },
     persist: function () {
@@ -223,7 +223,7 @@ let ViewInitConfig = {
       this.changed = true
     },
     initHotEvent: function () {
-      hot = this.handsometableContainer.contentWindow.hot
+      hot = this.handsontableContainer.contentWindow.hot
       //console.log(hot)
       if (hot === undefined) {
         return this
@@ -294,8 +294,8 @@ $(() => {
   //ViewInit.initDropdown()
 })
 
-//$('#handsometableContainer').load(() => {
+//$('#handsontableContainer').load(() => {
 //  console.log('load')
-  //document.getElementById("handsometableContainer").contentWindow.ElectronHelper = ElectronHelper
+  //document.getElementById("handsontableContainer").contentWindow.ElectronHelper = ElectronHelper
 //})
 
