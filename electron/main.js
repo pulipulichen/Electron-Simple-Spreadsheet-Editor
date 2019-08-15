@@ -37,6 +37,8 @@ app.on('activate', () => {
   }
 })
 
+app.commandLine.appendSwitch('disable-site-isolation-trials');
+
 function createWindow() {
   
   let optionBrowserWindow = {

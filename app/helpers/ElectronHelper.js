@@ -2,7 +2,7 @@
 
 ElectronHelper = {
   init: function () {
-    process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+    //process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
   },
   _configFilePath: 'config.json',
   mount: function (vue, attrs, callback) {
@@ -122,6 +122,30 @@ ElectronHelper = {
   openDevTools: function () {
     remote.getCurrentWindow().openDevTools();
     return this
+  },
+  prompt: function (title, value, callback) {
+    if (typeof(callback) !== 'function') {
+      return this
+    }
+    
+    let prompt = require('electron-prompt');
+    prompt({
+      title: title,
+      label: '',
+      value: value,
+        //inputAttrs: {
+        //    type: 'url'
+        //}
+    })
+    .then((r) => {
+        if(r === null) {
+            console.log('user cancelled');
+        } else {
+            //console.log('result', r);
+            callback(r)
+        }
+    })
+    .catch(console.error);
   }
 }
 

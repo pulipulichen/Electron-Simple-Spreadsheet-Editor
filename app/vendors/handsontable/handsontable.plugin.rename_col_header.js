@@ -17,29 +17,26 @@ let HandsontablePluginRenameColHeader = {
 
     //headers[index] = 
     let header = headers[index]
-    let newHeader = window.prompt('Rename column header', header)
     
-    if (typeof(newHeader) !== 'string' || newHeader.trim() === '') {
-      return this
-    }
-    
-    headers[index] = newHeader
+    //let newHeader = window.prompt('Rename column header', header)
+    window.top.ElectronHelper.prompt('Rename column header', header, (newHeader) => {
+      if (typeof(newHeader) !== 'string' || newHeader.trim() === '') {
+        return this
+      }
 
-    //console.log(headers)
+      headers[index] = newHeader
 
-    //console.log(instance.getColHeader())
-    instance.updateSettings({
-      modifyColWidth: () => {},
-      colHeaders: headers
+      //console.log(headers)
+
+      //console.log(instance.getColHeader())
+      instance.updateSettings({
+        modifyColWidth: () => {},
+        colHeaders: headers
+      })
+
+      autoColumnSize = this.getPlugin('autoColumnSize');
+      autoColumnSize.calculateAllColumnsWidth()
     })
-
-    autoColumnSize = this.getPlugin('autoColumnSize');
-    autoColumnSize.calculateAllColumnsWidth()
-    //autoColumnSize.calculateColumnsWidth(index, 0, true);
-    
-    //instance.getSettings().colWidths[index] = 300
-    //instance.render();
-    //ManualColumnResize = this.getPlugin('ManualColumnResize');
   },
   disabled: function disabled() {
     /*

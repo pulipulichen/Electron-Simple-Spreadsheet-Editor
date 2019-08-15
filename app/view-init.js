@@ -29,6 +29,7 @@ let ViewInitConfig = {
     
     _afterMounted: function () {
       this.initDropdown()
+      //document.getElementById("handsometableContainer").contentWindow.ElectronHelper = ElectronHelper
     },
     initDropdown: function () {
       $('.ui.dropdown')
@@ -64,4 +65,9 @@ new Vue(ViewInitConfig)
 $(() => {
   //ViewInit.initDropdown()
 })
+
+//$('#handsometableContainer').load(() => {
+//  console.log('load')
+  //document.getElementById("handsometableContainer").contentWindow.ElectronHelper = ElectronHelper
+//})
 
