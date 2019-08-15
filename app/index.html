@@ -45,18 +45,6 @@
           </div>
         </div>
         
-        <div v-on:click="reopen" title="Reopen file">
-          <div class="ui labeled icon button"
-               v-bind:class="{disabled: (changed == false)}">
-            <i class="undo icon"></i>
-            RESET
-          </div>
-          <div class="ui icon button"
-               v-bind:class="{disabled: (changed == false)}">
-            <i class="undo icon"></i>
-          </div>
-        </div>
-        
         <div v-on:click="clearSort" title="Clear sort">
           <div class="ui labeled icon button" 
                v-bind:class="{disabled: (hasSort === false)}">
@@ -69,32 +57,53 @@
           </div>
         </div>
         
-        <div class="ui labeled icon button" 
-             v-on:click="clearFilter"
-             v-bind:class="{disabled: (hasFilter === false)}">
-          <i class="filter icon"></i>
-          CLEAR FILTER
+        <div v-on:click="clearFilter" title="Clear filter">
+          <div class="ui labeled icon button" 
+               v-bind:class="{disabled: (hasFilter === false)}">
+            <i class="filter icon"></i>
+            CLEAR FILTER
+          </div>
+          <div class="ui icon button" 
+               v-bind:class="{disabled: (hasFilter === false)}">
+            <i class="filter icon"></i>
+          </div>
         </div>
-        <div class="ui icon button" 
-             v-on:click="clearFilter"
-             v-bind:class="{disabled: (hasFilter === false)}">
-          <i class="filter icon"></i>
+        
+        <div v-on:click="reopen" title="Reopen file">
+          <div class="ui labeled icon button"
+               v-bind:class="{disabled: (changed == false)}">
+            <i class="undo icon"></i>
+            REOPEN
+          </div>
+          <div class="ui icon button"
+               v-bind:class="{disabled: (changed == false)}">
+            <i class="undo icon"></i>
+          </div>
+        </div>
+        
+
+        <div v-on:click="save" title="Save file">
+          <div class="ui labeled icon button"
+               v-bind:class="{disabled: (changed == false)}">
+            <i class="save icon"></i>
+            SAVE
+          </div>
+          <div class="ui icon button"
+               v-bind:class="{disabled: (changed == false)}">
+            <i class="save icon"></i>
+          </div>
         </div>
 
-        <div class="ui labeled icon button" v-on:click="save">
-          <i class="save icon"></i>
-          SAVE
-        </div>
-        <div class="ui icon button" v-on:click="save">
-          <i class="save icon"></i>
-        </div>
-
-        <div class="ui labeled icon button" v-on:click="saveAs">
-          <i class="external alternate icon"></i>
-          SAVE AS
-        </div>
-        <div class="ui icon button" v-on:click="saveAs">
-          <i class="external alternate icon"></i>
+        <div v-on:click="saveAs" title="Save file as">
+          <div class="ui labeled icon button"
+               v-bind:class="{disabled: (changed == false)}">
+            <i class="external alternate icon"></i>
+            SAVE AS
+          </div>
+          <div class="ui icon button"
+               v-bind:class="{disabled: (changed == false)}">
+            <i class="external alternate icon"></i>
+          </div>
         </div>
       </div>
       
