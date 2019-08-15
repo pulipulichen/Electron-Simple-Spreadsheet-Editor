@@ -147,7 +147,11 @@ ElectronHelper = {
     })
     .catch(console.error);
   },
-  loadFile: function (filepath) {
+  loadFile: function (filepath, callback) {
+    if (typeof(callback) !== 'function') {
+      return this
+    }
+    
     // https://codertw.com/%E5%89%8D%E7%AB%AF%E9%96%8B%E7%99%BC/234185/
     
     //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.ods"
@@ -160,13 +164,107 @@ ElectronHelper = {
     }
     
     if (filepath.endsWith('.csv')) {
-      return this.loadCSVFile(filepath)
+      return this.loadCSVFile(filepath, callback)
     }
     else {
-      return this.loadXLSXFile(filepath)
+      return this.loadXLSXFile(filepath, callback)
     }
   },
-  loadXLSXFile: function (filepath) {
+  loadCSVFile: function (filepath, callback) {
+    if (typeof(callback) !== 'function') {
+      return this
+    }
+    
+    let filename = path.basename(filepath)
+    
+    
+    const results = [];
+    
+    let detectEncodingList = ['Big5', "GB2312", "Shift_JIS"]
+    /*
+    const fileBuffer = fs.readFileSync(filepath);
+    var charsetMatch = detect(fileBuffer);
+    console.log(charsetMatch)
+    
+    let encoding = 'utf8'
+    
+    for (let i = 0; i < charsetMatch.length; i++) {
+      if (chineseEncoding.indexOf(charsetMatch[i].charsetName) > -1) {
+        encoding = charsetMatch[i].charsetName
+        break
+      }
+    }
+    console.log(encoding)
+    */
+    let encoding = jschardet.detect(fs.readFileSync(filepath)).encoding
+    //console.log(encoding)
+    if (detectEncodingList.indexOf(encoding) === -1) {
+      encoding = 'utf8'
+    }
+    
+    if (encoding === 'utf8') {
+      fs.createReadStream(filepath)
+        .pipe(stripBomStream())
+        .pipe(csv())
+        .on('data', (data) => {
+          results.push(data)
+        })
+        .on('end', () => {
+          this.loadCSVFileOnStreamEnd(filename, results, callback)
+        });
+    }
+    else {
+      fs.createReadStream(filepath)
+        .pipe(iconv.decodeStream(encoding))
+        .pipe(iconv.encodeStream('utf8'))
+        .pipe(stripBomStream())
+        .pipe(csv())
+        .on('data', (data) => {
+          results.push(data)
+        })
+        .on('end', () => {
+          this.loadCSVFileOnStreamEnd(filename, results, callback)
+        });
+    }
+  },
+  loadCSVFileOnStreamEnd: function (filename, results, callback) {
+    //console.log(results);
+    // [
+    //   { NAME: 'Daffy Duck', AGE: '24' },
+    //   { NAME: 'Bugs Bunny', AGE: '22' }
+    // ]
+
+    let data = []
+    let colHeaders = []
+    results.forEach((row, i) => {
+      let rowArray = []
+      for (let key in row) {
+        let field = row[key]
+        rowArray.push(field)
+        if (i === 0) {
+          colHeaders.push(key)
+        }
+      }
+      data.push(rowArray)
+    })
+    
+    let sheetName = filename
+    if (sheetName.indexOf('.') > -1) {
+      sheetName = sheetName.slice(0, sheetName.lastIndexOf('.'))
+    }
+
+    callback({
+      filename: filename,
+      sheetName: sheetName,
+      colHeaders: colHeaders,
+      data: data
+    })
+  },
+  loadXLSXFile: function (filepath, callback) {
+    if (typeof(callback) !== 'function') {
+      return this
+    }
+    
     let filename = path.basename(filepath)
     
     //console.log(filename)
@@ -195,12 +293,13 @@ ElectronHelper = {
       }
       data.push(row)
     }
-    return {
+    
+    callback({
       filename: filename,
       sheetName: sheetName,
       colHeaders: colHeaders,
       data: data
-    }
+    })
     
     //let data = fs.readFileSync("./app/data.json")
     //return JSON.parse(data)

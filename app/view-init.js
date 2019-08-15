@@ -76,20 +76,21 @@ let ViewInitConfig = {
         return this
       }
       
-      let workbook = ElectronHelper.loadFile(this.filepath)
-      if (typeof(workbook) === 'object') {
-        this.sheetName = workbook.sheetName
-        this.handsontableContainer.contentWindow.initHandsometable(workbook.data, workbook.colHeaders, () => {
+      ElectronHelper.loadFile(this.filepath, (workbook) => {
+        if (typeof(workbook) === 'object') {
+          this.sheetName = workbook.sheetName
+          this.handsontableContainer.contentWindow.initHandsometable(workbook.data, workbook.colHeaders, () => {
+            this.hideLoading()
+            setTimeout(() => {
+              this.initHotEvent()
+              this.changed = false
+            }, 100)
+          })
+        }
+        else {
           this.hideLoading()
-          setTimeout(() => {
-            this.initHotEvent()
-          }, 0)
-        })
-      }
-      else {
-        this.hideLoading()
-      }
-      
+        }
+      })
     },
     changeTitle: function (filepath) {
       document.title = path.basename(filepath)

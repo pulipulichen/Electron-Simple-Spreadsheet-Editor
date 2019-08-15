@@ -43,6 +43,12 @@ if (typeof(filepath) === 'string' && fs.existsSync(filepath)) {
           || (fileTypeResult.mime === 'application/vnd.oasis.opendocument.spreadsheet' && ext === 'ods') ) {
     settings.set('filepath', filepath)
   }
+  else {
+    settings.delete('filepath')
+  }
+}
+else {
+  settings.delete('filepath')
 }
 //console.log(filepath)
 
