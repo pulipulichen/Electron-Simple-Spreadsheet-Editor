@@ -4,18 +4,37 @@
     <title>Electron Simple Spreadsheet Editor</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="imgs/table.png" />
 
-<script src="vendors/semantic-ui/semantic-ui.min.js"></script>
-<link href="vendors/semantic-ui/semantic-ui.min.css" rel="stylesheet" />
+<script src="vendors/semantic-ui/semantic.min.js"></script>
+<link href="vendors/semantic-ui/semantic.min.css" rel="stylesheet" />
 
 <link href="view-style.css" rel="stylesheet" />
 
   </head>
   <body>
-    <div class="ui container" id="toolbarContainer">
-      <div class="ui button">
-        開啟檔案
+<div class="ui form">
+  <div class="inline fields">
+    <div class="field">
+      <div class="ui labeled icon button">
+        <i class="folder open outline icon"></i>
+        OPEN
       </div>
+      <div class="ui labeled icon button">
+        <i class="save icon"></i>
+        SAVE
+      </div>
+      <div class="ui labeled icon button">
+        <i class="save icon"></i>
+        SAVE AS
+      </div>
+      <div class="ui button">
+        <i class="folder open outline icon"></i>
+        Freeze Columns: 0
+      </div>
+    </div>
+  </div>
+</div>
     </div>
     <iframe id="handsometableContainer" src="handsometable-index.html"></iframe>
   </body>

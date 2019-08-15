@@ -8,3 +8,4 @@ A spreadsheet editor built in Electron framework for CSV, ODS, XLS.
 
 # Resources
 - ICON: https://findicons.com/icon/238126/table
+- Semantic UI ICON: https://semantic-ui.com/elements/icon.html
