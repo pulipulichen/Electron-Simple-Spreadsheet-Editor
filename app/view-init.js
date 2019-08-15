@@ -21,8 +21,19 @@ let ViewInitConfig = {
    */
   methods: {
     open: function () {
-      console.log('TODO OPEN')
-      this.showLoading()
+      //console.log('TODO OPEN')
+      //this.showLoading()
+      
+      let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.ods"
+      //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.csv"
+      //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.xls"
+      //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.xlsx"
+      let workbook = ElectronHelper.loadFile(filepath)
+      if (typeof(workbook) === 'object') {
+        document.title = workbook.filename
+        this.sheetName = workbook.sheetName
+        document.getElementById("handsometableContainer").contentWindow.initHandsometable(workbook.data, workbook.colHeaders)
+      }
     },
     save: function () {
       console.log('TODO save')

@@ -147,15 +147,21 @@ ElectronHelper = {
     })
     .catch(console.error);
   },
-  loadFile: function () {
+  loadFile: function (filepath) {
     // https://codertw.com/%E5%89%8D%E7%AB%AF%E9%96%8B%E7%99%BC/234185/
     
-    //let path = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\student-por.csv"
-    //let path = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\student-por.ods"
-    //let path = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\student-por.xls"
-    let path = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.ods"
+    //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.ods"
+    //let path = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.csv"
+    //let path = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.xls"
+    //let path = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.xlsx"
     
-    let workbook = XLSX.readFile(path);
+    if (fs.existsSync(filepath) === false) {
+      return false
+    }
+    
+    let filename = path.basename(filepath)
+    //console.log(filename)
+    let workbook = XLSX.readFile(filepath);
     
     let sheetName
     for (let key in workbook.Sheets) {
@@ -163,7 +169,7 @@ ElectronHelper = {
       break
     }
     
-    console.log(workbook)
+    //console.log(workbook)
     let json = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
     
     let data = []
@@ -180,6 +186,7 @@ ElectronHelper = {
       data.push(row)
     }
     return {
+      filename: filename,
       sheetName: sheetName,
       colHeaders: colHeaders,
       data: data
