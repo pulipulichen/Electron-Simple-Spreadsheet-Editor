@@ -1,0 +1,14 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#toolbarContainer {
+  background-color: gray;
+  height: 50px;
+}
+
+#handsometableContainer {
+  width: 100vw;
+  height: calc(100vh - 50px);
+}

@@ -2,22 +2,21 @@
 <html>
   <head>
     <title>Electron Simple Spreadsheet Editor</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="imgs/table.png" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<script src="vendors/jquery/jquery-3.4.1.min.js"></script>
+<script src="vendors/semantic-ui/semantic-ui.min.js"></script>
+<link href="vendors/semantic-ui/semantic-ui.min.css" rel="stylesheet" />
 
-<script src="vendors/handsontable/handsontable.plugin.rename_col_header.js"></script>
-<script src="vendors/handsontable/handsontable.full.js"></script>
-<link href="vendors/handsontable/handsontable.full.css" rel="stylesheet">
+<link href="view-style.css" rel="stylesheet" />
 
-<link href="style.css" rel="stylesheet">
   </head>
   <body>
-    <div id="handsontableContainer"></div>
-    <!-- <script src="data.js"></script> -->
-    <script src="less-data.js"></script>
-    <script src="handsometable-init.js"></script>
+    <div class="ui container" id="toolbarContainer">
+      <div class="ui button">
+        開啟檔案
+      </div>
+    </div>
+    <iframe id="handsometableContainer" src="handsometable-index.html"></iframe>
   </body>
 </html>

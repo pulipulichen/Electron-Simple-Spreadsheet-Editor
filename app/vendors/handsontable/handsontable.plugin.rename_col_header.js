@@ -18,6 +18,11 @@ let HandsontablePluginRenameColHeader = {
     //headers[index] = 
     let header = headers[index]
     let newHeader = window.prompt('Rename column header', header)
+    
+    if (typeof(newHeader) !== 'string' || newHeader.trim() === '') {
+      return this
+    }
+    
     headers[index] = newHeader
 
     //console.log(headers)
