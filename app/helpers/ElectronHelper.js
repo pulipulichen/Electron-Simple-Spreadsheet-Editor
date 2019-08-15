@@ -146,6 +146,10 @@ ElectronHelper = {
         }
     })
     .catch(console.error);
+  },
+  loadFile: function () {
+    let data = fs.readFileSync("./app/data.json")
+    return JSON.parse(data)
   }
 }
 

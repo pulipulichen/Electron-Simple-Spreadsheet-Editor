@@ -1,6 +1,8 @@
 
 /* global HandsontablePluginRenameColHeader */
 
+data = window.top.ElectronHelper.loadFile()
+
 const container = document.getElementById('handsontableContainer');
 const hot = new Handsontable(container, {
   data: data,

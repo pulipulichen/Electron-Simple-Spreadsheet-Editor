@@ -28,7 +28,7 @@ body {
   margin-top: -1px;
 }
 
-@media all and (max-width: 800px) { 
+@media all and (max-width: 650px) { 
   #toolbarContainer .ui.icon.button:not(.labeled) {
     display: inline-block;
   }
