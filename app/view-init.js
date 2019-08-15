@@ -33,6 +33,7 @@ let ViewInitConfig = {
     
     _afterMounted: function () {
       this.initDropdown()
+      this.initHotkeys()
       //document.getElementById("handsometableContainer").contentWindow.ElectronHelper = ElectronHelper
     },
     initDropdown: function () {
@@ -41,6 +42,15 @@ let ViewInitConfig = {
           clearable: true,
           placeholder: 'any'
         })
+    },
+    initHotkeys: function () {
+      hotkeys('ctrl+o,ctrl+s,ctrl+shift+s', (event,handler) => {
+        switch(handler.key) {
+          case "ctrl+o": this.open();break;
+          case "ctrl+s": this.save();break;
+          case "ctrl+shift+s": this.saveAs();break;
+        }
+      });
     },
     getHot: function () {
       return document.getElementById("handsometableContainer").contentWindow.hot
