@@ -40,3 +40,23 @@ body {
     display: none;
   }
 }
+
+/* ------------------------------------------- */
+
+#welcomePlaceholder {
+  height: calc(100vh - 51px);
+  cursor: pointer;
+}
+
+#welcomePlaceholder > .ui.card {
+  margin-top: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ------------------------------------------- */
+
+#welcomePlaceholder.hide,
+#handsometableContainer.hide {
+  display: none;
+}

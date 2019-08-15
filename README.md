@@ -11,6 +11,7 @@ A spreadsheet editor built in Electron framework for CSV, ODS, XLS.
 - http://www.iconarchive.com/show/flatwoken-icons-by-alecive/Apps-Libreoffice-Calc-icon.html
 - https://www.flaticon.com/free-icon/csv-file-format_1263920
 - http://www.iconarchive.com/show/ms-office-2013-icons-by-iconstoc/excel-icon.html
+- https://www.flaticon.com/free-icon/folder_1375102#term=open%20file&page=1&position=33
 
 - https://findicons.com/icon/84775/excel
 - https://findicons.com/icon/84601/csv_text

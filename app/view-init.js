@@ -15,15 +15,17 @@ let ViewInitConfig = {
   mounted: function () {
     this._afterMounted()
   },
-  /*
   watch: {
-    fixColumns: function (fixColumns) {
+    opened: function (opened) {
       //console.log(fixColumns)
-      hot = this.getHot()
+      //hot = this.getHot()
       
+      if (opened === true) {
+        $('#welcomePlaceholder').addClass('hide')
+        $('#handsometableContainer').removeClass('hide')
+      }
     }
   },
-   */
   methods: {
     open: function () {
       //console.log('TODO OPEN')
@@ -51,6 +53,7 @@ let ViewInitConfig = {
         //this.handsometableContainer.src = this.handsometableContainer.src
         this.showLoading()
         this.handsometableContainer.contentWindow.location.reload(true)
+        this.opened = true
       }
     },
     _openIframeReloadCallback: function () {
@@ -88,6 +91,10 @@ let ViewInitConfig = {
         this._openIframeReloadCallback()
       }
       //document.getElementById("handsometableContainer").contentWindow.ElectronHelper = ElectronHelper
+      
+      $('#welcomePlaceholder').click(() => {
+        this.open()
+      })
       
       if (typeof(settings.get('filepath')) === 'string') {
         this._openCallback(null, settings.get('filepath'))
