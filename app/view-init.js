@@ -38,6 +38,15 @@ let ViewInitConfig = {
       }
     }
   },
+  computed: {
+    sheetNameDescription: function () {
+      let name = this.sheetName
+      if (typeof(name) === 'string' && name.length > 10) {
+        name = name.slice(0, 7) + '...' + name.slice(-3)
+      }
+      return name
+    }
+  },
   methods: {
     open: function () {
       //console.log('TODO OPEN')
@@ -98,8 +107,8 @@ let ViewInitConfig = {
               if (height > screen.availHeight) {
                 height = screen.availHeight
               }
-              else if (height < 450) {
-                height = 450
+              else if (height < 500) {
+                height = 500
               }
               
               width = width + 20
@@ -324,6 +333,18 @@ let ViewInitConfig = {
     },
     exit: function () {
       remote.getCurrentWindow().close()
+    },
+    downloadEditor: function () {
+      
+    },
+    openProject: function () {
+      
+    },
+    openIssues: function () {
+      
+    },
+    openAboutAuthor: function () {
+      
     }
   }
 }
