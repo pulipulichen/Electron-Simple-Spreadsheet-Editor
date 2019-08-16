@@ -100,6 +100,7 @@
       <div class="ui small icon input">
         <input type="text" 
                  placeholder="Seach..."
+                 ref="searchInput"
                  v-on:keyup="search" />
         <i class="search link icon"></i>
       </div>
@@ -108,99 +109,6 @@
   </div>
 </div>
 
-<!--    
-<div class="ui item menu">
-  <a class="item" v-on:click="open" title="Open file">
-    <i class="folder open outline icon"></i>
-    OPEN
-  </a>
-  <a class="item">Reviews</a>
-  <a class="item">Upcoming Events</a>
-</div>
-        
-        <div v-on:click="clearSort" title="Clear sort">
-          <div class="ui labeled icon button" 
-               v-bind:class="{disabled: (hasSort === false)}">
-            <i class="sort icon"></i>
-            CLEAR SORT
-          </div>
-          <div class="ui icon button" 
-               v-bind:class="{disabled: (hasSort === false)}">
-            <i class="sort icon"></i>
-          </div>
-        </div>
-        
-        <div v-on:click="clearFilter" title="Clear filter">
-          <div class="ui labeled icon button" 
-               v-bind:class="{disabled: (hasFilter === false)}">
-            <i class="filter icon"></i>
-            CLEAR FILTER
-          </div>
-          <div class="ui icon button" 
-               v-bind:class="{disabled: (hasFilter === false)}">
-            <i class="filter icon"></i>
-          </div>
-        </div>
-        
-        <div v-on:click="reopen" title="Reopen file">
-          <div class="ui labeled icon button"
-               v-bind:class="{disabled: (changed == false)}">
-            <i class="undo icon"></i>
-            REOPEN
-          </div>
-          <div class="ui icon button"
-               v-bind:class="{disabled: (changed == false)}">
-            <i class="undo icon"></i>
-          </div>
-        </div>
-        
-
-        <div v-on:click="save" title="Save file">
-          <div class="ui labeled icon button"
-               v-bind:class="{disabled: (changed == false)}">
-            <i class="save icon"></i>
-            SAVE
-          </div>
-          <div class="ui icon button"
-               v-bind:class="{disabled: (changed == false)}">
-            <i class="save icon"></i>
-          </div>
-        </div>
-
-        <div v-on:click="saveAs" title="Save file as">
-          <div class="ui labeled icon button"
-               v-bind:class="{disabled: (changed == false)}">
-            <i class="external alternate icon"></i>
-            SAVE AS
-          </div>
-          <div class="ui icon button"
-               v-bind:class="{disabled: (changed == false)}">
-            <i class="external alternate icon"></i>
-          </div>
-        </div>
-        
-        <div v-on:click="changeSheetName" title="Change sheet name">
-          <div class="ui button">
-            {{ sheetName }}
-          </div>
-          <div class="ui icon button">
-            <i class="table icon"></i>
-          </div>
-        </div>
-      </div>
-      
-      <span title="Search">
-        <label>Search: </label>
-        <div class="ui small input">
-          <input type="text" 
-                 placeholder="Seach..."
-                 v-on:keyup="search" />
-        </div>
-      </span>
-    </div>
-  </div>
-</div>
--->
 
 <div class="ui container" id="welcomePlaceholder">
   <div class="ui card">
@@ -209,11 +117,6 @@
     </a>
     <div class="center aligned content">
       <a class="header" href="#">OPEN</a>
-      <!--
-      <div class="meta">
-        <a>Last Seen 2 days ago</a>
-      </div>
-      -->
     </div>
   </div>
 

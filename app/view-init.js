@@ -205,13 +205,14 @@ let ViewInitConfig = {
         })
     },
     initHotkeys: function () {
-      hotkeys('ctrl+o,ctrl+shift+o,ctrl+s,ctrl+shift+s,ctrl+w', (event, handler) => {
+      hotkeys('ctrl+o,ctrl+shift+o,ctrl+s,ctrl+shift+s,ctrl+w,ctrl+f', (event, handler) => {
         switch(handler.key) {
           case "ctrl+o": this.open();break;
           case "ctrl+shift+o": this.reopen();break;
           case "ctrl+s": this.save();break;
           case "ctrl+shift+s": this.saveAs();break;
           case "ctrl+w": this.exit();break;
+          case "ctrl+f": this.$refs.searchInput.focus();break;
         }
       });
     },
