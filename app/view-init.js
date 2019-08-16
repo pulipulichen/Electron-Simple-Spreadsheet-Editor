@@ -90,7 +90,7 @@ let ViewInitConfig = {
         return this
       }
       
-      ElectronHelper.loadFile(this.filepath, (workbook) => {
+      ElectronSheetHelper.loadFile(this.filepath, (workbook) => {
         if (typeof(workbook) === 'object') {
           this.sheetName = workbook.sheetName
           this.handsontableContainer.contentWindow.initHandsometable(workbook.data, workbook.colHeaders, (width, height) => {
@@ -118,7 +118,7 @@ let ViewInitConfig = {
               else if (width < 400) {
                 width = 400
               }
-              console.log(height, width)
+              //console.log(height, width)
               ipc.send('set-window-size', width, height)
             }, 100)
           })
