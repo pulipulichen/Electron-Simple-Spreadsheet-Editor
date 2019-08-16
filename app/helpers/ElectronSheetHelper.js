@@ -157,17 +157,47 @@ let ElectronSheetHelper = {
     
     let data = []
     let colHeaders = []
-    for (let i = 0; i < json.length; i++) {
-      let row = []
-      for (let key in json[i]) {
-        row.push(json[i][key])
-        
-        if (i === 0) {
-          colHeaders.push(key)
+    let colHeadersStable = false
+    
+    json.forEach((row, i) => {
+      let rowArray = []
+      let colHeadersTemp = []
+      for (let key in row) {
+        let field = row[key]
+        rowArray.push(field)
+        if (colHeaders.length === 0 
+                && key.startsWith('__EMPTY') === false) {
+          colHeadersTemp.push(key)
         }
       }
-      data.push(row)
-    }
+      
+      if (colHeaders.length === 0 
+                && rowArray.length !== colHeadersTemp.length) {
+        colHeaders = rowArray
+      }
+      else {
+        if (colHeadersTemp.length > 0) {
+          colHeaders = colHeadersTemp
+        }
+        data.push(rowArray)
+      }
+      
+      /*
+      console.log([colHeadersStable, colHeadersTemp.length, colHeaders.length])
+      if (colHeadersStable === false) {
+        if (rowArray.length !== colHeadersTemp.length) {
+          colHeaders = rowArray
+          colHeadersStable = true
+        }
+        
+      }
+      else {
+        data.push(rowArray)
+      }
+       */
+    })  // results.forEach((row, i) => {
+    
+    //console.log(colHeaders)
     
     callback({
       filename: filename,

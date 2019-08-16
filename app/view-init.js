@@ -53,8 +53,10 @@ let ViewInitConfig = {
       //this.showLoading()
       let dir
       if (typeof(this.filepath) === 'string') {
-        dir = path.dirname(this.filepath)
+        dir = path.dirname(path.join(__dirname, '../' , this.filepath))
       }
+      
+      //console.log(dir)
       
       ipc.send('open-file-dialog', dir)
     },
