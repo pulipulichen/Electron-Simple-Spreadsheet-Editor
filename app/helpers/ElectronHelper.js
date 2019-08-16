@@ -311,6 +311,9 @@ ElectronHelper = {
         console.log(err);
       }
     })
+  },
+  openURL: function (url) {
+    shell.openExternal(url);
   }
 }
 

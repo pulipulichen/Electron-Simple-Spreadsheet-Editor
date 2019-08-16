@@ -35,9 +35,9 @@
   <div class="ui dropdown icon item">
     <i class="file icon"></i>
     <div class="menu file-dropdown">
-      <div class="item" v-on:click="open" title="Open file">
+      <div class="item" v-on:click="open" title="Open file (ctrl+o)">
         Open... 
-        <div class="description">ctrl + o</div>
+        <div class="description">ctrl+o</div>
       </div>
       <div class="divider"></div>
       <div class="item" v-on:click="changeSheetName" 
@@ -47,34 +47,36 @@
         <div class="description">{{ sheetNameDescription }}</div>
       </div>
       <div class="divider"></div>
-      <div class="item" v-on:click="openFileLocation" title="Open file location"
+      <div class="item" v-on:click="openFileLocation" title="Open file location (ctrl+d)"
            v-bind:class="{disabled: (filepath == null)}">
         Open file location
+        <div class="description">ctrl+d</div>
       </div>
-      <div class="item" v-on:click="copyFilePath" title="Copy file path"
+      <div class="item" v-on:click="copyFilePath" title="Copy file path (ctrl+p)"
            v-bind:class="{disabled: (filepath == null)}">
         Copy file path
+        <div class="description">ctrl+p</div>
       </div>
       <div class="divider"></div>
-      <div class="item" v-on:click="reopen" title="Reopen file"
+      <div class="item" v-on:click="reopen" title="Reopen file (ctrl+shift+o)"
            v-bind:class="{disabled: (changed == false)}">
         Reopen...
-        <div class="description">(ctrl + shift + o)</div>
+        <div class="description">ctrl+shift+o</div>
       </div>
-      <div class="item" v-on:click="save" title="Save file"
+      <div class="item" v-on:click="save" title="Save file (ctrl+s)"
            v-bind:class="{disabled: (changed == false)}">
         Save...
-        <div class="description">(ctrl + s)</div>
+        <div class="description">ctrl+s</div>
       </div>
-      <div class="item" v-on:click="saveAs" title="Save file as another file"
+      <div class="item" v-on:click="saveAs" title="Save file as another file (ctrl+shift+s)"
            v-bind:class="{disabled: (changed == false)}">
         Save as... 
-        <div class="description">(ctrl + shift + s)</div>
+        <div class="description">ctrl+shift+s</div>
       </div>
       <div class="divider"></div>
-      <div class="item" v-on:click="exit" title="Exit">
+      <div class="item" v-on:click="exit" title="Exit (ctrl+w)">
         Exit
-        <div class="description">(ctrl + w)</div>
+        <div class="description">ctrl+w</div>
       </div>
     </div>
   </div>
@@ -99,8 +101,12 @@
     <i class="x icon"></i>
     Sort
   </div>
+  
+  <!-- ------------------------------ -->
+  
   <div class="right menu">
-    <div class="ui right aligned category search item">
+    <div class="ui right aligned category search item"
+         title="Search (ctrl+f)">
       <div class="ui small icon input">
         <input type="text" 
                  placeholder="Seach..."
@@ -113,45 +119,39 @@
     <div class="ui dropdown icon item">
         <i class="help icon"></i>
         <div class="menu help-dropdown">
-          <div class="item" v-on:click="downloadEditor" title="Get full feature editor: LibreOffice">
+          <div class="item" 
+               v-on:click="downloadEditor" 
+               title="Get full feature editor: LibreOffice">
             Get LibreOffice
-            <div class="description">ctrl + o</div>
+            <div class="description">
+              <i class="external open icon"></i>
+            </div>
           </div>
           <div class="divider"></div>
-          <div class="item" v-on:click="changeSheetName" title="Change sheet name"
-               v-bind:class="{disabled: (filepath == null)}">
-            Change sheet name 
-            <div class="description">{{ sheetName }}</div>
+          <div class="item" 
+               v-on:click="openProject" 
+               title="Open project">
+            Project Homepage
+            <div class="description">
+              <i class="external open icon"></i>
+            </div>
+          </div>
+          <div class="item" 
+               v-on:click="openIssues" 
+               title="Submit issue">
+            Submit Issue
+            <div class="description">
+              <i class="external open icon"></i>
+            </div>
           </div>
           <div class="divider"></div>
-          <div class="item" v-on:click="openFileLocation" title="Open file location"
-               v-bind:class="{disabled: (filepath == null)}">
-            Open file location
-          </div>
-          <div class="item" v-on:click="copyFilePath" title="Copy file path"
-               v-bind:class="{disabled: (filepath == null)}">
-            Copy file path
-          </div>
-          <div class="divider"></div>
-          <div class="item" v-on:click="reopen" title="Reopen file"
-               v-bind:class="{disabled: (changed == false)}">
-            Reopen...
-            <div class="description">(ctrl + shift + o)</div>
-          </div>
-          <div class="item" v-on:click="save" title="Save file"
-               v-bind:class="{disabled: (changed == false)}">
-            Save...
-            <div class="description">(ctrl + s)</div>
-          </div>
-          <div class="item" v-on:click="saveAs" title="Save file as another file"
-               v-bind:class="{disabled: (changed == false)}">
-            Save as... 
-            <div class="description">(ctrl + shift + s)</div>
-          </div>
-          <div class="divider"></div>
-          <div class="item" v-on:click="exit" title="Exit">
-            Exit
-            <div class="description">(ctrl + w)</div>
+          <div class="item" 
+               v-on:click="openAboutAuthor" 
+               title="About Author">
+            About Author
+            <div class="description">
+              <i class="external open icon"></i>
+            </div>
           </div>
         </div>
       </div>

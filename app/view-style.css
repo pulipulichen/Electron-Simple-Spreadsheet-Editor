@@ -18,6 +18,10 @@ body {
   width: 250px;
 }
 
+#toolbarContainer .help-dropdown {
+  width: 200px;
+}
+
 #handsontableContainer {
   width: 100vw;
   height: calc(100vh - 44px);

@@ -214,13 +214,15 @@ let ViewInitConfig = {
         })
     },
     initHotkeys: function () {
-      hotkeys('ctrl+o,ctrl+shift+o,ctrl+s,ctrl+shift+s,ctrl+w,ctrl+f', (event, handler) => {
+      hotkeys('ctrl+o,ctrl+shift+o,ctrl+s,ctrl+shift+s,ctrl+w,ctrl+f,ctrl+d,ctrl+p', (event, handler) => {
         switch(handler.key) {
           case "ctrl+o": this.open();break;
           case "ctrl+shift+o": this.reopen();break;
           case "ctrl+s": this.save();break;
           case "ctrl+shift+s": this.saveAs();break;
           case "ctrl+w": this.exit();break;
+          case "ctrl+d": this.openFileLocation();break;
+          case "ctrl+p": this.copyFilePath();break;
           case "ctrl+f": this.$refs.searchInput.focus();break;
         }
       });
@@ -334,17 +336,17 @@ let ViewInitConfig = {
     exit: function () {
       remote.getCurrentWindow().close()
     },
-    downloadEditor: function () {
-      
+    downloadEditor: function (event) {
+      ElectronHelper.openURL('https://www.libreoffice.org/download/download/')
     },
     openProject: function () {
-      
+      ElectronHelper.openURL('https://github.com/pulipulichen/Electron-Simple-Spreadsheet-Editor')
     },
     openIssues: function () {
-      
+      ElectronHelper.openURL('https://github.com/pulipulichen/Electron-Simple-Spreadsheet-Editor/issues')
     },
     openAboutAuthor: function () {
-      
+      ElectronHelper.openURL('http://blog.pulipuli.info/p/about_38.html')
     }
   }
 }
