@@ -41,6 +41,22 @@
         Open... 
         <div class="description">ctrl+o</div>
       </div>
+      
+      <div class="item">
+        <i class="dropdown icon"  title="Recent files"></i>
+        <span class="text" title="Recent files">
+          Recent files... 
+        </span>
+        <div class="menu">
+            <div class="item"
+                 v-for="recentFilepath in recentFiles"
+                 v-bind:title="'Open ' + recentFilepath"
+                 v-on:click="openCallback(recentFilepath)">
+              {{ displayFilePath(recentFilepath) }}
+            </div>
+        </div>
+      </div>
+      
       <div class="divider"></div>
       <div class="item" v-on:click="changeSheetName" 
            v-bind:title="'Change sheet name: ' + sheetName"

@@ -1,4 +1,4 @@
-/* global fileType, readChunk, ipc, settings */
+/* global fileType, readChunk, ipc, settings, mode */
 
 let ViewInitConfig = {
   el: '#toolbarContainer',
@@ -11,11 +11,14 @@ let ViewInitConfig = {
     opened: false,
     changed: false,
     hasFilter: false,
-    hasSort: false
-    //persistAttrs: ['fixColumns']
+    hasSort: false,
+    recentFiles: [],
+    persistAttrs: ['recentFiles']
   },
   mounted: function () {
-    this._afterMounted()
+    ElectronHelper.mount(this, this.persistAttrs, () => {
+      this._afterMounted()
+    })
   },
   watch: {
     opened: function (opened) {
@@ -100,28 +103,8 @@ let ViewInitConfig = {
             setTimeout(() => {
               this.initHotEvent()
               this.changed = false
-              
-              //console.log(height, width)
-              height = height + 40 + 42
-              if (mode === 'development') {
-                height = height + 20
-              }
-              if (height > screen.availHeight) {
-                height = screen.availHeight
-              }
-              else if (height < 500) {
-                height = 500
-              }
-              
-              width = width + 20
-              if (width > screen.availWidth) {
-                width = screen.availWidth
-              }
-              else if (width < 400) {
-                width = 400
-              }
-              //console.log(height, width)
-              ipc.send('set-window-size', width, height)
+              this.resizeWindow(width, height)
+              this.addToRecentFile(this.filepath)
             }, 100)
           })
         }
@@ -129,6 +112,53 @@ let ViewInitConfig = {
           this.hideLoading()
         }
       })
+    },
+    resizeWindow: function (width, height) {
+      //console.log(height, width)
+      height = height + 40 + 42
+      if (mode === 'development') {
+        height = height + 20
+      }
+      if (height > screen.availHeight) {
+        height = screen.availHeight
+      }
+      else if (height < 500) {
+        height = 500
+      }
+
+      width = width + 20
+      if (width > screen.availWidth) {
+        width = screen.availWidth
+      }
+      else if (width < 400) {
+        width = 400
+      }
+      //console.log(height, width)
+      ipc.send('set-window-size', width, height)
+    },
+    displayFilePath: function (filepath) {
+      return path.basename(filepath)
+    },
+    addToRecentFile: function (filepath) {
+      if (this.recentFiles.indexOf(filepath) === -1) {
+        //this.recentFiles.push(filepath)
+        this.recentFiles.unshift(filepath)
+      }
+      else {
+        for (var i = array.length - 1; i >= 0; i--) {
+          if (array[i] === search_term) {
+            array.splice(i, 1)
+            break;       //<-- Uncomment  if only the first term has to be removed
+          }
+        }
+        this.recentFiles.unshift(filepath)
+      }
+      
+      if (this.recentFiles.length > 10) {
+        this.recentFiles.shift()
+      }
+      
+      this.persist()
     },
     changeTitle: function (filepath) {
       document.title = path.basename(filepath)
