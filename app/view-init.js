@@ -7,7 +7,7 @@ let ViewInitConfig = {
     sheetName: "",
     filepath: null,
     handsontableContainer: null,
-    _enablePersist: true,
+    //_enablePersist: true,
     opened: false,
     changed: false,
     hasFilter: false,
@@ -140,14 +140,15 @@ let ViewInitConfig = {
       return path.basename(filepath)
     },
     addToRecentFile: function (filepath) {
+      
       if (this.recentFiles.indexOf(filepath) === -1) {
         //this.recentFiles.push(filepath)
         this.recentFiles.unshift(filepath)
       }
       else {
-        for (var i = array.length - 1; i >= 0; i--) {
-          if (array[i] === search_term) {
-            array.splice(i, 1)
+        for (var i = this.recentFiles.length - 1; i >= 0; i--) {
+          if (this.recentFiles[i] === filepath) {
+            this.recentFiles.splice(i, 1)
             break;       //<-- Uncomment  if only the first term has to be removed
           }
         }
@@ -279,9 +280,9 @@ let ViewInitConfig = {
     },
     persist: function () {
       //console.log([this._enablePersist, this._debugDemo])
-      if (this._enablePersist && (this._debugDemo === false || this._debugDemo === undefined)) {
+      //if (this._enablePersist) {
         ElectronHelper.persist(this, this.persistAttrs)
-      }
+      //}
     },
     showLoading: function () {
       $('body').dimmer('show')

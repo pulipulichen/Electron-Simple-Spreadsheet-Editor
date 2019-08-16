@@ -11,6 +11,7 @@ ElectronHelper = {
     }
     
     let configFilePath = path.join(this.getBasePath(), this._configFilePath)
+    //console.log(configFilePath)
     
     if (fs.existsSync(configFilePath) === false) {
       if (typeof(callback) === 'function') {
@@ -59,7 +60,8 @@ ElectronHelper = {
     })
     
     let dataString = JSON.stringify(data, null, "\t")
-    console.log(dataString)
+    //console.log(dataString)
+    
     fs.writeFile(path.join(this.getBasePath(), this._configFilePath), dataString, function (err) {
       if (err) throw err;
       if (typeof(callback) === 'function') {
