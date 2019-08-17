@@ -25,31 +25,6 @@ ipc.on('open-file-dialog', function (event, dir) {
       { name: 'MicrosoftExcel 97–2003', extensions: ['xls'] }
     ]
   }
-  
-  //console.log(options)
-  
-  dialog.showOpenDialog(win, options, function (files) {
-    if (files && typeof(files[0]) === 'string') {
-      
-      let filepath = files[0]
-      /*
-      if (filepath.endsWith('.ods')) {
-        win.setOverlayIcon('./app/imgs/ods.ico', '')
-      }
-      else if (filepath.endsWith('.csv')) {
-        win.setOverlayIcon('./app/imgs/csv.ico', '')
-      }
-      else {
-        win.setOverlayIcon('./app/imgs/excel.ico', '')
-      }
-      */
-      event.sender.send('selected-file', filepath)
-    }
-  })
-})
-
-ipc.on('change-icon', function (event, icon) {
-  win.setOverlayIcon(`./app/imgs/${icon}.ico`, '')
 })
 
 // -------------------------------------------------
@@ -61,7 +36,7 @@ let predefinedFilters = [,
   { name: 'MicrosoftExcel 97–2003', extensions: ['xls'] }
 ]
 
-ipc.on('open-file-dialog-save', function (event, filePath) {
+ipc.on('open-file-dialog-save', function (event, win, filePath) {
   let defaultFilter = filePath.slice(filePath.lastIndexOf('.') + 1)
   
   let filtersSelect = []
@@ -97,11 +72,4 @@ ipc.on('open-file-dialog-save', function (event, filePath) {
       event.sender.send('selected-file-save', file)
     }
   })
-})
-
-// -----------------------------------
-
-ipc.on('set-window-size', function (event, width, height) {
-  win.setSize(width, height)
-  win.center()
 })

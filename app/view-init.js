@@ -134,7 +134,9 @@ let ViewInitConfig = {
         width = 400
       }
       //console.log(height, width)
-      ipc.send('set-window-size', width, height)
+      //ipc.send('set-window-size', width, height)
+      win.setSize(width, height)
+      win.center()
     },
     displayFilePath: function (filepath) {
       return path.basename(filepath)
@@ -164,7 +166,9 @@ let ViewInitConfig = {
     changeTitle: function (filepath) {
       document.title = path.basename(filepath)
       let ext = filepath.slice(filepath.lastIndexOf('.') + 1)
-      ipc.send('change-icon', ext)
+      //ipc.send('change-icon', ext)
+      //let win
+      win.setOverlayIcon(`./app/imgs/${ext}.ico`, '')
     },
     save: function () {
       if (this.changed === false) {
@@ -183,7 +187,7 @@ let ViewInitConfig = {
     saveAs: function () {
       //console.log('TODO save as')
       let filepath = this.filepath
-      ipc.send('open-file-dialog-save', filepath)
+      ipc.send('open-file-dialog-save', win, filepath)
     },
     saveAsCallback: function (filepath) {
       //console.log(filepath)
@@ -230,8 +234,8 @@ let ViewInitConfig = {
         this.open()
       })
       
-      if (typeof(settings.get('filepath')) === 'string') {
-        this.openCallback(settings.get('filepath'))
+      if (typeof(filepath) === 'string') {
+        this.openCallback(filepath)
         //setTimeout(() => {
           //this.open()
           //this._openCallback(null, "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.utf8.csv")

@@ -18,21 +18,58 @@ const settings = require('electron-settings');
 
 // ------------
 
-app.on('ready', createWindow)
+//app.on('ready', createWindow)
 
 let mode = 'production'
 if (process.argv.indexOf('--mode') - process.argv.indexOf('development') === -1) {
   mode = "development"
 }
 
-let filepath
-if (process.argv.indexOf('--file') > 1) {
-  filepath = process.argv[(process.argv.indexOf('--file') + 1)]
-}
-else {
-  filepath = clipboard.readText('clipboard')
+let validateFileIsSheet = (filepath) => {
+  if (filepath.lastIndexOf('.') === -1) {
+    return false
+  }
+  
+  let ext = filepath.slice(filepath.lastIndexOf('.') + 1)
+  if (['csv', 'xls', 'xlsx', 'ods', 'pot', 'arff'].indexOf(ext) === -1) {
+    return false
+  }
+  
+  let buffer = readChunk.sync(filepath, 0, fileType.minimumBytes);
+  let fileTypeResult = fileType(buffer)
+  if ( (fileTypeResult === undefined && ext === 'csv')
+          || (fileTypeResult.mime === 'application/x-msi' && ext === 'xls')
+          || (fileTypeResult.mime === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && ext === 'xlsx')
+          || (fileTypeResult.mime === 'application/vnd.oasis.opendocument.spreadsheet' && ext === 'ods') ) {
+    return true
+  }
+  else {
+    return false
+  }
 }
 
+// --------------------
+
+let filepaths = []
+if (typeof(process) === 'object'
+        && Array.isArray(process.argv)) {
+  process.argv.forEach(arg => {
+    if (validateFileIsSheet(arg)) {
+      filepaths.push(arg)
+    }
+  })
+}
+
+let clipboardText = clipboard.readText('clipboard')
+if (validateFileIsSheet(clipboardText)) {
+  filepaths.push(clipboardText)
+}
+
+//console.log(filepaths)
+
+// --------------------
+
+/*
 if (typeof(filepath) === 'string' && fs.existsSync(filepath)) {
   let buffer = readChunk.sync(filepath, 0, fileType.minimumBytes);
   let fileTypeResult = fileType(buffer)
@@ -51,6 +88,7 @@ else {
   settings.delete('filepath')
 }
 //console.log(filepath)
+*/
 
 //console.log(mode)
 //mode = "development"
@@ -63,15 +101,20 @@ app.on('window-all-closed', () => {
   }
 })
 
-app.on('activate', () => {
-  if (win === null) {
-    createWindow()
-  }
-})
-
 app.commandLine.appendSwitch('disable-site-isolation-trials');
 
-function createWindow() {
+let winList = {}
+//app.on('activate', () => {
+app.on('ready', () => {
+  //console.log(filepaths)
+  filepaths.forEach(filepath => {
+    if (typeof(winList[filepath]) === 'undefined') {
+      winList[filepath] = createWindow(filepath)
+    }
+  })
+})
+
+function createWindow(filepath) {
   
   let optionBrowserWindow = {
     //fullscreen: true,
@@ -86,9 +129,7 @@ function createWindow() {
     optionBrowserWindow.icon = optionBrowserWindow.icon.slice(0, optionBrowserWindow.icon.lastIndexOf('.')) 
             + '.ico'
   }
-  
-  
-  win = new BrowserWindow(optionBrowserWindow)
+  let win = new BrowserWindow(optionBrowserWindow)
   //win.maximize();
   
   if (mode === 'production') {
@@ -102,7 +143,7 @@ function createWindow() {
     slashes: true
   }))
   
-  settings.set('mode', mode);
+  //settings.set('mode', mode);
   
   if (mode === 'development') {
     win.webContents.openDevTools()
@@ -112,7 +153,17 @@ function createWindow() {
   win.on('closed', () => {
     win = null
   })
-
+  
+  //win.rendererSideName.filepath = filepath
+  //win.rendererSideName.mode = mode
+  win.getData = () => {
+    return {
+      filepath: filepath,
+      mode: mode
+    }
+  }
+  
+  return win
 }
 
 require('./ipc')

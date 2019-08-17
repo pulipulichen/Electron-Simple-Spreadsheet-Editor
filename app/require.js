@@ -14,9 +14,6 @@ let exec = require('child_process').exec
 const getPath = require('platform-folders').default
 //console.log(getPath('desktop'));
 
-const settings = remote.require('electron-settings');
-const mode = settings.get('mode')
-
 const { clipboard } = require('electron')
 
 window.$ = window.jQuery = require('jquery')
@@ -33,6 +30,19 @@ const stripBomStream = require('strip-bom-stream');
 const detect = require('charset-detector');
 
 const jschardet = require("jschardet")
+
+const win = remote.getCurrentWindow()
+const {filepath, mode} = win.getData()
+//const winData = win.getData()
+//console.log(winData)
+//const filepath = winData.filepath
+//const mode = winData.mode
+
+//const settings = remote.require('electron-settings');
+//console.log(filepath)
+//const filepath = win.filepath 
+//const mode = win.mode
+//const mode = settings.get('mode')
 
 //console.log(mode)
 
