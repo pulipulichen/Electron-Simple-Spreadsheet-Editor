@@ -6,6 +6,14 @@ A spreadsheet editor built in Electron framework for CSV, ODS, XLS.
 
 ----
 
+# Electron Builder
+
+- https://www.electron.build/configuration/configuration
+
+compression = normal “store” | “normal” | “maximum” 
+
+----
+
 # Resources
 - ICON: https://findicons.com/icon/238126/table
 - https://www.stockio.com/free-icon/emilio-spreadsheet-table

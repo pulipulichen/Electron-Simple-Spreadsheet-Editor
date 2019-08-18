@@ -12,12 +12,12 @@ let proejctName = 'electron-simple-spreadsheet-editor'
 // 記錄檔案大小 
 let distPath
 if (process.platform === 'win32') {
-  distPath = path.join('dist', 'win-unpacked', proejctName + '.exe')
+  distPath = path.join(__dirname, 'dist', 'win-unpacked', proejctName + '.exe')
 }
 else if (process.platform === 'linux') {
   distPath = path.join('dist', proejctName + '_1.0.0_amd64.deb')
 }
-let logPath = 'dist/log.txt'
+let logPath = path.join(__dirname, 'dist/log.txt')
 let size = fs.statSync(distPath).size
 let timeString = DateHelper.getCurrentTimeString()
 let sizeInterval = 0
@@ -48,24 +48,33 @@ let readLog = () => {
 let writeLog = () => {
   let line = timeString + '\t' + size + '\t' + sizeInterval + '\n'
 
-  fs.open(logPath, 'a', 777, function( e, id ) {
-    fs.write( id, line, null, 'utf8', function(){
-     fs.close(id, function(){
-      //console.log('file is updated');
-      if (process.platform === 'linux') {
-        fs.chmodSync(logPath, 0o777)
-      }
-      console.log(line)
+  if (process.platform === 'linux') {
+    fs.open(logPath, 'a', 777, function( e, id ) {
+      fs.write( id, line, null, 'utf8', function(){
+       fs.close(id, function(){
+        //console.log('file is updated');
+        if (process.platform === 'linux') {
+          fs.chmodSync(logPath, 0o777)
+        }
+        console.log(line)
+       });
+      });
      });
+  }
+  else {
+    console.log(logPath)
+    fs.appendFile(logPath, line, function (err) {
+      if (err) throw err;
+      console.log('log saved!');
     });
-   });
+  }
 }
 
 readLog()
 
 if (process.platform === 'win32') {
   
-  //console.log(distPath)
+  console.log(distPath)
   exec(distPath, () => {})
 }
 else if (process.platform === 'linux') {

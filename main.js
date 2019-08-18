@@ -25,7 +25,7 @@ if (process.argv.indexOf('--mode') - process.argv.indexOf('development') === -1)
   mode = "development"
 }
 // For test
-mode = 'development'
+//mode = 'development'
 
 let validateFileIsSheet = (filepath) => {
   if (filepath.lastIndexOf('.') === -1) {
@@ -163,9 +163,9 @@ function createWindow(filepath, callback) {
   
   //settings.set('mode', mode);
   
-  if (mode === 'development') {
+  //if (mode === 'development') {
     win.webContents.openDevTools()
-  }
+  //}
   
   // When Window Close.
   win.on('closed', () => {

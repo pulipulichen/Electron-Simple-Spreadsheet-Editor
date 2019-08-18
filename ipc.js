@@ -4,7 +4,7 @@ const dialog = require('electron').dialog
 const fs = require('fs')
 const path = require('path')
 
-ipc.on('open-file-dialog', function (event, dir) {
+ipc.on('open-file-dialog', function (event, win, dir) {
   //console.log(process.platform)
   
   let options = {
@@ -25,6 +25,14 @@ ipc.on('open-file-dialog', function (event, dir) {
       { name: 'MicrosoftExcel 97–2003', extensions: ['xls'] }
     ]
   }
+  
+  dialog.showOpenDialog(win, options, function (files) {
+    if (files && typeof(files[0]) === 'string') {
+      
+      let filepath = files[0]
+      event.sender.send('selected-file', filepath)
+    }
+  })
 })
 
 // -------------------------------------------------

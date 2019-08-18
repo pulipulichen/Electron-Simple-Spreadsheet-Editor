@@ -47,10 +47,10 @@
     "xlsx": "^0.15.1"
   },
   "build": {
-    "appId": "chrome.webapp.shortcuts.creator",
-    "compression": "maximum",
+    "appId": "electron.simple.spreadsheet.editor",
+    "compression": "store",
     "mac": {
-      "category": "chrome.webapp.shortcuts.creator"
+      "category": "electron.simple.spreadsheet.editor"
     },
     "win": {
       "icon": "app/imgs/icon256.ico",
@@ -61,27 +61,11 @@
       "category": "Network",
       "target": "deb",
       "desktop": {
-        "Icon": "/opt/chrome-webapp-shortcuts-creator/app/imgs/icon256.png"
+        "Icon": "/opt/electron-simple-spreadsheet-editor/app/imgs/icon256.png"
       }
     },
     "portable": {
       "artifactName": "electron-simple-spreadsheet-editor.exe"
     }
-  },
-  "files": [
-    "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
-    "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
-    "!**/node_modules/*.d.ts",
-    "!**/node_modules/.bin",
-    "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
-    "!.editorconfig",
-    "!**/._*",
-    "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
-    "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
-    "!**/{appveyor.yml,.travis.yml,circle.yml}",
-    "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}",
-    "main.js",
-    "ipc.js",
-    "app/*"
-  ]
+  }
 }

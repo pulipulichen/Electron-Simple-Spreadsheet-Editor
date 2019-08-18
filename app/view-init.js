@@ -61,7 +61,7 @@ let ViewInitConfig = {
       
       //console.log(dir)
       
-      ipc.send('open-file-dialog', dir)
+      ipc.send('open-file-dialog', win, dir)
     },
     openCallback: function (filepath) {
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.ods"
@@ -168,7 +168,8 @@ let ViewInitConfig = {
       let ext = filepath.slice(filepath.lastIndexOf('.') + 1)
       //ipc.send('change-icon', ext)
       //let win
-      let iconPath = ElectronHelper.resolveAppPath(`imgs/${ext}.ico`)
+      let iconPath = path.join(__dirname, `imgs/${ext}.ico`)
+      //console.log(iconPath)
       win.setOverlayIcon(iconPath, '')
       return this
     },
@@ -190,6 +191,37 @@ let ViewInitConfig = {
       //console.log('TODO save as')
       let filepath = this.filepath
       ipc.send('open-file-dialog-save', win, filepath)
+      
+      //console.log(process.platform)
+  
+      /*
+      let options = {
+        title: 'Please select a spread sheet file',
+        properties: ['openFile']
+      }
+
+      if (typeof(dir) === 'string' && dir !== '' && fs.existsSync(dir)) {
+        options.defaultPath = dir
+      }
+
+      if (process.platform === 'win32') {
+        options.filters = [
+          { name: 'Spread sheets', extensions: ['ods', 'csv', 'xlsx', 'xls'] },
+          { name: 'OpenDocument Format', extensions: ['ods'] },
+          { name: 'Comma-Separated Values', extensions: ['csv'] },
+          { name: 'Microsoft Excel 2007–2019', extensions: ['xlsx'] },
+          { name: 'MicrosoftExcel 97–2003', extensions: ['xls'] }
+        ]
+      }
+
+      dialog.showOpenDialog(win, options, (files) => {
+        if (files && typeof(files[0]) === 'string') {
+
+          let filepath = files[0]
+          this.saveAsCallback(filepath)
+        }
+      })
+      */
     },
     saveAsCallback: function (filepath) {
       //console.log(filepath)
@@ -354,9 +386,13 @@ let ViewInitConfig = {
     search : function (event) {
       //console.log(r)
       let hot = this.getHot()
+      if (hot === undefined) {
+        return this
+      }
       let search = hot.getPlugin('search');
       let queryResult = search.query(event.srcElement.value);
       hot.render()
+      return this
     },
     changeSheetName: function () {
       ElectronHelper.prompt('Change sheet name', this.sheetName, (newSheetName) => {

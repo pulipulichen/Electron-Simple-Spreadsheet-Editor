@@ -2,7 +2,9 @@
 
 ElectronHelper = {
   init: function () {
-    //process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+    if (typeof(process) === 'object' && typeof(process.env) === 'object') {
+      process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+    }
   },
   _configFilePath: 'config.json',
   mount: function (vue, attrs, callback) {
@@ -106,17 +108,22 @@ ElectronHelper = {
     return tmpDirPath
   },
   resolveAppPath: function (filePath) {
+    //console.log([process.env.PORTABLE_EXECUTABLE_DIR, filePath, __dirname])
+    
+    return path.join(__dirname, filePath)
+    /*
     if (typeof(process.env.PORTABLE_EXECUTABLE_DIR) === 'string') {
       //console.log(FileSet)
       //alert(['error', filePath ])
       //throw Error('resolveAppPath')
       //console.log(filePath)
-      filePath = path.join('./resources/app.asar/app/', filePath)
+      filePath = path.join(__dirname, '/resources/app.asar/app/', filePath)
       return filePath
     }
     else {
       return this.resolve('app/' + filePath)
     }
+    */
   },
   getClipboardText: function () {
     return clipboard.readText('clipboard')
