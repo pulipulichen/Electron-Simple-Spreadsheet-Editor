@@ -168,7 +168,9 @@ let ViewInitConfig = {
       let ext = filepath.slice(filepath.lastIndexOf('.') + 1)
       //ipc.send('change-icon', ext)
       //let win
-      win.setOverlayIcon(`./app/imgs/${ext}.ico`, '')
+      let iconPath = ElectronHelper.resolveAppPath(`imgs/${ext}.ico`)
+      win.setOverlayIcon(iconPath, '')
+      return this
     },
     save: function () {
       if (this.changed === false) {

@@ -24,6 +24,8 @@ let mode = 'production'
 if (process.argv.indexOf('--mode') - process.argv.indexOf('development') === -1) {
   mode = "development"
 }
+// For test
+mode = 'development'
 
 let validateFileIsSheet = (filepath) => {
   if (filepath.lastIndexOf('.') === -1) {
@@ -111,6 +113,11 @@ app.commandLine.appendSwitch('disable-site-isolation-trials');
 let winList = {}
 //app.on('activate', () => {
 app.on('ready', () => {
+  if (filepaths.length === 0) {
+    createWindow()
+    return
+  }
+  
   //console.log(filepaths)
   let loop = (i) => {
     if (i < filepaths.length) {
@@ -129,7 +136,7 @@ function createWindow(filepath, callback) {
   
   let optionBrowserWindow = {
     //fullscreen: true,
-    icon: './app/imgs/table.ico',
+    icon: './app/imgs/icon256.ico',
     //useContentSize: true,
     webPreferences: {
       nodeIntegration: true
@@ -167,12 +174,8 @@ function createWindow(filepath, callback) {
   
   //win.rendererSideName.filepath = filepath
   //win.rendererSideName.mode = mode
-  win.getData = () => {
-    return {
-      filepath: filepath,
-      mode: mode
-    }
-  }
+  win.mode = mode
+  win.filepath = filepath
   
   //return win
   win.webContents.once('dom-ready', () => {

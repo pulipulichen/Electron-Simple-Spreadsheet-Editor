@@ -42,7 +42,8 @@
         <div class="description">ctrl+o</div>
       </div>
       
-      <div class="item">
+      <div class="item"
+           v-show="recentFiles.length > 0">
         <i class="dropdown icon"  title="Recent files"></i>
         <span class="text" title="Recent files">
           Recent files... 
@@ -102,7 +103,7 @@
   <!-- ---------------------------- -->
   
   <div class="ui pointer item"
-       v-show="changed"
+       v-show="changed === true"
        v-on:click="save">
     <i class="save icon"></i>
     Save

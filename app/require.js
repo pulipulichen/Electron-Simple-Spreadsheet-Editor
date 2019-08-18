@@ -32,34 +32,7 @@ const detect = require('charset-detector');
 const jschardet = require("jschardet")
 
 const win = remote.getCurrentWindow()
-const {filepath, mode} = win.getData()
-//const winData = win.getData()
-//console.log(winData)
-//const filepath = winData.filepath
-//const mode = winData.mode
+const mode = win.mode
+const filepath = win.filepath
 
-//const settings = remote.require('electron-settings');
-//console.log(filepath)
-//const filepath = win.filepath 
-//const mode = win.mode
-//const mode = settings.get('mode')
-
-//console.log(mode)
-
-/*
-let basepath = './'
-if (typeof(process.env.PORTABLE_EXECUTABLE_DIR) === 'string') {
-  basepath = process.env.PORTABLE_EXECUTABLE_DIR
-}
-
-//console.log(ChromeHelper.detectFilePath())
-
-
-//console.log(basepath)
-//console.log(path.join(basepath, 'test.txt'))
-
-fs.writeFile(path.join(basepath, 'test.txt'), 'Hello content!', function (err) {
-  if (err) throw err;
-  console.log('Saved!');
-});
-*/
+//console.log(mode, filepath)
