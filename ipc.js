@@ -6,7 +6,7 @@ const path = require('path')
 
 const createWindow = require('./create-window')
 
-ipc.on('open-anthor-win', function (event, filepath) {
+ipc.on('open-another-win', function (event, filepath) {
   createWindow(filepath)
 })
 

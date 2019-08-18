@@ -65,6 +65,19 @@ let ViewInitConfig = {
       
       ipc.send('open-file-dialog', win, dir)
     },
+    openFiles: function (filepaths) {
+      for (let i = 0; i < filepaths.length; i++) {
+        let filepath = filepaths[i]
+        //console.log(filepath)
+        
+        if (i === 0 && this.filepath === null) {
+          this.openCallback(filepath)
+          continue
+        }
+        
+        ipc.send('open-another-win', filepath)
+      }
+    },
     openCallback: function (filepath) {
       
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.ods"
@@ -94,7 +107,7 @@ let ViewInitConfig = {
           //ipc.send('change-icon', ext)
         }
         else {
-          ipc.send('open-anthor-win', filepath)
+          ipc.send('open-another-win', filepath)
         }
       }
     },
@@ -256,7 +269,7 @@ let ViewInitConfig = {
         }
       }
       //console.log(workbook)
-      console.log(workbook)
+      //console.log(workbook)
       let wbout = XLSX.write(workbook, wopts)
       //let base64 = new Blob([wbout],{type:"application/octet-stream"})
       ElectronHelper.saveFile(filepath, wbout, () => {
@@ -297,7 +310,7 @@ let ViewInitConfig = {
           //this._openCallback(null, "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.utf8.csv")
         //}, 1000)
       }
-      
+      this.initDragNDropEvent()
     },
     initDropdown: function () {
       $('.ui.dropdown')
@@ -352,6 +365,13 @@ let ViewInitConfig = {
         //console.log(['[', path, ']'])
         this.saveAsCallback(path)
       });
+    },
+    initDragNDropEvent: function () {
+      FileDragNDropHelper.getFilePaths((filepaths) => {
+        //this.open(files)
+        //console.log(filepaths)
+        this.openFiles(filepaths)
+      })
     },
     getHot: function () {
       return document.getElementById("handsontableContainer").contentWindow.hot
