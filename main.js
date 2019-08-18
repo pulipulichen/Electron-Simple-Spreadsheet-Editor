@@ -35,6 +35,11 @@ let validateFileIsSheet = (filepath) => {
     return false
   }
   
+  //console.log(filepath)
+  if (fs.existsSync(filepath) === false) {
+    return false
+  }
+  
   let buffer = readChunk.sync(filepath, 0, fileType.minimumBytes);
   let fileTypeResult = fileType(buffer)
   if ( (fileTypeResult === undefined && ext === 'csv')
@@ -107,14 +112,20 @@ let winList = {}
 //app.on('activate', () => {
 app.on('ready', () => {
   //console.log(filepaths)
-  filepaths.forEach(filepath => {
-    if (typeof(winList[filepath]) === 'undefined') {
-      winList[filepath] = createWindow(filepath)
+  let loop = (i) => {
+    if (i < filepaths.length) {
+      let filepath = filepaths[i]
+      createWindow(filepath, (win) => {
+        winList[filepath] = win
+        i++
+        loop(i)
+      })
     }
-  })
+  }
+  loop(0)
 })
 
-function createWindow(filepath) {
+function createWindow(filepath, callback) {
   
   let optionBrowserWindow = {
     //fullscreen: true,
@@ -163,6 +174,12 @@ function createWindow(filepath) {
     }
   }
   
+  //return win
+  win.webContents.once('dom-ready', () => {
+    if (typeof(callback) === 'function') {
+      callback(win)
+    }
+  })
   return win
 }
 
