@@ -156,11 +156,14 @@ ElectronHelper = {
     })
     .catch(console.error);
   },
-  saveFile: function (filepath, base64) {
+  saveFile: function (filepath, base64, callback) {
     //fs.writeFileSync(filepath, blob)
     fs.writeFile(filepath, base64, 'base64', function(err) {
       if (err) {
         console.log(err);
+      }
+      if (typeof(callback) === 'function') {
+        callback(filepath)
       }
     })
   },

@@ -8,7 +8,7 @@
 window.hot
 
 
-window.initHandsometable = function (data, colHeaders, callback) {
+window.initHandsometable = function (data, colHeaders, hotkeysConfig, hotkeysHandler, callback) {
   
   const container = document.getElementById('handsontableContainer');
   /*
@@ -63,6 +63,8 @@ window.initHandsometable = function (data, colHeaders, callback) {
   
   //let workbook = window.top.ElectronHelper.loadFile()
   window.hot = new Handsontable(container, config);
+  
+  hotkeys(hotkeysConfig, hotkeysHandler)
 }
 
 window.getData = function () {

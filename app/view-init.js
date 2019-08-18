@@ -13,7 +13,9 @@ let ViewInitConfig = {
     hasFilter: false,
     hasSort: false,
     recentFiles: [],
-    persistAttrs: ['recentFiles']
+    persistAttrs: ['recentFiles'],
+    _saveCallback: null,
+    hotkeysConfig: 'ctrl+o,ctrl+shift+o,ctrl+s,ctrl+shift+s,ctrl+w,ctrl+f,ctrl+d,ctrl+p'
   },
   mounted: function () {
     ElectronHelper.mount(this, this.persistAttrs, () => {
@@ -98,13 +100,15 @@ let ViewInitConfig = {
       ElectronSheetHelper.loadFile(this.filepath, (workbook) => {
         if (typeof(workbook) === 'object') {
           this.sheetName = workbook.sheetName
-          this.handsontableContainer.contentWindow.initHandsometable(workbook.data, workbook.colHeaders, (width, height) => {
+          this.handsontableContainer.contentWindow.initHandsometable(workbook.data, workbook.colHeaders, this.hotkeysConfig, this.hotkeysHandler, (width, height) => {
             this.hideLoading()
             setTimeout(() => {
               this.initHotEvent()
               this.changed = false
               this.resizeWindow(width, height)
               this.addToRecentFile(this.filepath)
+              
+              this.initHotkeys(this.handsontableContainer.contentWindow)
             }, 100)
           })
         }
@@ -173,17 +177,17 @@ let ViewInitConfig = {
       win.setOverlayIcon(iconPath, '')
       return this
     },
-    save: function () {
+    save: function (callback) {
       if (this.changed === false) {
         return this
       }
-      
       //console.log(data)
       
       //console.log('TODO save')
       
       //let bookType = this.ext
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\save.csv"
+      this._saveCallback = callback
       let filepath = this.filepath
       this.saveAsCallback(filepath)
     },
@@ -223,7 +227,8 @@ let ViewInitConfig = {
       })
       */
     },
-    saveAsCallback: function (filepath) {
+    saveAsCallback: function (filepath, callback) {
+      this.showLoading()
       //console.log(filepath)
       let bookType = filepath.slice(filepath.lastIndexOf('.') + 1)
       
@@ -238,20 +243,31 @@ let ViewInitConfig = {
       })
       
       let workbook = {
-        "SheetNames": ["xls sheet"],
+        "SheetNames": [this.sheetName],
         "Sheets": sheets,
         "Workbook": {
           "Sheets": [{ Hidden: 0, name: this.sheetName } ]
         }
       }
       //console.log(workbook)
+      console.log(workbook)
       let wbout = XLSX.write(workbook, wopts)
       //let base64 = new Blob([wbout],{type:"application/octet-stream"})
-      ElectronHelper.saveFile(filepath, wbout)
-      
-      this.changeTitle(filepath)
-      
-      this.changed = false
+      ElectronHelper.saveFile(filepath, wbout, () => {
+        this.changeTitle(filepath)
+
+        this.changed = false
+        this.hideLoading()
+        if (typeof(this._saveCallback) === 'function') {
+          this._saveCallback()
+        }
+      })
+
+    },
+    saveAndClose: function () {
+      this.save(() => {
+        win.destroy()
+      })
     },
     _afterMounted: function () {
       this.initDropdown()
@@ -275,7 +291,7 @@ let ViewInitConfig = {
           //this._openCallback(null, "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.utf8.csv")
         //}, 1000)
       }
-        
+      
     },
     initDropdown: function () {
       $('.ui.dropdown')
@@ -285,18 +301,40 @@ let ViewInitConfig = {
         })
     },
     initHotkeys: function () {
-      hotkeys('ctrl+o,ctrl+shift+o,ctrl+s,ctrl+shift+s,ctrl+w,ctrl+f,ctrl+d,ctrl+p', (event, handler) => {
-        switch(handler.key) {
-          case "ctrl+o": this.open();break;
-          case "ctrl+shift+o": this.reopen();break;
-          case "ctrl+s": this.save();break;
-          case "ctrl+shift+s": this.saveAs();break;
-          case "ctrl+w": this.exit();break;
-          case "ctrl+d": this.openFileLocation();break;
-          case "ctrl+p": this.copyFilePath();break;
-          case "ctrl+f": this.$refs.searchInput.focus();break;
-        }
+      //console.log(this.hotkeyConfig)
+      hotkeys(this.hotkeysConfig, (event, handler) => {
+        this.hotkeysHandler(handler)
       });
+    },
+    hotkeysHandler: function (handler) {
+
+      //console.log(handler.key)
+      switch(handler.key) {
+        case "ctrl+o":
+        case "o":
+          this.open();break;
+        case "ctrl+shift+o": 
+        case "O": 
+          this.reopen();break;
+        case "ctrl+s": 
+        case "s": 
+          this.save();break;
+        case "ctrl+shift+s": 
+        case "S": 
+          this.saveAs();break;
+        case "ctrl+w": 
+        case "w": 
+          this.exit();break;
+        case "ctrl+d": 
+        case "d": 
+          this.openFileLocation();break;
+        case "ctrl+p": 
+        case "p": 
+          this.copyFilePath();break;
+        case "ctrl+f": 
+        case "f": 
+          this.$refs.searchInput.focus();break;
+      }
     },
     initIpc: function () {
       ipc.on('selected-file', (event, path) => {
