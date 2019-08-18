@@ -398,6 +398,31 @@ let ViewInitConfig = {
           this.hasFilter = true
         })
       })
+      
+      hot.addHook('afterDocumentKeyDown', (event) => {
+        //console.log(hotkeys.isPressed("ctrl")); //=> true
+        //console.log(hotkeys.isPressed("shift")); //=> true
+        //console.log([event.ctrlKey, event.shiftKey, event.keyCode])
+        
+        let handler = []
+        if (event.ctrlKey) {
+          handler.push('ctrl')
+        }
+        if (event.shiftKey) {
+          handler.push('shift')
+        }
+        switch (event.keyCode) {
+          case 79: handler.push('o');break;
+          case 83: handler.push('s');break;
+          case 87: handler.push('w');break;
+          case 70: handler.push('f');break;
+          case 68: handler.push('d');break;
+          case 80: handler.push('p');break;
+        }
+        this.hotkeysHandler({
+          key: handler.join('+')
+        })
+      })
     },
     reopen: function () {
       this.openCallback(this.filepath)
