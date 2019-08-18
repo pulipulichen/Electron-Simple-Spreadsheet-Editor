@@ -4,6 +4,12 @@ const dialog = require('electron').dialog
 const fs = require('fs')
 const path = require('path')
 
+const createWindow = require('./create-window')
+
+ipc.on('open-anthor-win', function (event, filepath) {
+  createWindow(filepath)
+})
+
 ipc.on('open-file-dialog', function (event, win, dir) {
   //console.log(process.platform)
   

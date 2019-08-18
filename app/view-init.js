@@ -66,11 +66,11 @@ let ViewInitConfig = {
       ipc.send('open-file-dialog', win, dir)
     },
     openCallback: function (filepath) {
+      
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.ods"
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.csv"
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.xls"
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.xlsx"
-      this.filepath = filepath
       
       const buffer = readChunk.sync(filepath, 0, fileType.minimumBytes);
       let fileTypeResult = fileType(buffer)
@@ -84,12 +84,18 @@ let ViewInitConfig = {
               || (fileTypeResult.mime === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && ext === 'xlsx')
               || (fileTypeResult.mime === 'application/vnd.oasis.opendocument.spreadsheet' && ext === 'ods') ) {
         //this.handsontableContainer.src = this.handsontableContainer.src
-        this.showLoading()
-        this.handsontableContainer.contentWindow.location.reload(true)
-        this.opened = true
-        this.changeTitle(filepath)
-        //document.title = workbook.filename
-        //ipc.send('change-icon', ext)
+        if (this.changed === false) {
+          this.filepath = filepath
+          this.showLoading()
+          this.handsontableContainer.contentWindow.location.reload(true)
+          this.opened = true
+          this.changeTitle(filepath)
+          //document.title = workbook.filename
+          //ipc.send('change-icon', ext)
+        }
+        else {
+          ipc.send('open-anthor-win', filepath)
+        }
       }
     },
     _openIframeReloadCallback: function () {
