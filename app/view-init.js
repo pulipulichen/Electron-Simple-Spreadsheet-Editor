@@ -120,7 +120,17 @@ let ViewInitConfig = {
       ElectronSheetHelper.loadFile(this.filepath, (workbook) => {
         if (typeof(workbook) === 'object') {
           this.sheetName = workbook.sheetName
-          this.handsontableContainer.contentWindow.initHandsometable(workbook.data, workbook.colHeaders, this.hotkeysConfig, this.hotkeysHandler, (width, height) => {
+          
+          let config = {
+            data: workbook.data,
+            colHeaders: workbook.colHeaders,
+            hotkeysConfig: this.hotkeysConfig,
+            hotkeysHandler: this.hotkeysHandler,
+            fileDragNDropConfig: this.getFileDragNDropConfig(),
+            fileDragNDropHandler: this.fileDragNDropHandler,
+          }
+          
+          this.handsontableContainer.contentWindow.initHandsometable(config, (width, height) => {
             this.hideLoading()
             setTimeout(() => {
               this.initHotEvent()
@@ -324,11 +334,11 @@ let ViewInitConfig = {
           //this._openCallback(null, "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.utf8.csv")
         //}, 1000)
       }
-      this.initDragNDropEvent()
+      //this.initDragNDropEvent()
       
-      setTimeout(() => {
-        this.saveAs()
-      }, 1000)
+      //setTimeout(() => {
+      //  this.saveAs()
+      //}, 1000)
     },
     initDropdown: function () {
       $('.ui.dropdown')
@@ -384,12 +394,18 @@ let ViewInitConfig = {
         this.saveAsCallback(path)
       });
     },
-    initDragNDropEvent: function () {
-      FileDragNDropHelper.getFilePaths("Drag a sheet file<br />into here", (filepaths) => {
-        //this.open(files)
-        //console.log(filepaths)
-        this.openFiles(filepaths)
-      })
+    //initDragNDropEvent: function () {
+    //  FileDragNDropHelper.getFilePaths(this.getFileDragNDropConfig(), (filepaths) => {
+    //    this.fileDragNDropHandler(filepaths)
+    //  })
+    //},
+    getFileDragNDropConfig: function () {
+      return "Drag a sheet file<br />into here"
+    },
+    fileDragNDropHandler: function (filepaths) {
+      //this.open(files)
+      //console.log(filepaths)
+      this.openFiles(filepaths)
     },
     getHot: function () {
       return document.getElementById("handsontableContainer").contentWindow.hot

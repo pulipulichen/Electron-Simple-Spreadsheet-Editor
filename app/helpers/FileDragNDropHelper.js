@@ -1,11 +1,11 @@
 let FileDragNDropHelper = {
-  getFiles: function (callback) {
-    this.init((e) => {
+  getFiles: function (message, callback) {
+    this.init(message,(e) => {
       callback(this.getFilesFromEvent(e))
     })
   },
-  getFilePaths: function (callback) {
-    this.init((e) => {
+  getFilePaths: function (message, callback) {
+    this.init(message,(e) => {
       callback(this.getFilePathsFromEvent(e))
     })
   },

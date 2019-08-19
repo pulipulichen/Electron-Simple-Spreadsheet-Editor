@@ -1,4 +1,4 @@
-/* global HandsontablePluginRenameColHeader */
+/* global HandsontablePluginRenameColHeader, HandsontablePluginColumnSortDesc, HandsontablePluginColumnSortAsc */
 
 
 //window.top.ViewInit.sheetName = workbook.sheetName
@@ -8,7 +8,7 @@
 window.hot
 
 
-window.initHandsometable = function (data, colHeaders, hotkeysConfig, hotkeysHandler, callback) {
+window.initHandsometable = function (config, callback) {
   
   const container = document.getElementById('handsontableContainer');
   /*
@@ -18,7 +18,7 @@ window.initHandsometable = function (data, colHeaders, hotkeysConfig, hotkeysHan
   }
   */
  
-  let config = {
+  let handsontableConfig = {
     init: () => {
       setTimeout(() => {
         //console.log(document.body.clientHeight)
@@ -32,11 +32,11 @@ window.initHandsometable = function (data, colHeaders, hotkeysConfig, hotkeysHan
       
       
     },
-    data: data,
+    data: config.data,
     rowHeaders: true,
     //colHeaders: true,
     //colHeaders: ['', 'Tesla', 'Volvo', 'Toyota', 'Ford', 'Tesla', 'Volvo', 'Toyota', 'Ford', 'Tesla', 'Volvo', 'Toyota', 'Ford', 'Tesla', 'Volvo', 'Toyota', 'Ford', 'Tesla', 'Volvo', 'Toyota', 'Ford'],
-    colHeaders: colHeaders,
+    colHeaders: config.colHeaders,
     multiColumnSorting: {
       indicator: true
     },
@@ -62,9 +62,11 @@ window.initHandsometable = function (data, colHeaders, hotkeysConfig, hotkeysHan
   }
   
   //let workbook = window.top.ElectronHelper.loadFile()
-  window.hot = new Handsontable(container, config);
+  window.hot = new Handsontable(container, handsontableConfig);
   
-  hotkeys(hotkeysConfig, hotkeysHandler)
+  hotkeys(config.hotkeysConfig, config.hotkeysHandler)
+  
+  FileDragNDropHelper.getFilePaths(config.fileDragNDropConfig, config.fileDragNDropHandler)
 }
 
 window.getData = function () {
