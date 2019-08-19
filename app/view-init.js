@@ -50,6 +50,14 @@ let ViewInitConfig = {
         name = name.slice(0, 7) + '...' + name.slice(-3)
       }
       return name
+    },
+    saveAsOnly: function () {
+      if (typeof(this.filepath) !== 'string') {
+        return false
+      }
+      else {
+        return this.filepath.endsWith('.sav')
+      }
     }
   },
   methods: {

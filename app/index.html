@@ -91,7 +91,7 @@
         <div class="description">ctrl+shift+o</div>
       </div>
       <div class="item" v-on:click="save" title="Save file (ctrl+s)"
-           v-bind:class="{disabled: (typeof(filepath) !== 'string' || changed == false)}">
+           v-bind:class="{disabled: (saveAsOnly === true || typeof(filepath) !== 'string' || changed == false)}">
         Save...
         <div class="description">ctrl+s</div>
       </div>
@@ -111,10 +111,16 @@
   <!-- ---------------------------- -->
   
   <div class="ui pointer item"
-       v-show="changed === true"
+       v-show="saveAsOnly === false && changed === true"
        v-on:click="save">
     <i class="save icon"></i>
     Save
+  </div>
+  <div class="ui pointer item"
+       v-show="saveAsOnly === true"
+       v-on:click="saveAs">
+    <i class="save icon"></i>
+    Save As
   </div>
   <div class="ui pointer item"
        v-show="hasFilter"
