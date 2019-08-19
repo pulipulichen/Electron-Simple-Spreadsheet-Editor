@@ -77,7 +77,8 @@
       }
     },
     "portable": {
-      "artifactName": "electron-simple-spreadsheet-editor.exe"
+      "artifactName": "electron-simple-spreadsheet-editor.exe",
+      "unpackDirName": "electron"
     }
   }
 }
