@@ -1,4 +1,4 @@
-/* global fileType, readChunk, ipc, settings, mode, XLSX, win, fs */
+/* global fileType, readChunk, ipc, settings, mode, XLSX, win, fs, ArffHelper */
 
 let ViewInitConfig = {
   el: '#toolbarContainer',
@@ -275,106 +275,26 @@ let ViewInitConfig = {
       }
     },
     saveAsSheet: function (filepath, bookType, data) {
-      let wopts = { bookType: bookType, bookSST:false, type:'base64' };
-      let sheets = {}
-      sheets[this.sheetName] = XLSX.utils.json_to_sheet(data.rows, {
-        header: data.header
-      })
-      
-      let workbook = {
-        "SheetNames": [this.sheetName],
-        "Sheets": sheets,
-        "Workbook": {
-          "Sheets": [{ Hidden: 0, name: this.sheetName } ]
-        }
-      }
-      //console.log(workbook)
-      //console.log(workbook)
-      let wboutBase64 = XLSX.write(workbook, wopts)
-      //let base64 = new Blob([wbout],{type:"application/octet-stream"})
+      let wboutBase64 = JSXlsxHelper.buildBase64File(bookType, this.sheetName, data)
       ElectronHelper.saveFileBase64(filepath, wboutBase64, () => {
-        this.changeTitle(filepath)
-
-        this.changed = false
-        this.hideLoading()
-        if (typeof(this._saveCallback) === 'function') {
-          this._saveCallback()
-        }
+        this.saveAsComplete(filepath)
       })
       return this
     },
+    saveAsComplete: function (filepath) {
+      this.changeTitle(filepath)
+
+      this.changed = false
+      this.hideLoading()
+      this.filepath = filepath
+      
+      if (typeof(this._saveCallback) === 'function') {
+        this._saveCallback()
+      }
+    },
     saveAsARFF: function (filepath, bookType, data) {
-      let relationName = this.sheetName
-      
-      let arffFile = new ArffUtils.ArffWriter(`relation ${relationName}`)
-      
-      // 先判斷每一個header的類型
-      let attributeTypes = {}
-      let attributeNominalLevels = {}
-      for (let i = 0; i < data.rows.length; i++) {
-        let row = data.rows[i]
-        for (let attr in row) {
-          let value = row[attr]
-          let type = 'nominal'
-          switch (typeof(value)) {
-            case 'object':
-              value = JSON.stringify(value)
-              break
-            case 'boolean':
-              if (value === true) {
-                value = "true"
-              }
-              else {
-                value = "false"
-              }
-              break
-            case 'number':
-              type = 'numeric'
-              break
-          }
-          
-          if (value !== '') {
-            if (typeof(attributeTypes[attr]) === 'undefined') {
-              attributeTypes[attr] = type
-            }
-            
-            if (type === 'nominal') {
-              if (Array.isArray(attributeNominalLevels[attr]) === false) {
-                attributeNominalLevels[attr] = []
-              }
-              
-              if (attributeNominalLevels[attr].indexOf(value) === -1) {
-                attributeNominalLevels[attr].push(value)
-              }
-            }
-          }
-        }
-      }
-      
-      // ------------------------------------------
-      // 宣告屬性
-      for (let attr in attributeTypes) {
-        let type = attributeTypes[attr]
-        
-        if (type === 'nominal') {
-          arffFile.addNominalAttribute(attr, attributeNominalLevels[attr])
-        }
-        else if (type === 'numeric') {
-          arffFile.addNumericAttribute(attr)
-        }
-      }
-      
-      // --------------------------------------------
-      // 加入資料
-      for (let i = 0; i < data.rows.length; i++) {
-        let row = data.rows[i]
-        arffFile.addData(row)
-      }
-      
-      // -------------------------------------------
-      // 寫入
-      arffFile.writeToStream((result) => {
-        ElectronHelper.saveFileText(filepath, result)
+      ArffHelper.write(filepath, data, () => {
+        this.saveAsComplete(filepath)
       })
     },
     saveAndClose: function () {
@@ -405,6 +325,10 @@ let ViewInitConfig = {
         //}, 1000)
       }
       this.initDragNDropEvent()
+      
+      setTimeout(() => {
+        this.saveAs()
+      }, 1000)
     },
     initDropdown: function () {
       $('.ui.dropdown')

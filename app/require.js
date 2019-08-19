@@ -18,8 +18,6 @@ const { clipboard } = require('electron')
 
 window.$ = window.jQuery = require('jquery')
 
-const XLSX = require('xlsx')
-
 const readChunk = require('read-chunk')
 const fileType = require('file-type')
 
@@ -34,8 +32,3 @@ const jschardet = require("jschardet")
 const win = remote.getCurrentWindow()
 const mode = win.mode
 const filepath = win.filepath
-
-//console.log(mode, filepath)
-
-const arff = require('node-arff')
-const ArffUtils = require('arff-utils')
