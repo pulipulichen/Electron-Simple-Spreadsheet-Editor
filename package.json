@@ -45,6 +45,7 @@
     "node-arff": "^1.1.0",
     "platform-folders": "^0.4.1",
     "read-chunk": "^3.2.0",
+    "sav-reader": "^1.0.2",
     "strip-bom-stream": "^4.0.0",
     "xlsx": "^0.15.1"
   },
