@@ -19,7 +19,7 @@ let ViewInitConfig = {
     hotkeysConfig: 'ctrl+o,ctrl+shift+o,ctrl+s,ctrl+shift+s,ctrl+w,ctrl+f,ctrl+d,ctrl+p',
     minHeight: 600,
     minWidth: 600,
-    resized: true
+    resized: false
   },
   mounted: function () {
     ElectronHelper.mount(this, this.persistAttrs, () => {
@@ -172,7 +172,7 @@ let ViewInitConfig = {
       })
     },
     resizeWindow: function (width, height) {
-      if (this.resized === true) {
+      if (this.resized === true || typeof(this.filepath) !== 'string') {
         return this
       }
       
