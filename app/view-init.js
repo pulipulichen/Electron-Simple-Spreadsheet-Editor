@@ -18,6 +18,7 @@ let ViewInitConfig = {
     hotkeysConfig: 'ctrl+o,ctrl+shift+o,ctrl+s,ctrl+shift+s,ctrl+w,ctrl+f,ctrl+d,ctrl+p',
     minHeight: 600,
     minWidth: 600,
+    resized: true
   },
   mounted: function () {
     ElectronHelper.mount(this, this.persistAttrs, () => {
@@ -159,6 +160,10 @@ let ViewInitConfig = {
       })
     },
     resizeWindow: function (width, height) {
+      if (this.resized === true) {
+        return this
+      }
+      
       //console.log(height, width)
       height = height + 40 + 42
       if (mode === 'development') {
@@ -182,6 +187,8 @@ let ViewInitConfig = {
       //ipc.send('set-window-size', width, height)
       win.setSize(width, height)
       win.center()
+      
+      this.resized = true
     },
     displayFilePath: function (filepath) {
       let display = path.basename(filepath)
