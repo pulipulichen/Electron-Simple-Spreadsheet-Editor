@@ -7,7 +7,7 @@
     "0.run-development": "electron main.js --mode development",
     "1.run-production": "electron main.js --mode production",
     "2.run-development-load-data": "electron main.js --mode development \"demo-data\\analysis-of-covariance-example-pspp.sav\"",
-    "pack": "electron-builder main.js --dir && node open-dist.js"
+    "pack & open": "electron-builder main.js && node open-dist.js"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,16 @@
     "Electron",
     "csv",
     "ods",
-    "xls"
+    "odf",
+    "libreoffice",
+    "xls",
+    "xlsx",
+    "excel",
+    "arff",
+    "weka",
+    "sav",
+    "spss",
+    "pspp"
   ],
   "author": "Pulipuli Chen <blog@pulipuli.info>",
   "license": "MIT",
@@ -51,7 +60,7 @@
   },
   "build": {
     "appId": "electron.simple.spreadsheet.editor",
-    "compression": "store",
+    "compression": "maximum",
     "mac": {
       "category": "electron.simple.spreadsheet.editor"
     },

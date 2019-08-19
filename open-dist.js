@@ -12,7 +12,7 @@ let proejctName = 'electron-simple-spreadsheet-editor'
 // 記錄檔案大小 
 let distPath
 if (process.platform === 'win32') {
-  distPath = path.join(__dirname, 'dist', 'win-unpacked', proejctName + '.exe')
+  distPath = path.join(__dirname, 'dist', proejctName + '.exe')
 }
 else if (process.platform === 'linux') {
   distPath = path.join('dist', proejctName + '_1.0.0_amd64.deb')

@@ -69,35 +69,6 @@ if (validateFileIsSheet(clipboardText)) {
   filepaths.push(clipboardText)
 }
 
-//console.log(filepaths)
-
-// --------------------
-
-/*
-if (typeof(filepath) === 'string' && fs.existsSync(filepath)) {
-  let buffer = readChunk.sync(filepath, 0, fileType.minimumBytes);
-  let fileTypeResult = fileType(buffer)
-  let ext = filepath.slice(filepath.lastIndexOf('.') + 1)
-  if ( (fileTypeResult === undefined && ext === 'csv')
-          || (fileTypeResult.mime === 'application/x-msi' && ext === 'xls')
-          || (fileTypeResult.mime === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && ext === 'xlsx')
-          || (fileTypeResult.mime === 'application/vnd.oasis.opendocument.spreadsheet' && ext === 'ods') ) {
-    settings.set('filepath', filepath)
-  }
-  else {
-    settings.delete('filepath')
-  }
-}
-else {
-  settings.delete('filepath')
-}
-//console.log(filepath)
-*/
-
-//console.log(mode)
-//mode = "development"
-//mode = 'production'
-
 app.on('window-all-closed', () => {
   // darwin = MacOS
   if (process.platform !== 'darwin') {

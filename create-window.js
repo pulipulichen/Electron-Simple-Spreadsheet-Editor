@@ -45,9 +45,9 @@ module.exports = function (filepath, callback) {
   
   //settings.set('mode', mode);
   
-  //if (mode === 'development') {
+  if (mode === 'development') {
     win.webContents.openDevTools()
-  //}
+  }
   
   // When Window Close.
   win.on('close', function(e){
