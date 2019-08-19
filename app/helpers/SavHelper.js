@@ -12,7 +12,7 @@ let SavHelper = {
       await sav.open()
 
       // print the header, which contains number of cases, encoding, etc.
-      console.log(sav.meta.header)
+      //console.log(sav.meta.header)
       let encoding = sav.meta.header.encoding
       if (encoding === 'BIG5') {
         encoding = 'Big5'
@@ -25,11 +25,11 @@ let SavHelper = {
       sav.meta.sysvars.map(v => {
 
         // print the var, type, label and missing values specifications
-        console.log(v)
+        //console.log(v)
 
         let name = v.name
         name = this.decode(name, encoding)
-        console.log(name)
+        //console.log(name)
         colHeaders.push(name)
 
         // find and print value labels for this var if any
@@ -47,7 +47,7 @@ let SavHelper = {
             }
             colValueLabels[name][valLabelPair.val] = valLabelPair.label
           })
-          console.log(colValueLabels[name])
+          //console.log(colValueLabels[name])
         }
 
       })
@@ -72,7 +72,7 @@ let SavHelper = {
               
               rowObject[name] = value
             }
-            console.log(rowObject)
+            //console.log(rowObject)
             tableData.push(rowObject)
           }
       } while( row !== null )
