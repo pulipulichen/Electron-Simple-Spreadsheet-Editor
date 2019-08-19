@@ -49,7 +49,7 @@ let predefinedFilters = [,
   { name: 'Comma-Separated Values', extensions: ['csv'] },
   { name: 'Microsoft Excel 2007–2019', extensions: ['xlsx'] },
   { name: 'MicrosoftExcel 97–2003', extensions: ['xls'] },
-  { name: 'Attribute-Relation File Format', extensions: ['arff'] }
+  { name: 'Attribute Relation File Format', extensions: ['arff'] }
 ]
 
 ipc.on('open-file-dialog-save', function (event, win, filePath) {
@@ -73,18 +73,18 @@ ipc.on('open-file-dialog-save', function (event, win, filePath) {
     title: 'Save spread sheet to...',
     filters: filtersSelect.concat(filtersOthers)
   }
-  if (filePath !== '') {
-    if (process.platform === 'win32') {
-      filePath = filePath.split('/').join('\\')
+  if (typeof(filePath) === 'string' && filePath !== '') {
+    //if (process.platform === 'win32') {
+      //filePath = filePath.split('/').join('\\')
       //filePath = filePath.split('\\').join('/')
-    }
+    //}
     options.defaultPath = filePath
   }
-  //console.log(options)
+  console.log(options)
   
-  dialog.showSaveDialog(win, options, function (file) {
+  dialog.showSaveDialog(null, options, function (file) {
     if (file) {
-      //console.log(file)
+      console.log(file)
       event.sender.send('selected-file-save', file)
     }
   })

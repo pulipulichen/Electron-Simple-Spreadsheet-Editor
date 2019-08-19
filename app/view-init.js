@@ -1,4 +1,4 @@
-/* global fileType, readChunk, ipc, settings, mode, XLSX */
+/* global fileType, readChunk, ipc, settings, mode, XLSX, win, fs */
 
 let ViewInitConfig = {
   el: '#toolbarContainer',
@@ -213,7 +213,18 @@ let ViewInitConfig = {
     },
     saveAs: function () {
       //console.log('TODO save as')
-      let filepath = this.filepath
+      let filepath = path.resolve(this.filepath)
+      
+      //console.log([filepath, path.resolve(filepath)])
+      
+      if (fs.existsSync(filepath)) {
+        // 幫他加個名字
+        let header = filepath.slice(0, filepath.lastIndexOf('.'))
+        let footer = filepath.slice(filepath.lastIndexOf('.'))
+        let time = DateHelper.getMMDDHHmm('_') // MMDD HHmm
+        filepath = header + '-' + time + footer
+      }
+      
       ipc.send('open-file-dialog-save', win, filepath)
       return this
       //console.log(process.platform)

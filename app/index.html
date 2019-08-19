@@ -12,6 +12,8 @@
 <script src="vendors/semantic-ui/semantic.min.js"></script>
 <link href="vendors/semantic-ui/semantic.min.css" rel="stylesheet" />
 
+<script src="helpers/DateHelper.js"></script>
+
 <script src="helpers/FileDragNDropHelper.js"></script>
 <link href="helpers/FileDragNDropHelper.css" rel="stylesheet" />
 
@@ -86,12 +88,12 @@
         <div class="description">ctrl+shift+o</div>
       </div>
       <div class="item" v-on:click="save" title="Save file (ctrl+s)"
-           v-bind:class="{disabled: (changed == false)}">
+           v-bind:class="{disabled: (typeof(filepath) !== 'string' || changed == false)}">
         Save...
         <div class="description">ctrl+s</div>
       </div>
       <div class="item" v-on:click="saveAs" title="Save file as another file (ctrl+shift+s)"
-           v-bind:class="{disabled: (changed == false)}">
+           v-bind:class="{disabled: (typeof(filepath) !== 'string')}">
         Save as... 
         <div class="description">ctrl+shift+s</div>
       </div>
