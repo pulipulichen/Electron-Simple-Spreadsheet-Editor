@@ -62,6 +62,7 @@
                  v-bind:title="'Open ' + recentFilepath"
                  v-on:click="openCallback(recentFilepath)">
               {{ displayFilePath(recentFilepath) }}
+              <div class="description">{{ displayFileExt(recentFilepath) }}</div>
             </div>
         </div>
       </div>

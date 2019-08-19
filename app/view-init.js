@@ -15,7 +15,9 @@ let ViewInitConfig = {
     recentFiles: [],
     persistAttrs: ['recentFiles'],
     _saveCallback: null,
-    hotkeysConfig: 'ctrl+o,ctrl+shift+o,ctrl+s,ctrl+shift+s,ctrl+w,ctrl+f,ctrl+d,ctrl+p'
+    hotkeysConfig: 'ctrl+o,ctrl+shift+o,ctrl+s,ctrl+shift+s,ctrl+w,ctrl+f,ctrl+d,ctrl+p',
+    minHeight: 600,
+    minWidth: 600,
   },
   mounted: function () {
     ElectronHelper.mount(this, this.persistAttrs, () => {
@@ -165,16 +167,16 @@ let ViewInitConfig = {
       if (height > screen.availHeight) {
         height = screen.availHeight
       }
-      else if (height < 500) {
-        height = 500
+      else if (height < this.minHeight) {
+        height = this.minHeight
       }
 
       width = width + 20
       if (width > screen.availWidth) {
         width = screen.availWidth
       }
-      else if (width < 400) {
-        width = 400
+      else if (width < this.minWidth) {
+        width = this.minWidth
       }
       //console.log(height, width)
       //ipc.send('set-window-size', width, height)
@@ -182,7 +184,18 @@ let ViewInitConfig = {
       win.center()
     },
     displayFilePath: function (filepath) {
-      return path.basename(filepath)
+      let display = path.basename(filepath)
+      if (display.length > 20) {
+        display = display.slice(0, 20) + '...'
+      }
+      return display
+    },
+    displayFileExt: function (filepath) {
+      let ext = ''
+      if (filepath.lastIndexOf('.') > -1) {
+        ext = filepath.slice(filepath.lastIndexOf('.') + 1)
+      }
+      return ext
     },
     addToRecentFile: function (filepath) {
       

@@ -13,7 +13,8 @@ ElectronHelper = {
     }
     
     let configFilePath = path.join(this.getBasePath(), this._configFilePath)
-    //console.log(configFilePath)
+    configFilePath = path.resolve(configFilePath)
+    //console.log(configFilePath, fs.existsSync(configFilePath))
     
     if (fs.existsSync(configFilePath) === false) {
       if (typeof(callback) === 'function') {
@@ -34,12 +35,15 @@ ElectronHelper = {
       
       data = data.toString().trim()
       if (data.startsWith('{') && data.endsWith('}')) {
-        data = JSON.parse(data.toString())  
+        data = JSON.parse(data.toString())
       }
       else {
         data = {}
       }
+      //console.log(data)
+      //console.log(attrs)
       attrs.forEach(attr => {
+        //console.log(attr)
         if (typeof(data[attr]) !== 'undefined') {
           //console.log(attr)
           vue[attr] = data[attr]
