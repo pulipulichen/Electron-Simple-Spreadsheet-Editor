@@ -1,4 +1,4 @@
-/* global ArffHelper */
+/* global ArffHelper, path, SavHelper */
 
 let ElectronSheetHelper = {
   loadFile: function (filepath, callback) {
@@ -153,7 +153,16 @@ let ElectronSheetHelper = {
     })
   },
   loadSavFile: function (filepath, callback) {
-    SavHelper.read(filepath, callback)
+    SavHelper.read(filepath, (colHeaders, data) => {
+      let filename = path.basename(filepath)
+      
+      callback({
+        filename: filename,
+        sheetName: filename,
+        colHeaders: colHeaders,
+        data: data
+      })
+    })
   }
 }
 

@@ -38,7 +38,7 @@ let validateFileIsSheet = (filepath) => {
   
   let buffer = readChunk.sync(filepath, 0, fileType.minimumBytes);
   let fileTypeResult = fileType(buffer)
-  console.log(fileTypeResult)
+  //console.log(fileTypeResult)
   if ( (fileTypeResult === undefined && ext === 'csv')
           || (fileTypeResult === undefined && ext === 'arff')
           || (fileTypeResult === undefined && ext === 'sav')
@@ -69,7 +69,7 @@ if (validateFileIsSheet(clipboardText)) {
   filepaths.push(clipboardText)
 }
 
-console.log(filepaths)
+//console.log(filepaths)
 
 // --------------------
 
