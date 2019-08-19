@@ -250,7 +250,15 @@ let ViewInitConfig = {
       //let win
       let iconPath = path.join(__dirname, `imgs/${ext}.ico`)
       //console.log(iconPath)
-      win.setOverlayIcon(iconPath, '')
+      //win.setOverlayIcon(iconPath, '')
+      win.setIcon(iconPath)
+      /*
+      let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+      link.type = 'image/x-icon';
+      link.rel = 'shortcut icon';
+      link.href = `imgs/${ext}.ico`;
+      document.getElementsByTagName('head')[0].appendChild(link);
+      */
       return this
     },
     save: function (callback) {
