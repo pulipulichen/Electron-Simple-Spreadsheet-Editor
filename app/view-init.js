@@ -1,4 +1,4 @@
-/* global fileType, readChunk, ipc, settings, mode, XLSX, win, fs, ArffHelper */
+/* global fileType, readChunk, ipc, settings, mode, XLSX, win, fs, ArffHelper, DayjsHelper */
 
 let ViewInitConfig = {
   el: '#toolbarContainer',
@@ -13,7 +13,8 @@ let ViewInitConfig = {
     hasFilter: false,
     hasSort: false,
     recentFiles: [],
-    persistAttrs: ['recentFiles'],
+    recentFilesUnixMS: [],
+    persistAttrs: ['recentFiles', 'recentFilesUnixMS'],
     _saveCallback: null,
     hotkeysConfig: 'ctrl+o,ctrl+shift+o,ctrl+s,ctrl+shift+s,ctrl+w,ctrl+f,ctrl+d,ctrl+p',
     minHeight: 600,
@@ -61,6 +62,17 @@ let ViewInitConfig = {
       else {
         return this.filepath.endsWith('.sav')
       }
+    },
+    recentFilesData: function () {
+      let data = []
+      this.recentFiles.forEach((filepath, i) => {
+        let unixms = this.recentFilesUnixMS[i]
+        data.push({
+          filepath: filepath,
+          unixms: unixms
+        })
+      })
+      return data
     }
   },
   methods: {
@@ -205,23 +217,28 @@ let ViewInitConfig = {
       return ext
     },
     addToRecentFile: function (filepath) {
+      let unixms = DayjsHelper.getUnixMS()
       
       if (this.recentFiles.indexOf(filepath) === -1) {
         //this.recentFiles.push(filepath)
         this.recentFiles.unshift(filepath)
+        this.recentFilesUnixMS.unshift(unixms)
       }
       else {
         for (var i = this.recentFiles.length - 1; i >= 0; i--) {
           if (this.recentFiles[i] === filepath) {
             this.recentFiles.splice(i, 1)
+            this.recentFilesUnixMS.splice(i, 1)
             break;       //<-- Uncomment  if only the first term has to be removed
           }
         }
         this.recentFiles.unshift(filepath)
+        this.recentFilesUnixMS.unshift(unixms)
       }
       
       if (this.recentFiles.length > 10) {
         this.recentFiles.shift()
+        this.recentFilesUnixMS.shift()
       }
       
       this.persist()

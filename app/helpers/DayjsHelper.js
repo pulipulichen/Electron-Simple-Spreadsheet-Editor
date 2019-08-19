@@ -4,7 +4,7 @@ let DayjsHelper = {
   init: function () {
     dayjs.extend(dayjs_plugin_relativeTime)
   },
-  getTimestamp: function () {
+  getUnixMS: function () {
     return (new Date()).getTime()
   },
   /**

@@ -63,11 +63,12 @@
         </span>
         <div class="menu">
             <div class="item"
-                 v-for="recentFilepath in recentFiles"
-                 v-bind:title="'Open ' + recentFilepath"
+                 v-for="f in recentFilesData"
+                 v-bind:title="'Open ' + f.filepath"
                  v-on:click="openCallback(recentFilepath)">
-              {{ displayFilePath(recentFilepath) }}
-              <div class="description">{{ displayFileExt(recentFilepath) }}</div>
+              {{ displayFilePath(f.filepath) }}
+              <div class="ui label">{{ displayFileExt(f.filepath) }}</div>
+              <div class="description">{{ DayjsHelper.howLongAgo(f.unixms) }}</div>
             </div>
         </div>
       </div>
