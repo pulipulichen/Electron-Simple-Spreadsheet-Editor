@@ -1,7 +1,7 @@
 {
   "name": "electron-simple-spreadsheet-editor",
   "version": "1.0.0",
-  "description": "A spreadsheet editor built in Electron framework for CSV, ODS, XLS.",
+  "description": "A spreadsheet editor for CSV, ODS, XLS, XLSX, ARFF, SAV.",
   "main": "main.js",
   "scripts": {
     "0.run-development": "electron main.js --mode development",
