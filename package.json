@@ -30,6 +30,7 @@
     "electron-builder": "^21.2.0"
   },
   "dependencies": {
+    "arff-utils": "^0.0.5",
     "autodetect-decoder-stream": "^1.0.3",
     "chardet": "^0.8.0",
     "charset-detector": "^0.0.2",

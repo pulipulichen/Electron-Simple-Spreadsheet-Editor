@@ -38,3 +38,4 @@ const filepath = win.filepath
 //console.log(mode, filepath)
 
 const arff = require('node-arff')
+const ArffUtils = require('arff-utils')

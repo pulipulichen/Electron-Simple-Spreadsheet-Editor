@@ -67,7 +67,7 @@ ipc.on('open-file-dialog-save', function (event, win, filePath) {
   })
   
   //console.log(defaultFilter)
-  //console.log(filtersSelect)
+  console.log(filtersSelect.concat(filtersOthers))
   
   let options = {
     title: 'Save spread sheet to...',
