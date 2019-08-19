@@ -9,7 +9,7 @@ let FileDragNDropHelper = {
       callback(this.getFilePathsFromEvent(e))
     })
   },
-  init: function (callback) {
+  init: function (message, callback) {
     let dragoverClassname = 'dragover'
     
     //let doc = $('body')
@@ -61,6 +61,10 @@ let FileDragNDropHelper = {
         //console.log('body dragleave')
       }
     })
+    
+    $(`<div class="drag-n-drop-layer">
+      ${message}
+    </div>`).appendTo('body')
   },
   getFilesFromEvent: function (event) {
     let files

@@ -93,6 +93,7 @@ let ViewInitConfig = {
       //console.log(fileTypeResult)
       //if (["application/vnd.oasis.opendocument.spreadsheet"].indexOf(fileTypeResult.mime) > -1) {
       if ( (fileTypeResult === undefined && ext === 'csv')
+              || (fileTypeResult === undefined && ext === 'arff')
               || (fileTypeResult.mime === 'application/x-msi' && ext === 'xls')
               || (fileTypeResult.mime === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && ext === 'xlsx')
               || (fileTypeResult.mime === 'application/vnd.oasis.opendocument.spreadsheet' && ext === 'ods') ) {
@@ -367,7 +368,7 @@ let ViewInitConfig = {
       });
     },
     initDragNDropEvent: function () {
-      FileDragNDropHelper.getFilePaths((filepaths) => {
+      FileDragNDropHelper.getFilePaths("Drag a sheet file<br />into here", (filepaths) => {
         //this.open(files)
         //console.log(filepaths)
         this.openFiles(filepaths)

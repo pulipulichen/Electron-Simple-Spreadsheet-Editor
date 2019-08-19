@@ -22,15 +22,16 @@ ipc.on('open-file-dialog', function (event, win, dir) {
     options.defaultPath = dir
   }
   
-  if (process.platform === 'win32') {
+  //if (process.platform === 'win32') {
     options.filters = [
       { name: 'Spread sheets', extensions: ['ods', 'csv', 'xlsx', 'xls'] },
       { name: 'OpenDocument Format', extensions: ['ods'] },
       { name: 'Comma-Separated Values', extensions: ['csv'] },
       { name: 'Microsoft Excel 2007–2019', extensions: ['xlsx'] },
-      { name: 'MicrosoftExcel 97–2003', extensions: ['xls'] }
+      { name: 'MicrosoftExcel 97–2003', extensions: ['xls'] },
+      { name: 'Attribute-Relation File Format', extensions: ['arff'] }
     ]
-  }
+  //}
   
   dialog.showOpenDialog(win, options, function (files) {
     if (files && typeof(files[0]) === 'string') {
@@ -47,7 +48,8 @@ let predefinedFilters = [,
   { name: 'OpenDocument Format', extensions: ['ods'] },
   { name: 'Comma-Separated Values', extensions: ['csv'] },
   { name: 'Microsoft Excel 2007–2019', extensions: ['xlsx'] },
-  { name: 'MicrosoftExcel 97–2003', extensions: ['xls'] }
+  { name: 'MicrosoftExcel 97–2003', extensions: ['xls'] },
+  { name: 'Attribute-Relation File Format', extensions: ['arff'] }
 ]
 
 ipc.on('open-file-dialog-save', function (event, win, filePath) {

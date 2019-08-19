@@ -25,6 +25,7 @@ let validateFileIsSheet = (filepath) => {
     return false
   }
   
+  console.log(filepath)
   let ext = filepath.slice(filepath.lastIndexOf('.') + 1)
   if (['csv', 'xls', 'xlsx', 'ods', 'pot', 'arff'].indexOf(ext) === -1) {
     return false
@@ -37,7 +38,9 @@ let validateFileIsSheet = (filepath) => {
   
   let buffer = readChunk.sync(filepath, 0, fileType.minimumBytes);
   let fileTypeResult = fileType(buffer)
+  //console.log(fileTypeResult)
   if ( (fileTypeResult === undefined && ext === 'csv')
+          || (fileTypeResult === undefined && ext === 'arff')
           || (fileTypeResult.mime === 'application/x-msi' && ext === 'xls')
           || (fileTypeResult.mime === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && ext === 'xlsx')
           || (fileTypeResult.mime === 'application/vnd.oasis.opendocument.spreadsheet' && ext === 'ods') ) {

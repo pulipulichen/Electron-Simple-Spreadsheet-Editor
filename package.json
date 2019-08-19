@@ -6,7 +6,7 @@
   "scripts": {
     "0.run-development": "electron main.js --mode development",
     "1.run-production": "electron main.js --mode production",
-    "2.run-development-load-data": "electron main.js --mode development --file \"demo-data\\shift_headers.ods\"",
+    "2.run-development-load-data": "electron main.js --mode development --file \"demo-data\\iris.arff\"",
     "pack": "electron-builder main.js --dir && node open-dist.js"
   },
   "repository": {
@@ -41,6 +41,7 @@
     "iconv-lite": "^0.5.0",
     "jquery": "^3.4.1",
     "jschardet": "^2.1.0",
+    "node-arff": "^1.1.0",
     "platform-folders": "^0.4.1",
     "read-chunk": "^3.2.0",
     "strip-bom-stream": "^4.0.0",
