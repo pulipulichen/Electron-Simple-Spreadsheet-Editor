@@ -23,6 +23,9 @@ let ElectronSheetHelper = {
     else if (filepath.endsWith('.arff')) {
       return this.loadARFFFile(filepath, callback)
     }
+    else if (filepath.endsWith('.sav')) {
+      return this.loadSavFile(filepath, callback)
+    }
     else {
       return this.loadXLSXFile(filepath, callback)
     }
@@ -140,15 +143,18 @@ let ElectronSheetHelper = {
       data: data
     })
   },
+  loadXLSXFile: function (filepath, callback) {
+    JSXlsxHelper.read(filepath, callback)
+  },
   loadARFFFile: function (filepath, callback) {
     ArffHelper.read(filepath, (data) => {
       let filename = path.basename(filepath)
       this.loadCSVFileOnStreamEnd(filename, data, callback)
     })
   },
-  loadXLSXFile: function (filepath, callback) {
-    JSXlsxHelper.read(filepath, callback)
-  },
+  loadSavFile: function (filepath, callback) {
+    SavHelper.read(filepath, callback)
+  }
 }
 
 window.ElectronSheetHelper = ElectronSheetHelper

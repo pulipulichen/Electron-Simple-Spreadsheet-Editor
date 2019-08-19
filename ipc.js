@@ -24,16 +24,17 @@ ipc.on('open-file-dialog', function (event, win, dir) {
   
   //if (process.platform === 'win32') {
     options.filters = [
-      { name: 'Spread sheets', extensions: ['ods', 'csv', 'xlsx', 'xls'] },
+      { name: 'Spread sheets', extensions: ['ods', 'csv', 'xlsx', 'xls', 'arff', 'sav'] },
       { name: 'OpenDocument Format', extensions: ['ods'] },
       { name: 'Comma-Separated Values', extensions: ['csv'] },
       { name: 'Microsoft Excel 2007–2019', extensions: ['xlsx'] },
       { name: 'MicrosoftExcel 97–2003', extensions: ['xls'] },
-      { name: 'Attribute-Relation File Format', extensions: ['arff'] }
+      { name: 'Attribute-Relation File Format', extensions: ['arff'] },
+      { name: 'SPSS System Data File Format Family', extensions: ['sav'] }
     ]
   //}
   
-  dialog.showOpenDialog(win, options, function (files) {
+  dialog.showOpenDialog(null, options, function (files) {
     if (files && typeof(files[0]) === 'string') {
       
       let filepath = files[0]
@@ -49,7 +50,8 @@ let predefinedFilters = [,
   { name: 'Comma-Separated Values', extensions: ['csv'] },
   { name: 'Microsoft Excel 2007–2019', extensions: ['xlsx'] },
   { name: 'MicrosoftExcel 97–2003', extensions: ['xls'] },
-  { name: 'Attribute Relation File Format', extensions: ['arff'] }
+  { name: 'Attribute Relation File Format', extensions: ['arff'] },
+  { name: 'SPSS System Data File Format Family', extensions: ['sav'] }
 ]
 
 ipc.on('open-file-dialog-save', function (event, win, filePath) {

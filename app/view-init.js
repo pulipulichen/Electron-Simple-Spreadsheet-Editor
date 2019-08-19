@@ -94,6 +94,7 @@ let ViewInitConfig = {
       //if (["application/vnd.oasis.opendocument.spreadsheet"].indexOf(fileTypeResult.mime) > -1) {
       if ( (fileTypeResult === undefined && ext === 'csv')
               || (fileTypeResult === undefined && ext === 'arff')
+              || (fileTypeResult === undefined && ext === 'sav')
               || (fileTypeResult.mime === 'application/x-msi' && ext === 'xls')
               || (fileTypeResult.mime === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && ext === 'xlsx')
               || (fileTypeResult.mime === 'application/vnd.oasis.opendocument.spreadsheet' && ext === 'ods') ) {

@@ -7,7 +7,6 @@ let ArffHelper = {
       return this
     }
     
-    let filename = path.basename(filepath)
     arff.load(filepath, (err, data) => {
       callback(data.data)
     })
