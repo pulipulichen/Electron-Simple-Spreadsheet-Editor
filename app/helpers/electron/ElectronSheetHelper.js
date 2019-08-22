@@ -1,13 +1,13 @@
-let path = require('path')
-let fs = require('fs')
-let readChunk = require('read-chunk')
-let fileType = require('file-type')
-let jschardet = require('jschardet')
-let iconv = require('iconv')
+var path = require('path')
+var fs = require('fs')
+var readChunk = require('read-chunk')
+var fileType = require('file-type')
+var jschardet = require('jschardet')
+var iconv = require('iconv')
 
-let JSXlsxHelper = require('../JSXlsxHelper')
-let ArffHelper = require('../ArffHelper')
-let SavHelper = require('../SavHelper')
+var JSXlsxHelper = require('./JSXlsxHelper')
+var ArffHelper = require('../ArffHelper')
+var SavHelper = require('../SavHelper')
 
 let ElectronSheetHelper = {
   validateFileIsSheet: function (filepath) {

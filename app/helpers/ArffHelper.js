@@ -1,7 +1,7 @@
 let arff = require('node-arff')
 let ArffUtils = require('arff-utils')
 
-let ArffHelper = {
+var ArffHelper = {
   read: function (filepath, callback) {
     if (typeof(callback) !== 'function') {
       return this

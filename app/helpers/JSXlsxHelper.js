@@ -1,7 +1,7 @@
-let path = require('path')
-let XLSX = require('xlsx')
+var path = require('path')
+var XLSX = require('xlsx')
 
-let JSXlsxHelper = {
+var JSXlsxHelper = {
   read: function (filepath, callback) {
     if (typeof(callback) !== 'function') {
       return this

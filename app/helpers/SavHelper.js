@@ -1,8 +1,8 @@
 /* global iconv */
-let iconv = require('iconv-lite')
-let SavReader = require('sav-reader')
+var iconv = require('iconv-lite')
+var SavReader = require('sav-reader')
 
-let SavHelper = {
+var SavHelper = {
   read: function (filepath, callback) {
     (async () => {
       //console.log(filepath)

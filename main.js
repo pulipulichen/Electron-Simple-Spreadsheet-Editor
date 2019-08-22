@@ -18,7 +18,7 @@ const ClipboardHelper = require('./app/helpers/electron/ClipboardHelper')
 const PrcoessArgvHelper = require('./app/helpers/electron/PrcoessArgvHelper')
 const ElectronSheetHelper = require('./app/helpers/electron/ElectronSheetHelper')
 const CreateWindow = require('./app/helpers/electron/CreateWindow')
-const IPCEventManager = require('./ipc')
+const IPCEventManager = require('./app/helpers/electron/IPCEventManager')
 
 // --------------------
 
@@ -48,7 +48,7 @@ let winList = {}
 //app.on('activate', () => {
 app.on('ready', () => {
   if (filepaths.length === 0) {
-    createWindow()
+    CreateWindow()
     return true
   }
   
