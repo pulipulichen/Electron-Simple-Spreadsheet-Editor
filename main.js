@@ -14,11 +14,11 @@ const {
   
 //const settings = require('electron-settings');
 
-const ClipboardHelper = require('./app/helpers/electron/ClipboardHelper')
-const PrcoessArgvHelper = require('./app/helpers/electron/PrcoessArgvHelper')
-const ElectronSheetHelper = require('./app/helpers/electron/ElectronSheetHelper')
-const CreateWindow = require('./app/helpers/electron/CreateWindow')
-const IPCEventManager = require('./app/helpers/electron/IPCEventManager')
+const ClipboardHelper = require('./electron-shell/ClipboardHelper')
+const PrcoessArgvHelper = require('./electron-shell/PrcoessArgvHelper')
+const ElectronSheetHelper = require('./electron-shell/ElectronSheetHelper')
+const CreateWindow = require('./electron-shell/CreateWindow')
+const IPCEventManager = require('./electron-shell/IPCEventManager')
 
 // --------------------
 

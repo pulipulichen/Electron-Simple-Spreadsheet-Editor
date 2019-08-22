@@ -10,18 +10,12 @@ let ElectronSheetHelper = {
   SavHelper: null,
   
   init: function () {
-    this.path = RequireHelper.require('path') 
-    this.fs = RequireHelper.require('fs')
-    this.readChunk = RequireHelper.require('read-chunk')
-    this.fileType = RequireHelper.require('file-type')
-    this.jschardet = RequireHelper.require('jschardet')
-    this.iconv = RequireHelper.require('iconv')
-    
-    //console.log(RequireHelper)
-
-    this.JSXlsxHelper = RequireHelper.require('../JSXlsxHelper')
-    this.ArffHelper = RequireHelper.require('../ArffHelper')
-    this.SavHelper = RequireHelper.require('../SavHelper')
+    this.path = require('path') 
+    this.fs = require('fs')
+    this.readChunk = require('read-chunk')
+    this.fileType = require('file-type')
+    this.jschardet = require('jschardet')
+    this.iconv = require('iconv')
   },
   validateFileIsSheet: function (filepath) {
     if (filepath.lastIndexOf('.') === -1) {

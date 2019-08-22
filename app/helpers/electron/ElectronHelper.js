@@ -1,8 +1,12 @@
-var fs = require('fs')
-var path = require('path')
+//var fs = require('fs')
+//var path = require('path')
 
 let ElectronHelper = {
   init: function () {
+    this.fs = RequireHelper.require('fs')
+    this.path = RequireHelper.require('path')
+    this.clipboard = RequireHelper.require('electron').clipboard
+    
     if (typeof(process) === 'object' && typeof(process.env) === 'object') {
       process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
     }
@@ -13,18 +17,18 @@ let ElectronHelper = {
       attrs = [attrs]
     }
     
-    let configFilePath = path.join(this.getBasePath(), this._configFilePath)
-    configFilePath = path.resolve(configFilePath)
+    let configFilePath = this.path.join(this.getBasePath(), this._configFilePath)
+    configFilePath = this.path.resolve(configFilePath)
     //console.log(configFilePath, fs.existsSync(configFilePath))
     
-    if (fs.existsSync(configFilePath) === false) {
+    if (this.fs.existsSync(configFilePath) === false) {
       if (typeof(callback) === 'function') {
         callback()
       }
       return
     }
     
-    fs.readFile(configFilePath, function (err, data) {
+    this.fs.readFile(configFilePath, function (err, data) {
       if (err) throw err;
       
       if (data === undefined) {
@@ -69,7 +73,7 @@ let ElectronHelper = {
     let dataString = JSON.stringify(data, null, "\t")
     //console.log(dataString)
     
-    fs.writeFile(path.join(this.getBasePath(), this._configFilePath), dataString, function (err) {
+    this.fs.writeFile(this.path.join(this.getBasePath(), this._configFilePath), dataString, function (err) {
       if (err) throw err;
       if (typeof(callback) === 'function') {
         callback(data)
@@ -89,15 +93,15 @@ let ElectronHelper = {
   basepath: null,
   resolve: function (filePath) {
     let basepath = this.getBasePath()
-    return path.resolve(basepath, filePath)
+    return this.path.resolve(basepath, filePath)
   },
   _tmpDirChecked: false,
   getTmpDirPath: function (filePath) {
     let tmpDirPath
     if (this._tmpDirChecked === false) {
       tmpDirPath = this.resolve('tmp')
-      if (fs.existsSync(tmpDirPath) === false) {
-        fs.mkdirSync(tmpDirPath)
+      if (this.fs.existsSync(tmpDirPath) === false) {
+        this.fs.mkdirSync(tmpDirPath)
       }
       this._tmpDirChecked = true
     }
@@ -115,7 +119,7 @@ let ElectronHelper = {
   resolveAppPath: function (filePath) {
     //console.log([process.env.PORTABLE_EXECUTABLE_DIR, filePath, __dirname])
     
-    return path.join(__dirname, filePath)
+    return this.path.join(__dirname, filePath)
     /*
     if (typeof(process.env.PORTABLE_EXECUTABLE_DIR) === 'string') {
       //console.log(FileSet)
@@ -131,10 +135,10 @@ let ElectronHelper = {
     */
   },
   getClipboardText: function () {
-    return clipboard.readText('clipboard')
+    return this.clipboard.readText('clipboard')
   },
   openDevTools: function () {
-    remote.getCurrentWindow().openDevTools();
+    this.remote.getCurrentWindow().openDevTools();
     return this
   },
   prompt: function (title, value, callback) {

@@ -1,5 +1,6 @@
 /* global fileType, readChunk, ipc, settings, mode, XLSX, win, fs, ArffHelper, DayjsHelper */
 const ipc = require('electron').ipcRenderer
+const path = require('path')
 
 let ViewInitConfig = {
   el: '#toolbarContainer',

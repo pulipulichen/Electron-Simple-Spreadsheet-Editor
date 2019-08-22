@@ -1,7 +1,10 @@
-var path = require('path')
-var XLSX = require('xlsx')
-
-var JSXlsxHelper = {
+let JSXlsxHelper = {
+  path: null,
+  XLSX: null,
+  init: function () {
+    this.path = require('path')
+    this.XLSX = require('xlsx')
+  },
   read: function (filepath, callback) {
     if (typeof(callback) !== 'function') {
       return this
@@ -98,6 +101,8 @@ var JSXlsxHelper = {
     return wboutBase64
   }
 }
+
+JSXlsxHelper.init()
 
 if (typeof(window) === 'object') {
   window.JSXlsxHelper = JSXlsxHelper
