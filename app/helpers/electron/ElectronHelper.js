@@ -1,6 +1,7 @@
-/* global fs */
+let fs = require('fs')
+let path = require('path')
 
-ElectronHelper = {
+let ElectronHelper = {
   init: function () {
     if (typeof(process) === 'object' && typeof(process.env) === 'object') {
       process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
@@ -189,4 +190,9 @@ ElectronHelper = {
 
 ElectronHelper.init()
 
-window.ElectronHelper = ElectronHelper
+if (typeof(window) === 'object') {
+  window.ElectronHelper = ElectronHelper
+}
+if (typeof(module) === 'object') {
+  module.exports = ElectronHelper
+}

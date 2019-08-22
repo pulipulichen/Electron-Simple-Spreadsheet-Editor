@@ -10,64 +10,28 @@ const fileType = require('file-type')
 const {
   app,
   BrowserWindow,
-  clipboard,
 } = require('electron')
   
 const settings = require('electron-settings');
 
-// ------------
-
-//app.on('ready', createWindow)
-
-
-let validateFileIsSheet = (filepath) => {
-  if (filepath.lastIndexOf('.') === -1) {
-    return false
-  }
-  
-  //console.log(filepath)
-  let ext = filepath.slice(filepath.lastIndexOf('.') + 1)
-  if (['csv', 'xls', 'xlsx', 'ods', 'pot', 'arff', 'sav'].indexOf(ext) === -1) {
-    return false
-  }
-  
-  //console.log(filepath)
-  if (fs.existsSync(filepath) === false) {
-    return false
-  }
-  
-  let buffer = readChunk.sync(filepath, 0, fileType.minimumBytes);
-  let fileTypeResult = fileType(buffer)
-  //console.log(fileTypeResult)
-  if ( (fileTypeResult === undefined && ext === 'csv')
-          || (fileTypeResult === undefined && ext === 'arff')
-          || (fileTypeResult === undefined && ext === 'sav')
-          || (fileTypeResult.mime === 'application/x-msi' && ext === 'xls')
-          || (fileTypeResult.mime === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && ext === 'xlsx')
-          || (fileTypeResult.mime === 'application/vnd.oasis.opendocument.spreadsheet' && ext === 'ods') ) {
-    return true
-  }
-  else {
-    return false
-  }
-}
+const ClipboardHelper = require('./app/helpers/electron/ClipboardHelper')
+const PrcoessArgvHelper = require('./app/helpers/electron/PrcoessArgvHelper')
+const ElectronSheetHelper = require('./app/helpers/electron/ElectronSheetHelper')
 
 // --------------------
 
 let filepaths = []
-if (typeof(process) === 'object'
-        && Array.isArray(process.argv)) {
-  process.argv.forEach(arg => {
-    if (validateFileIsSheet(arg)) {
-      filepaths.push(arg)
-    }
-  })
-}
+PrcoessArgvHelper.getFilePaths().forEach((filepath) => {
+  if (ElectronSheetHelper.validateFileIsSheet(filepath)) {
+    filepaths.push(filepath)
+  }
+})
 
-let clipboardText = clipboard.readText('clipboard')
-if (validateFileIsSheet(clipboardText)) {
-  filepaths.push(clipboardText)
-}
+ClipboardHelper.getFilePaths().forEach((filepath) => {
+  if (ElectronSheetHelper.validateFileIsSheet(filepath)) {
+    filepaths.push(filepath)
+  }
+})
 
 app.on('window-all-closed', () => {
   // darwin = MacOS

@@ -1,6 +1,46 @@
-/* global ArffHelper, path, SavHelper */
+let path = require('path')
+let fs = require('fs')
+let readChunk = require('read-chunk')
+let fileType = require('file-type')
+let jschardet = require('jschardet')
+let iconv = require('iconv')
+
+let JSXlsxHelper = require('../JSXlsxHelper')
+let ArffHelper = require('../ArffHelper')
+let SavHelper = require('../SavHelper')
 
 let ElectronSheetHelper = {
+  validateFileIsSheet: function (filepath) {
+    if (filepath.lastIndexOf('.') === -1) {
+      return false
+    }
+
+    //console.log(filepath)
+    let ext = filepath.slice(filepath.lastIndexOf('.') + 1)
+    if (['csv', 'xls', 'xlsx', 'ods', 'pot', 'arff', 'sav'].indexOf(ext) === -1) {
+      return false
+    }
+
+    //console.log(filepath)
+    if (fs.existsSync(filepath) === false) {
+      return false
+    }
+
+    let buffer = readChunk.sync(filepath, 0, fileType.minimumBytes);
+    let fileTypeResult = fileType(buffer)
+    //console.log(fileTypeResult)
+    if ( (fileTypeResult === undefined && ext === 'csv')
+            || (fileTypeResult === undefined && ext === 'arff')
+            || (fileTypeResult === undefined && ext === 'sav')
+            || (fileTypeResult.mime === 'application/x-msi' && ext === 'xls')
+            || (fileTypeResult.mime === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && ext === 'xlsx')
+            || (fileTypeResult.mime === 'application/vnd.oasis.opendocument.spreadsheet' && ext === 'ods') ) {
+      return true
+    }
+    else {
+      return false
+    }
+  },
   loadFile: function (filepath, callback) {
     if (typeof(callback) !== 'function') {
       return this
@@ -166,4 +206,9 @@ let ElectronSheetHelper = {
   }
 }
 
-window.ElectronSheetHelper = ElectronSheetHelper
+if (typeof(window) === 'object') {
+  window.ElectronSheetHelper = ElectronSheetHelper
+}
+if (typeof(module) === 'object') {
+  module.exports = ElectronSheetHelper
+}

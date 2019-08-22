@@ -1,4 +1,5 @@
-const XLSX = require('xlsx')
+let path = require('path')
+let XLSX = require('xlsx')
 
 let JSXlsxHelper = {
   read: function (filepath, callback) {
@@ -98,4 +99,9 @@ let JSXlsxHelper = {
   }
 }
 
-window.JSXlsxHelper = JSXlsxHelper
+if (typeof(window) === 'object') {
+  window.JSXlsxHelper = JSXlsxHelper
+}
+if (typeof(module) === 'object') {
+  module.exports = JSXlsxHelper
+}

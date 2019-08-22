@@ -1,5 +1,5 @@
-const arff = require('node-arff')
-const ArffUtils = require('arff-utils')
+let arff = require('node-arff')
+let ArffUtils = require('arff-utils')
 
 let ArffHelper = {
   read: function (filepath, callback) {
@@ -102,4 +102,9 @@ let ArffHelper = {
   }
 }
 
-window.ArffHelper = ArffHelper
+if (typeof(window) === 'object') {
+  window.ArffHelper = ArffHelper
+}
+if (typeof(module) === 'object') {
+  module.exports = ArffHelper
+}

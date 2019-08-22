@@ -1,6 +1,6 @@
 /* global iconv */
-
-const SavReader = require('sav-reader')
+let iconv = require('iconv-lite')
+let SavReader = require('sav-reader')
 
 let SavHelper = {
   read: function (filepath, callback) {
@@ -98,4 +98,10 @@ let SavHelper = {
     return decodedStr
   }
 }
-window.SavHelper = SavHelper
+
+if (typeof(window) === 'object') {
+  window.SavHelper = SavHelper
+}
+if (typeof(module) === 'object') {
+  module.exports = SavHelper
+}
