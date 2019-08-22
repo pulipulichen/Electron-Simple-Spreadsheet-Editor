@@ -7,7 +7,7 @@
     "0.run-development": "electron main.js --mode development",
     "1.run-production": "electron main.js --mode production",
     "2.run-development-load-data": "electron main.js --mode development \"demo-data\\analysis-of-covariance-example-pspp.sav\"",
-    "pack & open": "electron-builder main.js && node open-dist.js"
+    "pack & open": "electron-builder main.js --dir electron-simple-spreadsheet-editor && node open-dist.js"
   },
   "repository": {
     "type": "git",

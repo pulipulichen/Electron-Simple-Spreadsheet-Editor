@@ -18,7 +18,7 @@ module.exports = function (filepath, callback) {
   
   let optionBrowserWindow = {
     //fullscreen: true,
-    icon: './app/imgs/icon256.ico',
+    icon: '../../imgs/icon256.ico',
     //useContentSize: true,
     webPreferences: {
       nodeIntegration: true
@@ -38,7 +38,7 @@ module.exports = function (filepath, callback) {
   }
   
   win.loadURL(url.format({
-    pathname: path.join(__dirname, 'app', 'index.html'),
+    pathname: path.join(__dirname, '../../', 'app', 'index.html'),
     protocol: 'file:',
     slashes: true
   }))

@@ -1,9 +1,9 @@
 
-const path = require('path')
-const fs = require('fs')
+//const path = require('path')
+//const fs = require('fs')
 
-const readChunk = require('read-chunk')
-const fileType = require('file-type')
+//const readChunk = require('read-chunk')
+//const fileType = require('file-type')
 
 // ------------
 
@@ -12,11 +12,13 @@ const {
   BrowserWindow,
 } = require('electron')
   
-const settings = require('electron-settings');
+//const settings = require('electron-settings');
 
 const ClipboardHelper = require('./app/helpers/electron/ClipboardHelper')
 const PrcoessArgvHelper = require('./app/helpers/electron/PrcoessArgvHelper')
 const ElectronSheetHelper = require('./app/helpers/electron/ElectronSheetHelper')
+const CreateWindow = require('./app/helpers/electron/CreateWindow')
+const IPCEventManager = require('./ipc')
 
 // --------------------
 
@@ -47,14 +49,14 @@ let winList = {}
 app.on('ready', () => {
   if (filepaths.length === 0) {
     createWindow()
-    return
+    return true
   }
   
   //console.log(filepaths)
   let loop = (i) => {
     if (i < filepaths.length) {
       let filepath = filepaths[i]
-      createWindow(filepath, (win) => {
+      CreateWindow(filepath, (win) => {
         winList[filepath] = win
         i++
         loop(i)
@@ -62,8 +64,7 @@ app.on('ready', () => {
     }
   }
   loop(0)
+  return true
 })
 
-const createWindow = require('./create-window')
-
-require('./ipc')
+IPCEventManager()
