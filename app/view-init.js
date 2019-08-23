@@ -29,24 +29,31 @@ let ViewInitConfig = {
       remote: null,
       mode: null,
       filepath: null,
+      readChunk: null,
+      fileType: null,
+      exec: null,
       ElectronHelper: null,
       ArffHelper: null,
+      ElectronFileHelper: null,
     },
   },
   mounted: function () {
-    this.electron = RequireHelper.require('electron')
-    this.ipc = this.electron.ipcRenderer
-    this.path = RequireHelper.require('path')
-    this.remote = this.electron.remote
-    this.win = this.remote.getCurrentWindow()
-    this.mode = this.win.mode
-    this.filepath = this.win.filepath
+    this.lib.electron = RequireHelper.require('electron')
+    this.lib.ipc = this.lib.electron.ipcRenderer
+    this.lib.path = RequireHelper.require('path')
+    this.lib.remote = this.lib.electron.remote
+    this.lib.win = this.lib.remote.getCurrentWindow()
+    this.lib.mode = this.lib.win.mode
+    this.lib.filepath = this.lib.win.filepath
+    //this.lib.readChunk = RequireHelper.require('read-chunk')
+    //this.lib.readChunk = RequireHelper.require('file-type')
+    this.lib.exec = RequireHelper.require('child_process').exec
     
-    this.ElectronHelper = RequireHelper.require('./electron/ElectronHelper')
-    this.ArffHelper = RequireHelper.require('./ArffHelper')
+    this.lib.ElectronHelper = RequireHelper.require('./electron/ElectronHelper')
+    this.lib.ArffHelper = RequireHelper.require('./ArffHelper')
+    this.lib.ElectronFileHelper = RequireHelper.require('./electron/ElectronFileHelper')
     
-    
-    this.ElectronHelper.mount(this, this.persistAttrs, () => {
+    this.lib.ElectronHelper.mount(this, this.persistAttrs, () => {
       this._afterMounted()
     })
   },
@@ -105,12 +112,12 @@ let ViewInitConfig = {
       //this.showLoading()
       let dir
       if (typeof(this.filepath) === 'string') {
-        dir = this.path.dirname(this.path.join(__dirname, '../' , this.filepath))
+        dir = this.lib.path.dirname(this.lib.path.join(__dirname, '../' , this.filepath))
       }
       
       //console.log(dir)
       
-      this.ipc.send('open-file-dialog', this.win, dir)
+      this.lib.ipc.send('open-file-dialog', this.lib.win, dir)
     },
     openFiles: function (filepaths) {
       for (let i = 0; i < filepaths.length; i++) {
@@ -122,7 +129,7 @@ let ViewInitConfig = {
           continue
         }
         
-        this.ipc.send('open-another-win', filepath)
+        this.lib.ipc.send('open-another-win', filepath)
       }
     },
     openCallback: function (filepath) {
@@ -132,19 +139,12 @@ let ViewInitConfig = {
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.xls"
       //let filepath = "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.xlsx"
       
-      const buffer = this.readChunk.sync(filepath, 0, this.fileType.minimumBytes);
-      let fileTypeResult = this.fileType(buffer)
-      
-      let ext = filepath.slice(filepath.lastIndexOf('.') + 1)
+      //let fileTypeResult = this.lib.ElectronFileHelper.getFileType(filepath)
+      //let ext = this.lib.ElectronFileHelper.getExt(filepath)
       
       //console.log(fileTypeResult)
       //if (["application/vnd.oasis.opendocument.spreadsheet"].indexOf(fileTypeResult.mime) > -1) {
-      if ( (fileTypeResult === undefined && ext === 'csv')
-              || (fileTypeResult === undefined && ext === 'arff')
-              || (fileTypeResult === undefined && ext === 'sav')
-              || (fileTypeResult.mime === 'application/x-msi' && ext === 'xls')
-              || (fileTypeResult.mime === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && ext === 'xlsx')
-              || (fileTypeResult.mime === 'application/vnd.oasis.opendocument.spreadsheet' && ext === 'ods') ) {
+      if ( this.lib.ElectronSheetHelper.validateFileIsSheet(filepath) ) {
         //this.handsontableContainer.src = this.handsontableContainer.src
         if (this.changed === false) {
           this.filepath = filepath
@@ -156,7 +156,7 @@ let ViewInitConfig = {
           //ipc.send('change-icon', ext)
         }
         else {
-          this.ipc.send('open-another-win', filepath)
+          this.lib.ipc.send('open-another-win', filepath)
         }
       }
     },
@@ -202,7 +202,7 @@ let ViewInitConfig = {
       
       //console.log(height, width)
       height = height + 40 + 42
-      if (mode === 'development') {
+      if (this.lib.mode === 'development') {
         height = height + 20
       }
       if (height > screen.availHeight) {
@@ -221,13 +221,14 @@ let ViewInitConfig = {
       }
       //console.log(height, width)
       //ipc.send('set-window-size', width, height)
-      this.win.setSize(width, height)
-      this.win.center()
+      let win = this.lib.win
+      win.setSize(width, height)
+      win.center()
       
       this.resized = true
     },
     displayFilePath: function (filepath) {
-      let display = this.path.basename(filepath)
+      let display = this.lib.path.basename(filepath)
       if (display.length > 20) {
         display = display.slice(0, 20) + '...'
       }
@@ -268,14 +269,14 @@ let ViewInitConfig = {
       this.persist()
     },
     changeTitle: function (filepath) {
-      document.title = this.path.basename(filepath)
+      document.title = this.lib.path.basename(filepath)
       let ext = filepath.slice(filepath.lastIndexOf('.') + 1)
       //ipc.send('change-icon', ext)
       //let win
-      let iconPath = this.path.join(__dirname, `imgs/${ext}.ico`)
+      let iconPath = this.lib.path.join(__dirname, `imgs/${ext}.ico`)
       //console.log(iconPath)
       //win.setOverlayIcon(iconPath, '')
-      this.win.setIcon(iconPath)
+      this.lib.win.setIcon(iconPath)
       /*
       let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
       link.type = 'image/x-icon';
@@ -301,19 +302,19 @@ let ViewInitConfig = {
     },
     saveAs: function () {
       //console.log('TODO save as')
-      let filepath = this.path.resolve(this.filepath)
+      let filepath = this.lib.path.resolve(this.filepath)
       
       //console.log([filepath, path.resolve(filepath)])
       
-      if (this.fs.existsSync(filepath)) {
+      if (this.lib.fs.existsSync(filepath)) {
         // 幫他加個名字
         let header = filepath.slice(0, filepath.lastIndexOf('.'))
         let footer = filepath.slice(filepath.lastIndexOf('.'))
-        let time = this.DateHelper.getMMDDHHmm('_') // MMDD HHmm
+        let time = this.lib.DateHelper.getMMDDHHmm('_') // MMDD HHmm
         filepath = header + '-' + time + footer
       }
       
-      this.ipc.send('open-file-dialog-save', win, filepath)
+      this.lib.ipc.send('open-file-dialog-save', win, filepath)
       return this
       //console.log(process.platform)
   
@@ -363,8 +364,8 @@ let ViewInitConfig = {
       }
     },
     saveAsSheet: function (filepath, bookType, data) {
-      let wboutBase64 = this.JSXlsxHelper.buildBase64File(bookType, this.sheetName, data)
-      this.ElectronHelper.saveFileBase64(filepath, wboutBase64, () => {
+      let wboutBase64 = this.lib.JSXlsxHelper.buildBase64File(bookType, this.sheetName, data)
+      this.lib.ElectronHelper.saveFileBase64(filepath, wboutBase64, () => {
         this.saveAsComplete(filepath)
       })
       return this
@@ -381,13 +382,13 @@ let ViewInitConfig = {
       }
     },
     saveAsARFF: function (filepath, bookType, data) {
-      this.ArffHelper.write(filepath, data, () => {
+      return this.lib.ArffHelper.write(filepath, data, () => {
         this.saveAsComplete(filepath)
       })
     },
     saveAndClose: function () {
-      this.save(() => {
-        this.win.destroy()
+      return this.save(() => {
+        this.lib.win.destroy()
       })
     },
     _afterMounted: function () {
@@ -401,7 +402,7 @@ let ViewInitConfig = {
       }
       //document.getElementById("handsontableContainer").contentWindow.ElectronHelper = ElectronHelper
       
-      $('#welcomePlaceholder').click(() => {
+      $('#welcomePlaceholder > .ui.card').click(() => {
         this.open()
       })
       
@@ -424,12 +425,14 @@ let ViewInitConfig = {
           clearable: true,
           placeholder: 'any'
         })
+      return this
     },
     initHotkeys: function () {
       //console.log(this.hotkeyConfig)
       hotkeys(this.hotkeysConfig, (event, handler) => {
         this.hotkeysHandler(handler)
       });
+      return this
     },
     hotkeysHandler: function (handler) {
 
@@ -460,17 +463,20 @@ let ViewInitConfig = {
         case "f": 
           this.$refs.searchInput.focus();break;
       }
+      return this
     },
     initIpc: function () {
-      this.ipc.on('selected-file', (event, path) => {
+      let ipc = this.lib.ipc
+      ipc.on('selected-file', (event, path) => {
         //console.log(['[', path, ']'])
         this.openCallback(path)
-      });
+      })
       
-      this.ipc.on('selected-file-save', (event, path) => {
+      ipc.on('selected-file-save', (event, path) => {
         //console.log(['[', path, ']'])
         this.saveAsCallback(path)
-      });
+      })
+      return ipc
     },
     //initDragNDropEvent: function () {
     //  FileDragNDropHelper.getFilePaths(this.getFileDragNDropConfig(), (filepaths) => {
@@ -483,7 +489,7 @@ let ViewInitConfig = {
     fileDragNDropHandler: function (filepaths) {
       //this.open(files)
       //console.log(filepaths)
-      this.openFiles(filepaths)
+      return this.openFiles(filepaths)
     },
     getHot: function () {
       return document.getElementById("handsontableContainer").contentWindow.hot
@@ -491,24 +497,28 @@ let ViewInitConfig = {
     getData: function () {
       let data = document.getElementById("handsontableContainer").contentWindow.getData()
       //console.log(data)
+      return data
     },
     persist: function () {
       //console.log([this._enablePersist, this._debugDemo])
       //if (this._enablePersist) {
-        this.ElectronHelper.persist(this, this.persistAttrs)
+        this.lib.ElectronHelper.persist(this, this.persistAttrs)
       //}
     },
     showLoading: function () {
       $('body').dimmer('show')
+      return this
     },
     hideLoading: function () {
       $('body').dimmer('hide')
+      return this
     },
     setDocumentChanged: function () {
       if (document.title.startsWith('*') === false) {
         document.title = '*' + document.title
       }
       this.changed = true
+      return this
     },
     initHotEvent: function () {
       let hot = this.handsontableContainer.contentWindow.hot
@@ -563,7 +573,7 @@ let ViewInitConfig = {
       })
     },
     reopen: function () {
-      this.openCallback(this.filepath)
+      return this.openCallback(this.filepath)
     },
     clearSort: function () {
       if (this.hasSort === false) {
@@ -571,6 +581,7 @@ let ViewInitConfig = {
       }
       this.getHot().getPlugin('columnSorting').clearSort()
       this.hasSort = false
+      return this
     },
     clearFilter: function () {
       if (this.hasFilter === false) {
@@ -590,39 +601,40 @@ let ViewInitConfig = {
       if (hot === undefined) {
         return this
       }
-      let search = hot.getPlugin('search');
-      let queryResult = search.query(event.srcElement.value);
+      let search = hot.getPlugin('search')
+      //let queryResult = search.query(event.srcElement.value);
+      search.query(event.srcElement.value)
       hot.render()
       return this
     },
     changeSheetName: function () {
-      this.ElectronHelper.prompt('Change sheet name', this.sheetName, (newSheetName) => {
+      this.lib.ElectronHelper.prompt('Change sheet name', this.sheetName, (newSheetName) => {
         if (typeof(newSheetName) === 'string' && newSheetName.trim() !== '') {
           this.sheetName = newSheetName
         }
       })
     },
     openFileLocation: function () {
-      let dirname = this.path.dirname(this.filepath)
-      this.exec(`start "" "${dirname}"`)
+      let dirname = this.lib.path.dirname(this.filepath)
+      this.lib.exec(`start "" "${dirname}"`)
     },
     copyFilePath: function () {
-      this.clipboard.writeText(this.filepath)
+      this.lib.clipboard.writeText(this.filepath)
     },
     exit: function () {
-      this.remote.getCurrentWindow().close()
+      this.lib.remote.getCurrentWindow().close()
     },
     downloadEditor: function (event) {
-      this.ElectronHelper.openURL('https://www.libreoffice.org/download/download/')
+      this.lib.ElectronHelper.openURL('https://www.libreoffice.org/download/download/')
     },
     openProject: function () {
-      this.ElectronHelper.openURL('https://github.com/pulipulichen/Electron-Simple-Spreadsheet-Editor')
+      this.lib.ElectronHelper.openURL('https://github.com/pulipulichen/Electron-Simple-Spreadsheet-Editor')
     },
     openIssues: function () {
-      this.ElectronHelper.openURL('https://github.com/pulipulichen/Electron-Simple-Spreadsheet-Editor/issues')
+      this.lib.ElectronHelper.openURL('https://github.com/pulipulichen/Electron-Simple-Spreadsheet-Editor/issues')
     },
     openAboutAuthor: function () {
-      this.ElectronHelper.openURL('http://blog.pulipuli.info/p/about_38.html')
+      this.lib.ElectronHelper.openURL('http://blog.pulipuli.info/p/about_38.html')
     }
   }
 }

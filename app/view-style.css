@@ -59,13 +59,13 @@ body {
 
 #welcomePlaceholder {
   height: calc(100vh - 54px);
-  cursor: pointer;
 }
 
 #welcomePlaceholder > .ui.card {
   margin-top: 1rem;
   margin-left: auto;
   margin-right: auto;
+  cursor: pointer;
 }
 
 /* ------------------------------------------- */
