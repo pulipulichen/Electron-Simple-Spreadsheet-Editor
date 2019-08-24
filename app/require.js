@@ -1,4 +1,7 @@
-
+/**
+ * 確認可以運作之後就準備要移除這個檔案了
+ * @type Module fs|Module fs
+ */
 //const path = require ('path')
 const fs = require('fs');
 

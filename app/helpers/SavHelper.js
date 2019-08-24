@@ -16,9 +16,9 @@ var SavHelper = {
     return this
   },
   read: function (filepath, callback) {
-    this.init()
-    
     (async () => {
+      this.init()
+    
       //console.log(filepath)
       let sav = new this.lib.SavReader(filepath)
 

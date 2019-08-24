@@ -8,6 +8,7 @@ const CreateWindow = require('./CreateWindow')
 
 module.exports = function () {
   ipc.on('open-another-win', function (event, filepath) {
+    console.log(filepath)
     CreateWindow(filepath)
   })
 

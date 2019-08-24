@@ -110,7 +110,7 @@ let ElectronSheetHelper = {
     this.init()
     
     this.lib.SavHelper.read(filepath, (colHeaders, data) => {
-      let filename = this.path.basename(filepath)
+      let filename = this.lib.ElectronFileHelper.basename(filepath)
       
       callback({
         filename: filename,

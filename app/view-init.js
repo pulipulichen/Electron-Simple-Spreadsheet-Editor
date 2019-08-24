@@ -130,12 +130,18 @@ let ViewInitConfig = {
       this.lib.ipc.send('open-file-dialog', this.lib.win, dir)
     },
     openFiles: function (filepaths) {
+      let firstLoad = true
       for (let i = 0; i < filepaths.length; i++) {
         let filepath = filepaths[i]
+        if (this.lib.ElectronSheetHelper.validateFileIsSheet(filepath) === false) {
+          continue
+        }
+        
         //console.log(filepath)
         
-        if (i === 0 && this.filepath === null) {
+        if (firstLoad === true && this.filepath === null) {
           this.openCallback(filepath)
+          firstLoad = false
           continue
         }
         
@@ -416,8 +422,8 @@ let ViewInitConfig = {
         this.open()
       })
       
-      if (typeof(filepath) === 'string') {
-        this.openCallback(filepath)
+      if (typeof(this.lib.win.filepath) === 'string') {
+        this.openCallback(this.lib.win.filepath)
         //setTimeout(() => {
           //this.open()
           //this._openCallback(null, "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.utf8.csv")
