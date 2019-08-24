@@ -2,6 +2,7 @@ let ElectronSheetHelper = {
   inited: false,
   lib: {
     ElectronFileHelper: null,
+    ElectronHelper: null,
     JSXlsxHelper: null,
     ArffHelper: null,
     SavHelper: null,
@@ -18,6 +19,8 @@ let ElectronSheetHelper = {
     //this.fileType = RequireHelper.require('file-type')
     
     this.lib.ElectronFileHelper = RequireHelper.require('./ElectronFileHelper')
+    this.lib.ElectronHelper = RequireHelper.require('./ElectronHelper')
+    
     this.lib.JSXlsxHelper = RequireHelper.require('../JSXlsxHelper')
     this.lib.ArffHelper = RequireHelper.require('../ArffHelper')
     this.lib.SavHelper = RequireHelper.require('../SavHelper')
@@ -119,6 +122,13 @@ let ElectronSheetHelper = {
         data: data
       })
     })
+  },
+  saveAsSheet: function (filepath, bookType, sheetName, data, callback) {
+    this.init()
+    
+    let wboutBase64 = this.lib.JSXlsxHelper.buildBase64File(bookType, sheetName, data)
+    this.lib.ElectronHelper.saveFileBase64(filepath, wboutBase64, callback)
+    return this
   }
 }
 

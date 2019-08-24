@@ -6,7 +6,7 @@
   "scripts": {
     "0.run-development": "electron main.js --mode development",
     "1.run-production": "electron main.js --mode production",
-    "2.run-development-load-data": "electron main.js --mode development \"demo-data\\analysis-of-covariance-example-pspp.sav\"",
+    "2.run-development-load-data": "electron main.js --mode development \"demo-data\\file_example_ODS_10.ods\"",
     "pack & open": "electron-builder main.js --dir electron-simple-spreadsheet-editor && node open-dist.js"
   },
   "repository": {

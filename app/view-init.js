@@ -380,10 +380,10 @@ let ViewInitConfig = {
       }
     },
     saveAsSheet: function (filepath, bookType, data) {
-      let wboutBase64 = this.lib.JSXlsxHelper.buildBase64File(bookType, this.sheetName, data)
-      this.lib.ElectronHelper.saveFileBase64(filepath, wboutBase64, () => {
+      this.lib.ElectronSheetHelper.saveAsSheet(filepath, bookType, this.sheetName, data, () => {
         this.saveAsComplete(filepath)
       })
+      
       return this
     },
     saveAsComplete: function (filepath) {
