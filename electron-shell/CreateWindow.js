@@ -18,7 +18,7 @@ module.exports = function (filepath, callback) {
   
   let optionBrowserWindow = {
     //fullscreen: true,
-    icon: '../app/imgs/icon256.ico',
+    icon: path.join(__dirname, '../app/imgs/icon256.ico'),
     //useContentSize: true,
     webPreferences: {
       nodeIntegration: true

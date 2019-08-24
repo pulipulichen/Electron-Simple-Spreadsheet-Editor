@@ -8,6 +8,8 @@ let ElectronSheetHelper = {
   JSXlsxHelper: null,
   ArffHelper: null,
   SavHelper: null,
+  stripBomStream: null,
+  csv: null,
   
   init: function () {
     this.path = RequireHelper.require('path') 
@@ -16,8 +18,10 @@ let ElectronSheetHelper = {
     this.fileType = RequireHelper.require('file-type')
     this.jschardet = RequireHelper.require('jschardet')
     this.iconv = RequireHelper.require('iconv')
-    
+    this.stripBomStream = RequireHelper.require('strip-bom-stream')
+    //stripBomStream = require('strip-bom-stream')
     //console.log(RequireHelper)
+    this.csv = RequireHelper.require('csv-parser')
 
     this.JSXlsxHelper = RequireHelper.require('../JSXlsxHelper')
     this.ArffHelper = RequireHelper.require('../ArffHelper')
@@ -117,8 +121,8 @@ let ElectronSheetHelper = {
     
     if (encoding === 'utf8') {
       this.fs.createReadStream(filepath)
-        .pipe(stripBomStream())
-        .pipe(csv())
+        .pipe(this.stripBomStream())
+        .pipe(this.csv())
         .on('data', (data) => {
           results.push(data)
         })
@@ -130,8 +134,8 @@ let ElectronSheetHelper = {
       this.fs.createReadStream(filepath)
         .pipe(this.iconv.decodeStream(encoding))
         .pipe(this.iconv.encodeStream('utf8'))
-        .pipe(stripBomStream())
-        .pipe(csv())
+        .pipe(this.stripBomStream())
+        .pipe(this.csv())
         .on('data', (data) => {
           results.push(data)
         })

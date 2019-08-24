@@ -35,6 +35,7 @@ let ViewInitConfig = {
       ElectronHelper: null,
       ArffHelper: null,
       ElectronFileHelper: null,
+      ElectronSheetHelper: null,
     },
   },
   mounted: function () {
@@ -52,6 +53,8 @@ let ViewInitConfig = {
     this.lib.ElectronHelper = RequireHelper.require('./electron/ElectronHelper')
     this.lib.ArffHelper = RequireHelper.require('./ArffHelper')
     this.lib.ElectronFileHelper = RequireHelper.require('./electron/ElectronFileHelper')
+    this.lib.ElectronSheetHelper = RequireHelper.require('./electron/ElectronSheetHelper')
+    this.lib.DayjsHelper = RequireHelper.require('./DayjsHelper')
     
     this.lib.ElectronHelper.mount(this, this.persistAttrs, () => {
       this._afterMounted()
@@ -165,7 +168,7 @@ let ViewInitConfig = {
         return this
       }
       
-      this.ElectronSheetHelper.loadFile(this.filepath, (workbook) => {
+      this.lib.ElectronSheetHelper.loadFile(this.filepath, (workbook) => {
         if (typeof(workbook) === 'object') {
           this.sheetName = workbook.sheetName
           
@@ -242,7 +245,7 @@ let ViewInitConfig = {
       return ext
     },
     addToRecentFile: function (filepath) {
-      let unixms = this.DayjsHelper.getUnixMS()
+      let unixms = this.lib.DayjsHelper.getUnixMS()
       
       if (this.recentFiles.indexOf(filepath) === -1) {
         //this.recentFiles.push(filepath)
