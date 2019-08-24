@@ -2,10 +2,12 @@ var ArffHelper = {
   lib: {
     arff: null,
     ArffUtils: null,
+    ElectronFileHelper: null,
   },
   init: function () {
     this.lib.arff = RequireHelper.require('node-arff')
     this.lib.ArffUtils = RequireHelper.require('arff-utils')
+    this.lib.ElectronFileHelper = RequireHelper.require('./electron/ElectronFileHelper')
   },
   read: function (filepath, callback) {
     if (typeof(callback) !== 'function') {
@@ -13,8 +15,68 @@ var ArffHelper = {
     }
     
     this.lib.arff.load(filepath, (err, data) => {
-      callback(data.data)
+      //callback(data.data)
+      let filename = this.lib.ElectronFileHelper.basename(filepath)
+      this.onStreamEnd(filename, data.data, callback)
     })
+  },
+  onStreamEnd: function (filename, results, callback) {
+    //console.log(results);
+    // [
+    //   { NAME: 'Daffy Duck', AGE: '24' },
+    //   { NAME: 'Bugs Bunny', AGE: '22' }
+    // ]
+
+    let data = []
+    let colHeaders = []
+    let colHeadersStable = false
+    results.forEach(row => {
+      let rowArray = []
+      let colHeadersTemp = []
+      for (let key in row) {
+        let field = row[key]
+        rowArray.push(field)
+        if (colHeadersStable === false) {
+          colHeadersTemp.push(key)
+        }
+      }
+
+      //console.log([colHeadersStable, colHeadersTemp.length, colHeaders.length])
+      if (colHeadersStable === false) {
+        if (colHeaders.length === 0) {
+          colHeaders = colHeadersTemp
+          data.push(rowArray)
+        }
+        else if (colHeadersTemp.length === colHeaders.length) {
+          colHeadersStable = true
+          data.push(rowArray)
+        }
+        else {
+          colHeaders = colHeadersTemp
+          data.popup()
+          data.push(rowArray)
+        }
+      }
+      else {
+        data.push(rowArray)
+      }
+    })  // results.forEach((row, i) => {
+
+    let sheetName = filename
+    if (sheetName.indexOf('.') > -1) {
+      sheetName = sheetName.slice(0, sheetName.lastIndexOf('.'))
+    }
+
+    //console.log(colHeaders)
+
+    callback({
+      filename: filename,
+      sheetName: sheetName,
+      colHeaders: colHeaders,
+      data: data
+    })
+
+    return this
   },
   write: function (filepath, data, callback) {
     let relationName = this.sheetName
