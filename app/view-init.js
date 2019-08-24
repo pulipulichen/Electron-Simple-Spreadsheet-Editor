@@ -36,6 +36,7 @@ let ViewInitConfig = {
       ArffHelper: null,
       ElectronFileHelper: null,
       ElectronSheetHelper: null,
+      FileDragNDropHelper: null,
     },
   },
   mounted: function () {
@@ -55,6 +56,7 @@ let ViewInitConfig = {
     this.lib.ElectronFileHelper = RequireHelper.require('./electron/ElectronFileHelper')
     this.lib.ElectronSheetHelper = RequireHelper.require('./electron/ElectronSheetHelper')
     this.lib.DayjsHelper = RequireHelper.require('./DayjsHelper')
+    this.lib.FileDragNDropHelper = RequireHelper.require('./FileDragNDropHelper')
     
     this.lib.ElectronHelper.mount(this, this.persistAttrs, () => {
       this._afterMounted()
@@ -416,7 +418,7 @@ let ViewInitConfig = {
           //this._openCallback(null, "D:\\xampp\\htdocs\\projects-electron\\Electron-Simple-Spreadsheet-Editor\\[test\\file_example_ODS_10.utf8.csv")
         //}, 1000)
       }
-      //this.initDragNDropEvent()
+      this.initDragNDropEvent()
       
       //setTimeout(() => {
       //  this.saveAs()
@@ -481,11 +483,11 @@ let ViewInitConfig = {
       })
       return ipc
     },
-    //initDragNDropEvent: function () {
-    //  FileDragNDropHelper.getFilePaths(this.getFileDragNDropConfig(), (filepaths) => {
-    //    this.fileDragNDropHandler(filepaths)
-    //  })
-    //},
+    initDragNDropEvent: function () {
+      this.lib.FileDragNDropHelper.getFilePaths(this.getFileDragNDropConfig(), (filepaths) => {
+        this.fileDragNDropHandler(filepaths)
+      })
+    },
     getFileDragNDropConfig: function () {
       return "Drag a sheet file<br />into here"
     },

@@ -19,6 +19,9 @@ let FileDragNDropHelper = {
     //let timer = null
     
     doc.on('dragenter', (e) => {
+      if (this.enable === false) {
+        return this;
+      }
       e.preventDefault()
       e.stopPropagation()
       body.addClass(dragoverClassname)
@@ -26,11 +29,17 @@ let FileDragNDropHelper = {
     })
     
     doc.on('dragover', (e) => {
+      if (this.enable === false) {
+        return this;
+      }
       e.preventDefault()
       e.stopPropagation()
     })
     
     doc.on('drop', (e) => {
+      if (this.enable === false) {
+        return this;
+      }
       //body.addClass(dragoverClassname)
       //console.log('body dragenter')
       e.preventDefault()
@@ -54,6 +63,9 @@ let FileDragNDropHelper = {
     })
     */
     doc.on('dragleave', (e) => {
+      if (this.enable === false) {
+        return this;
+      }
       //console.log(e)
       //console.log([e.clientX, e.clientY])
       if (e.clientX === 0 || e.clientY === 0) {
@@ -95,9 +107,9 @@ let FileDragNDropHelper = {
       items = event.originalEvent.dataTransfer.items;
     }
     let filepaths = []
-    for (var i = 0; i < items.length; i++) {
+    for (let i = 0; i < items.length; i++) {
         // Get the dropped item as a 'webkit entry'.
-        var entry = items[i].webkitGetAsEntry();
+        //let entry = items[i].webkitGetAsEntry();
 
         // Get the same dropped item, but as a File.
         var file = items[i].getAsFile();
@@ -111,6 +123,13 @@ let FileDragNDropHelper = {
         //}
     }
     return filepaths
+  },
+  enable: true,
+  setEnable: function (isEnable) {
+    if (typeof(isEnable) === 'boolean') {
+      this.enable = isEnable
+    }
+    return this
   }
 }
 

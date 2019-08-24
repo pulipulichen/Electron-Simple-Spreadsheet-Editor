@@ -4,7 +4,6 @@
   "description": "A spreadsheet editor for CSV, ODS, XLS, XLSX, ARFF, SAV.",
   "main": "main.js",
   "scripts": {
-    "2-webpack-watch-development": "webpack --config ./config/webpack.config.js --watch --mode development",
     "0.run-development": "electron main.js --mode development",
     "1.run-production": "electron main.js --mode production",
     "2.run-development-load-data": "electron main.js --mode development \"demo-data\\analysis-of-covariance-example-pspp.sav\"",
