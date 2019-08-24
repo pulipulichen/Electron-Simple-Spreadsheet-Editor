@@ -31,3 +31,17 @@ compression = normal “store” | “normal” | “maximum”
 - http://www.iconarchive.com/show/papirus-apps-icons-by-papirus-team/pspp-icon.html
 
 - Semantic UI ICON: https://semantic-ui.com/elements/icon.html
+
+----
+
+# IDE
+
+## nls
+````
+npm install @pulipuli.chen/npm-link-better -g
+````
+
+## Iconv
+
+You must install Python *2*
+https://www.python.org/downloads/

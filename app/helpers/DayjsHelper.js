@@ -1,6 +1,6 @@
 let DayjsHelper = {
   lib: {
-    dayjs: null
+    dayjs: null,
     //dayjs_plugin_advancedFormat: null
     dayjs_plugin_relativeTime: null
   },

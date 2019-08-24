@@ -17,7 +17,7 @@ let ElectronSheetHelper = {
     this.readChunk = RequireHelper.require('read-chunk')
     this.fileType = RequireHelper.require('file-type')
     this.jschardet = RequireHelper.require('jschardet')
-    this.iconv = RequireHelper.require('iconv')
+    this.iconv = RequireHelper.require('iconv-lite')
     this.stripBomStream = RequireHelper.require('strip-bom-stream')
     //stripBomStream = require('strip-bom-stream')
     //console.log(RequireHelper)

@@ -15,7 +15,7 @@ let ElectronSheetHelper = {
     this.readChunk = require('read-chunk')
     this.fileType = require('file-type')
     this.jschardet = require('jschardet')
-    this.iconv = require('iconv')
+    this.iconv = require('iconv-lite')
   },
   validateFileIsSheet: function (filepath) {
     if (filepath.lastIndexOf('.') === -1) {
