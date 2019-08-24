@@ -37,9 +37,9 @@ window.initHandsometable = function (config, callback) {
     //colHeaders: true,
     //colHeaders: ['', 'Tesla', 'Volvo', 'Toyota', 'Ford', 'Tesla', 'Volvo', 'Toyota', 'Ford', 'Tesla', 'Volvo', 'Toyota', 'Ford', 'Tesla', 'Volvo', 'Toyota', 'Ford', 'Tesla', 'Volvo', 'Toyota', 'Ford'],
     colHeaders: config.colHeaders,
-    multiColumnSorting: {
-      indicator: true
-    },
+    //multiColumnSorting: {
+    //  indicator: true
+    //},
     autoColumnSize: {
       samplingRatio: 23
     },
