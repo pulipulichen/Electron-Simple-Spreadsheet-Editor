@@ -1,4 +1,5 @@
 let ElectronSheetHelper = {
+  inited: false,
   lib: {
     ElectronFileHelper: null,
     JSXlsxHelper: null,
@@ -7,6 +8,10 @@ let ElectronSheetHelper = {
     CSVHelper: null,
   },
   init: function () {
+    if (this.inited === true) {
+      return this
+    }
+    
     //this.path = RequireHelper.require('path') 
     //this.fs = RequireHelper.require('fs')
     //this.readChunk = RequireHelper.require('read-chunk')
@@ -17,8 +22,12 @@ let ElectronSheetHelper = {
     this.lib.ArffHelper = RequireHelper.require('../ArffHelper')
     this.lib.SavHelper = RequireHelper.require('../SavHelper')
     this.lib.CSVHelper = RequireHelper.require('../CSVHelper')
+    
+    this.inited = true
   },
   validateFileIsSheet: function (filepath) {
+    this.init()
+    
     if (filepath.lastIndexOf('.') === -1) {
       return false
     }
@@ -49,6 +58,8 @@ let ElectronSheetHelper = {
     }
   },
   loadFile: function (filepath, callback) {
+    this.init()
+    
     if (typeof(callback) !== 'function') {
       return this
     }
@@ -78,18 +89,26 @@ let ElectronSheetHelper = {
     }
   },
   loadCSVFile: function (filepath, callback) {
+    this.init()
+    
     this.lib.CSVHelper.read(filepath, callback)
     return this
   },
   loadXLSXFile: function (filepath, callback) {
+    this.init()
+    
     this.lib.JSXlsxHelper.read(filepath, callback)
     return this
   },
   loadARFFFile: function (filepath, callback) {
+    this.init()
+    
     this.lib.ArffHelper.read(filepath, callback)
     return this
   },
   loadSavFile: function (filepath, callback) {
+    this.init()
+    
     this.lib.SavHelper.read(filepath, (colHeaders, data) => {
       let filename = this.path.basename(filepath)
       
@@ -103,7 +122,7 @@ let ElectronSheetHelper = {
   }
 }
 
-ElectronSheetHelper.init()
+//ElectronSheetHelper.init()
 
 if (typeof(window) === 'object') {
   window.ElectronSheetHelper = ElectronSheetHelper

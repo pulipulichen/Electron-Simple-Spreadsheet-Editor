@@ -1,22 +1,35 @@
 let CSVHelper = {
+  inited: false,
   lib: {
     jschardet: null,
     csv: null,
     stripBomStream: null,
-    iconv: null
+    iconv: null,
+    ElectronFileHelper: null,
+    fs: null
   },
   init: function () {
-    this.lib.csv = require('csv-parser')
-    this.lib.iconv = require('iconv-lite')
-    this.lib.stripBomStream = require('strip-bom-stream')
-    this.lib.jschardet = require("jschardet")
+    if (this.inited === true) {
+      return this
+    }
+    
+    this.lib.csv = RequireHelper.require('csv-parser')
+    this.lib.iconv = RequireHelper.require('iconv-lite')
+    this.lib.stripBomStream = RequireHelper.require('strip-bom-stream')
+    this.lib.jschardet = RequireHelper.require("jschardet")
+    this.lib.fs = RequireHelper.require("fs")
+    this.lib.ElectronFileHelper = RequireHelper.require("./electron/ElectronFileHelper")
+    
+    this.inited = true
   },
   read: function (filepath, callback) {
+    this.init()
+    
     if (typeof(callback) !== 'function') {
       return this
     }
     
-    let filename = this.lib.path.basename(filepath)
+    let filename = this.lib.ElectronFileHelper.basename(filepath)
     
     const results = [];
     
@@ -43,7 +56,7 @@ let CSVHelper = {
     }
     
     if (encoding === 'utf8') {
-      this.fs.createReadStream(filepath)
+      this.lib.fs.createReadStream(filepath)
         .pipe(this.lib.stripBomStream())
         .pipe(this.lib.csv())
         .on('data', (data) => {
@@ -54,7 +67,7 @@ let CSVHelper = {
         });
     }
     else {
-      this.fs.createReadStream(filepath)
+      this.lib.fs.createReadStream(filepath)
         .pipe(this.lib.iconv.decodeStream(encoding))
         .pipe(this.lib.iconv.encodeStream('utf8'))
         .pipe(this.lib.stripBomStream())
@@ -128,7 +141,8 @@ let CSVHelper = {
   }
 }
 
-CSVHelper.init()
+//CSVHelper.init()
+
 if (typeof(window) !== 'undefined') {
   window.CSVHelper = CSVHelper
 }

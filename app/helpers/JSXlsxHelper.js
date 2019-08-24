@@ -1,13 +1,23 @@
 let JSXlsxHelper = {
+  inited: false,
   lib: {
     path: null,
     XLSX: null,
   },
   init: function () {
+    if (this.inited === true) {
+      return this
+    }
+    
     this.lib.path = RequireHelper.require('path')
     this.lib.XLSX = RequireHelper.require('xlsx')
+    
+    this.inited = true
+    return this
   },
   read: function (filepath, callback) {
+    this.init()
+    
     if (typeof(callback) !== 'function') {
       return this
     }
@@ -82,6 +92,8 @@ let JSXlsxHelper = {
     //return JSON.parse(data)
   },
   buildBase64File: function (bookType, sheetName, data) {
+    this.init()
+    
     let wopts = { bookType: bookType, bookSST:false, type:'base64' };
     let sheets = {}
     sheets[sheetName] = this.lib.XLSX.utils.json_to_sheet(data.rows, {
@@ -104,7 +116,7 @@ let JSXlsxHelper = {
   }
 }
 
-JSXlsxHelper.init()
+//JSXlsxHelper.init()
 
 if (typeof(window) === 'object') {
   window.JSXlsxHelper = JSXlsxHelper

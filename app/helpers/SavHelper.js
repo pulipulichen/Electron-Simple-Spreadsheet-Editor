@@ -1,13 +1,23 @@
 var SavHelper = {
+  inited: false,
   lib: {
     iconv: null,
     SavReader: null
   },
   init: function () {
+    if (this.inited === true) {
+      return this
+    }
+    
     this.lib.iconv = require('iconv-lite')
     this.lib.SavReader = require('sav-reader')
+    
+    this.inited = true
+    return this
   },
   read: function (filepath, callback) {
+    this.init()
+    
     (async () => {
       //console.log(filepath)
       let sav = new this.lib.SavReader(filepath)
@@ -89,6 +99,8 @@ var SavHelper = {
   },
   _decodeCache: {},
   decode: function (str, encoding) {
+    this.init()
+    
     if (encoding.toLowerCase() === 'Utf8') {
       return str
     }
@@ -103,7 +115,7 @@ var SavHelper = {
   }
 }
 
-SavHelper.init()
+//SavHelper.init()
 
 if (typeof(window) === 'object') {
   window.SavHelper = SavHelper

@@ -1,15 +1,24 @@
 var ArffHelper = {
+  inited: false,
   lib: {
     arff: null,
     ArffUtils: null,
     ElectronFileHelper: null,
   },
   init: function () {
+    if (this.inited === true) {
+      return this
+    }
+    
     this.lib.arff = RequireHelper.require('node-arff')
     this.lib.ArffUtils = RequireHelper.require('arff-utils')
     this.lib.ElectronFileHelper = RequireHelper.require('./electron/ElectronFileHelper')
+    
+    this.inited = true
   },
   read: function (filepath, callback) {
+    this.init()
+    
     if (typeof(callback) !== 'function') {
       return this
     }
@@ -79,6 +88,8 @@ var ArffHelper = {
     return this
   },
   write: function (filepath, data, callback) {
+    this.init()
+    
     let relationName = this.sheetName
       
     let arffFile = new this.lib.ArffUtils.ArffWriter(`relation ${relationName}`, ArffUtils.MODE_OBJECT)
@@ -169,7 +180,7 @@ var ArffHelper = {
   }
 }
 
-ArffHelper.init()
+//ArffHelper.init()
 
 if (typeof(window) === 'object') {
   window.ArffHelper = ArffHelper
