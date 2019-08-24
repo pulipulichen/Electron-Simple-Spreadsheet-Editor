@@ -1,19 +1,21 @@
 let JSXlsxHelper = {
-  path: null,
-  XLSX: null,
+  lib: {
+    path: null,
+    XLSX: null,
+  },
   init: function () {
-    this.path = require('path')
-    this.XLSX = require('xlsx')
+    this.lib.path = RequireHelper.require('path')
+    this.lib.XLSX = RequireHelper.require('xlsx')
   },
   read: function (filepath, callback) {
     if (typeof(callback) !== 'function') {
       return this
     }
     
-    let filename = path.basename(filepath)
+    let filename = this.lib.path.basename(filepath)
     
     //console.log(filename)
-    let workbook = XLSX.readFile(filepath);
+    let workbook = this.lib.XLSX.readFile(filepath);
     //console.log(workbook)
     
     let sheetName
@@ -23,7 +25,7 @@ let JSXlsxHelper = {
     }
     
     //console.log(workbook)
-    let json = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+    let json = this.lib.XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
     
     let data = []
     let colHeaders = []
@@ -82,7 +84,7 @@ let JSXlsxHelper = {
   buildBase64File: function (bookType, sheetName, data) {
     let wopts = { bookType: bookType, bookSST:false, type:'base64' };
     let sheets = {}
-    sheets[sheetName] = XLSX.utils.json_to_sheet(data.rows, {
+    sheets[sheetName] = this.lib.XLSX.utils.json_to_sheet(data.rows, {
       header: data.header
     })
 
@@ -95,7 +97,7 @@ let JSXlsxHelper = {
     }
     //console.log(workbook)
     //console.log(workbook)
-    let wboutBase64 = XLSX.write(workbook, wopts)
+    let wboutBase64 = this.lib.XLSX.write(workbook, wopts)
     //let base64 = new Blob([wbout],{type:"application/octet-stream"})
     
     return wboutBase64

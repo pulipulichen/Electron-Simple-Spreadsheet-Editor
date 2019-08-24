@@ -1,12 +1,16 @@
-/* global iconv */
-var iconv = require('iconv-lite')
-var SavReader = require('sav-reader')
-
 var SavHelper = {
+  lib: {
+    iconv: null,
+    SavReader: null
+  },
+  init: function () {
+    this.lib.iconv = require('iconv-lite')
+    this.lib.SavReader = require('sav-reader')
+  },
   read: function (filepath, callback) {
     (async () => {
       //console.log(filepath)
-      let sav = new SavReader(filepath)
+      let sav = new this.lib.SavReader(filepath)
 
       // this opens the file and loads all metadata (but not the records a.k.a. cases)
       await sav.open()
@@ -93,11 +97,13 @@ var SavHelper = {
       return this._decodeCache[str]
     }
     
-    let decodedStr = iconv.decode(str, encoding)
+    let decodedStr = this.lib.iconv.decode(str, encoding)
     this._decodeCache[str] = decodedStr
     return decodedStr
   }
 }
+
+SavHelper.init()
 
 if (typeof(window) === 'object') {
   window.SavHelper = SavHelper

@@ -1,20 +1,25 @@
-let arff = require('node-arff')
-let ArffUtils = require('arff-utils')
-
 var ArffHelper = {
+  lib: {
+    arff: null,
+    ArffUtils: null,
+  },
+  init: function () {
+    this.lib.arff = RequireHelper.require('node-arff')
+    this.lib.ArffUtils = RequireHelper.require('arff-utils')
+  },
   read: function (filepath, callback) {
     if (typeof(callback) !== 'function') {
       return this
     }
     
-    arff.load(filepath, (err, data) => {
+    this.lib.arff.load(filepath, (err, data) => {
       callback(data.data)
     })
   },
   write: function (filepath, data, callback) {
     let relationName = this.sheetName
       
-    let arffFile = new ArffUtils.ArffWriter(`relation ${relationName}`, ArffUtils.MODE_OBJECT)
+    let arffFile = new this.lib.ArffUtils.ArffWriter(`relation ${relationName}`, ArffUtils.MODE_OBJECT)
 
     // 先判斷每一個header的類型
     let attributeTypes = {}
@@ -101,6 +106,8 @@ var ArffHelper = {
     }
   }
 }
+
+ArffHelper.init()
 
 if (typeof(window) === 'object') {
   window.ArffHelper = ArffHelper

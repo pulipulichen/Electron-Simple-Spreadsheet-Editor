@@ -133,4 +133,10 @@ let FileDragNDropHelper = {
   }
 }
 
-window.FileDragNDropHelper = FileDragNDropHelper
+//window.FileDragNDropHelper = FileDragNDropHelper
+if (typeof(window) === 'object') {
+  window.FileDragNDropHelper = FileDragNDropHelper
+}
+if (typeof(module) === 'object') {
+  module.exports = FileDragNDropHelper
+}

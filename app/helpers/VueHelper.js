@@ -141,4 +141,10 @@ let VueHelper = {
   }
 }
 
-window.VueHelper = VueHelper
+//window.VueHelper = VueHelper
+if (typeof(window) !== 'undefined') {
+  window.VueHelper = VueHelper
+}
+if (typeof(exports) !== 'undefined') {
+  exports.default = VueHelper
+}

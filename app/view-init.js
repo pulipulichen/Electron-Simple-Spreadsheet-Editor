@@ -63,6 +63,11 @@ let ViewInitConfig = {
     })
   },
   watch: {
+    filepath: function (filepath) {
+      if (typeof(filepath) === 'string') {
+        this.lib.FileDragNDropHelper.setEnable(false)
+      }
+    },
     opened: function (opened) {
       //console.log(fixColumns)
       //hot = this.getHot()
