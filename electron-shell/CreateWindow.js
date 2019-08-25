@@ -1,8 +1,9 @@
+const electron = require('electron')
 const {
   app,
   BrowserWindow,
   clipboard,
-} = require('electron')
+} = electron
 
 const url = require('url')
 const path = require('path')
@@ -21,7 +22,17 @@ module.exports = function (filepath, callback) {
     iconPath = path.join(__dirname, '../app/imgs/icon256.png')
   }
   
+  let screen = electron.screen
+  let point = screen.getCursorScreenPoint()
+  let display = screen.getDisplayNearestPoint(point)
+  let offsetX = display.bounds.x
+  let offsetY = display.bounds.y
+  //let displays = screen.getAllDisplays()
+  //console.log(display)
+  
   let optionBrowserWindow = {
+    x: offsetX,
+    y: offsetY,
     //fullscreen: true,
     icon: iconPath,
     //useContentSize: true,
@@ -32,6 +43,7 @@ module.exports = function (filepath, callback) {
   
   let win = new BrowserWindow(optionBrowserWindow)
   //win.maximize();
+  win.center()
   
   if (mode === 'production') {
     win.setMenu(null)
