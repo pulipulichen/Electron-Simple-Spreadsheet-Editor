@@ -68,3 +68,4 @@ app.on('ready', () => {
 })
 
 IPCEventManager()
+console.log(IPCEventManager)

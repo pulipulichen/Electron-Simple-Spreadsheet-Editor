@@ -1,6 +1,7 @@
 //listen to an open-file-dialog command and sending back selected information
-const ipc = require('electron').ipcMain
-const dialog = require('electron').dialog
+const electron = require('electron')
+const ipc = electron.ipcMain
+const dialog = electron.dialog
 const fs = require('fs')
 const path = require('path')
 
@@ -90,6 +91,34 @@ module.exports = function () {
       if (file) {
         //console.log(file)
         event.sender.send('selected-file-save', file)
+      }
+    })
+    
+  })
+  
+  // ----------------------------------
+  
+  console.log('change-folder')
+  ipc.on('change-folder', function (event, dirpath) {
+    console.log(dirpath)
+    //CreateWindow(filepath)
+    
+    let options = {
+      title: 'Please select a folder',
+      properties: ['openDirectory']
+    }
+    
+    if (typeof(dirpath) === 'string') {
+      let isDir = fs.lstatSync(dirpath).isDirectory()
+      if (isDir === true) {
+        options.defaultPath = dirpath
+      }
+    }
+    
+    dialog.showOpenDialog(null, options, (dirpath) => {
+      if (dirpath) {
+        //console.log(file)
+        event.sender.send('change-folder-callback', dirpath)
       }
     })
   })
