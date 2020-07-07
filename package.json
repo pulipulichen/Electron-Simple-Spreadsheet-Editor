@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/pulipulichen/Electron-Simple-Spreadsheet-Editor#readme",
   "devDependencies": {
-    "electron": "^6.0.4",
+    "electron": "^9.1.0",
     "electron-builder": "^21.2.0"
   },
   "dependencies": {
